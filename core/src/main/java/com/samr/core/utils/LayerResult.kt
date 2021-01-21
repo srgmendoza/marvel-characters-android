@@ -8,7 +8,7 @@ sealed class LayerResult<out T> {
 
 }
 
-class DataError(errorCode: Int? = null, errorBody: String? = null, private var underLyingError: Throwable? = null): Throwable() {
+class DataError(errorCode: Int? = null, errorBody: String? = null, var underLyingError: Throwable? = null): Throwable() {
 
     private var errorDescription: String = if(errorCode != null && errorBody != null){
         "Error $errorCode, description: $errorBody"

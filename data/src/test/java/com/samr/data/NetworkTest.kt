@@ -27,7 +27,16 @@ class NetworkTest {
     }
 
     @Test
-    fun `should call for network service and get a DataError`(){
+    fun `should call for network service and get a success response`(){
+        runBlocking {
+            service.fetchData(queryUrl = TEST_URL){ data ->
+                assert(data is LayerResult.Success)
+            }
+        }
+    }
+
+    @Test
+    fun `should call for network service and get an error response in a DataError object wrapper`(){
         runBlocking {
             service.fetchData(queryUrl = ""){ data ->
                 data as LayerResult.Error
