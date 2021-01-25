@@ -5,20 +5,19 @@ import com.samr.core.utils.UIError
 import com.samr.data.entities.CharacterData
 import com.samr.data.entities.ComicsItem
 import com.samr.data.entities.StoriesItem
-import com.samr.data.repositories.CharactersRepository
-import com.samr.data.repositories.DefaultCharacterRepo
+import com.samr.data.repositories.CharacterDetailRepository
+import com.samr.data.repositories.mocks.DefaultCharacterDetailRepository
 import com.samr.domain.entities.*
 import java.lang.Exception
 
+class CharacterDetailUseCase {
 
-class CharactersUseCase {
-
-    private var characterRepo: CharactersRepository = DefaultCharacterRepo()
+    private var characterDetailRepo: CharacterDetailRepository = DefaultCharacterDetailRepository()
     private var offset = 0
 
-    fun execute(callback:(LayerResult<List<CharacterEntity>>?) -> Unit) {
+    fun execute(characterId: String,callback:(LayerResult<CharacterEntity>?) -> Unit) {
 
-        characterRepo.fetchCharactersList(offset){result ->
+        characterDetailRepo.fetchCharacterDetail(characterId){result ->
 
             try{
                 when (result) {
@@ -37,12 +36,11 @@ class CharactersUseCase {
         }
     }
 
-    private fun mapEntityToUi(dataEntity: List<CharacterData>): List<CharacterEntity>{
+    private fun mapEntityToUi(it: CharacterData): CharacterEntity{
 
         try {
 
-            return dataEntity.map {
-                CharacterEntity(
+            return CharacterEntity(
                     id = it.id,
                     name = it.name,
                     description = it.description,
@@ -73,7 +71,6 @@ class CharactersUseCase {
                         returned = it.events.returned),
                     urls = mapUrls(it.urls)
                 )
-            }
 
         }catch (e: Exception){
 
@@ -85,7 +82,7 @@ class CharactersUseCase {
     private fun mapUrls(urls: List<com.samr.data.entities.URL>) =
         urls.map{
             URL(type = it.type,
-            url = it.url)
+                url = it.url)
         }
 
     private fun mapPublishingItem(items: List<Any>) =

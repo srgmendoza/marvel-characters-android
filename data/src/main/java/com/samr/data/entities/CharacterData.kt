@@ -1,7 +1,7 @@
 package com.samr.data.entities
 
 
-data class CharacterDomain (
+data class CharacterData (
     val id: Long,
     val name: String,
     val description: String,

@@ -1,6 +1,4 @@
-package com.samr.data.repositories
-
-
+package com.samr.data.repositories.mocks
 
 import android.net.Uri
 import com.google.gson.Gson
@@ -12,29 +10,23 @@ import com.samr.data.PRIVATE_KEY
 import com.samr.data.PUBLIC_KEY
 import com.samr.data.entities.CharacterData
 import com.samr.data.entities.CharactersRawResponse
+import com.samr.data.repositories.CharacterDetailRepository
 import com.samr.data.services.NetworkService
 import kotlinx.coroutines.runBlocking
 import java.lang.Exception
-import kotlin.text.Charsets.UTF_8
 
-
-class DefaultCharacterRepo: CharactersRepository {
+class DefaultCharacterDetailRepository: CharacterDetailRepository {
 
     private var service = NetworkService()
 
-    override fun fetchCharactersList(
-        offsetFactor: Int,
-        callback: (LayerResult<List<CharacterData>>?) -> Unit) {
+    override fun fetchCharacterDetail(characterId: String,
+                                      callback: (LayerResult<CharacterData>?) -> Unit) {
 
         //TODO: Should change to global scope,
         /*GlobalScope.launch(Dispatchers.IO)*/ runBlocking {
 
-            val offset = if(offsetFactor == 0) 40 else offsetFactor * 40
-
             val timestamp = (System.currentTimeMillis()/1000).toString()
             val hash =  md5(timestamp + PRIVATE_KEY + PUBLIC_KEY).toHex()
-
-
 
             val builder = Uri.Builder()
             builder.scheme("https")
@@ -42,8 +34,7 @@ class DefaultCharacterRepo: CharactersRepository {
                 .appendPath("v1")
                 .appendPath("public")
                 .appendPath("characters")
-                .appendQueryParameter("limit","40")
-                .appendQueryParameter("offset",offset.toString())
+                .appendPath(characterId)
                 .appendQueryParameter("ts",timestamp)
                 .appendQueryParameter("apikey", PUBLIC_KEY)
                 .appendQueryParameter("hash", hash)
@@ -70,18 +61,17 @@ class DefaultCharacterRepo: CharactersRepository {
                 }
             }
         }
-
     }
 
-    private fun mapToDomain(result: ByteArray): List<CharacterData>{
+    private fun mapToDomain(result: ByteArray): CharacterData{
 
         try{
 
-            val res = result.toString(UTF_8)
+            val res = result.toString(Charsets.UTF_8)
 
-            val data = Gson().fromJson(res,CharactersRawResponse::class.java)
+            val data = Gson().fromJson(res, CharactersRawResponse::class.java)
 
-            return data.data.results
+            return data.data.results[0]
 
         }catch (e: Exception){
 
@@ -89,6 +79,4 @@ class DefaultCharacterRepo: CharactersRepository {
         }
 
     }
-
-
 }
