@@ -9,6 +9,9 @@ import com.samr.data.entities.CharactersRawResponse
 import com.samr.data.services.CharacterService
 import com.samr.domain.entities.CharacterEntity
 import com.samr.domain.repositories.CharactersRepository
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import kotlin.text.Charsets.UTF_8
 
@@ -21,8 +24,7 @@ class DefaultCharacterRepo: CharactersRepository {
         offsetFactor: Int,
         callback: (LayerResult<List<CharacterEntity>>?) -> Unit) {
 
-        //TODO: Should change to global scope,
-        /*GlobalScope.launch(Dispatchers.IO)*/ runBlocking {
+        GlobalScope.launch(Dispatchers.IO) {
 
             service.fetchCharactersList(offsetFactor) { result ->
 
@@ -35,7 +37,7 @@ class DefaultCharacterRepo: CharactersRepository {
                             callback(LayerResult.Success(characters))
                         }
                         is LayerResult.Error -> {
-                            //Raise error on domain
+
                             throw DomainError(result.errorInfo, DomainError.Type.DATA_LAYER_ERROR)
                         }
                     }

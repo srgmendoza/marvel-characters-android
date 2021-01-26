@@ -18,7 +18,7 @@ class DefaultImageRepository: ImagesRepository {
                             size: AspectRatio.ImageSize,
                             origin: AspectRatio.Origin,
                             callback: (LayerResult<Bitmap>?) -> Unit) {
-        
+
 
         val url = if(origin == AspectRatio.Origin.LIST) "$path/${StandardAspectRatio.getSize(size)}.$extension" else "$path.$extension"
 
@@ -33,7 +33,7 @@ class DefaultImageRepository: ImagesRepository {
                             callback(LayerResult.Success(image))
                         }
                         is LayerResult.Error -> {
-                            //Raise error on domain
+
                             throw DomainError(result.errorInfo, DomainError.Type.DATA_LAYER_ERROR)
                         }
                     }

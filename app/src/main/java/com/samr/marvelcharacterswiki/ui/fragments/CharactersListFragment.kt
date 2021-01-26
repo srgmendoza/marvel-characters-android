@@ -49,9 +49,10 @@ class CharactersListFragment : Fragment(), CharactersListView {
 
 
         Log.d("Fragment List", "CharacterslistReceived")
-        progressBar.visibility = View.GONE
+
 
         characters_recyclerview.post{
+            progressBar.visibility = View.GONE
             adapter.notifyDataSetChanged()
         }
 

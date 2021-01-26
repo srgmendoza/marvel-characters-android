@@ -32,18 +32,5 @@ class CharactersUseCase(private val characterRepo: CharactersRepository) {
         }
     }
 
-//    private fun mapEntityToUi(dataEntity: List<CharacterData>): List<CharacterEntity>{
-//
-//        try {
-//
-//
-//
-//        }catch (e: Exception){
-//
-//            throw UIError(e)
-//        }
-//
-//    }
-
 
 }

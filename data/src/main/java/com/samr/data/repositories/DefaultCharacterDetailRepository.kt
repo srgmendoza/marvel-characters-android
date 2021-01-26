@@ -6,6 +6,9 @@ import com.samr.core.utils.LayerResult
 import com.samr.data.services.CharacterService
 import com.samr.domain.repositories.CharacterDetailRepository
 import com.samr.domain.entities.CharacterEntity
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 
 
@@ -16,8 +19,8 @@ class DefaultCharacterDetailRepository: CharacterDetailRepository {
     override fun fetchCharacterDetail(characterId: String,
                                       callback: (LayerResult<CharacterEntity>?) -> Unit) {
 
-        //TODO: Should change to global scope,
-        /*GlobalScope.launch(Dispatchers.IO)*/ runBlocking {
+
+        GlobalScope.launch(Dispatchers.IO) {
 
             service.fetchCharacterDetail(characterId) { result ->
 
@@ -28,7 +31,7 @@ class DefaultCharacterDetailRepository: CharacterDetailRepository {
                             callback(LayerResult.Success(character))
                         }
                         is LayerResult.Error -> {
-                            //Raise error on domain
+
                             throw DomainError(result.errorInfo, DomainError.Type.DATA_LAYER_ERROR)
                         }
                     }
