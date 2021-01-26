@@ -3,12 +3,11 @@ package com.samr.data.repositories
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import com.samr.core.utils.*
-import com.samr.data.*
 import com.samr.data.services.NetworkService
+import com.samr.domain.repositories.ImagesRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
 
 class DefaultImageRepository: ImagesRepository {
 

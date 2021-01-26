@@ -1,20 +1,17 @@
 package com.samr.marvelcharacterswiki.ui.presenters
 
-import com.samr.core.utils.AspectRatio
 import com.samr.core.utils.LayerResult
 import com.samr.core.utils.UIError
 import com.samr.domain.entities.CharacterEntity
-import com.samr.domain.entities.Thumbnail
 import com.samr.domain.usecases.CharactersUseCase
-import com.samr.domain.usecases.ImagesUseCase
-import com.samr.marvelcharacterswiki.ui.fragments.CharactersListFragment
 import com.samr.marvelcharacterswiki.ui.views.CharactersListView
-import com.samr.marvelcharacterswiki.ui.models.CharacterModel
+import com.samr.marvelcharacterswiki.models.CharacterModel
+import org.koin.java.KoinJavaComponent.inject
 
 
 class CharactersListPresenter(private val view: CharactersListView) {
 
-    private var characterUseCase: CharactersUseCase = CharactersUseCase()
+    private val characterUseCase: CharactersUseCase by inject(CharactersUseCase::class.java)
 
     fun fetchDataForMainScreen() {
 
@@ -38,7 +35,7 @@ class CharactersListPresenter(private val view: CharactersListView) {
             CharacterModel(
                 id = it.id,
                 name = it.name,
-                    thumbnail = com.samr.marvelcharacterswiki.ui.models.Thumbnail(it.thumbnail.path,
+                    thumbnail = com.samr.marvelcharacterswiki.models.Thumbnail(it.thumbnail.path,
                     it.thumbnail.extension)
             )
         }

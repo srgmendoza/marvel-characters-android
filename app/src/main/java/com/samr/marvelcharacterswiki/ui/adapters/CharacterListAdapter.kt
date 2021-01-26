@@ -9,7 +9,7 @@ import com.samr.core.utils.AspectRatio
 import com.samr.marvelcharacterswiki.R
 import com.samr.marvelcharacterswiki.ui.fragments.CharactersListFragmentDirections
 import com.samr.marvelcharacterswiki.ui.presenters.ImageFetchPresenter
-import com.samr.marvelcharacterswiki.ui.models.CharacterModel
+import com.samr.marvelcharacterswiki.models.CharacterModel
 import com.samr.marvelcharacterswiki.ui.views.CharacterImageView
 import kotlinx.android.synthetic.main.character_item.view.*
 

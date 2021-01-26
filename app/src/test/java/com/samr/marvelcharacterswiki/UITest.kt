@@ -3,7 +3,7 @@ package com.samr.marvelcharacterswiki
 import com.samr.domain.usecases.CharactersUseCase
 import com.samr.marvelcharacterswiki.ui.presenters.CharactersListPresenter
 import com.samr.marvelcharacterswiki.ui.views.CharactersListView
-import com.samr.marvelcharacterswiki.ui.models.CharacterModel
+import com.samr.marvelcharacterswiki.models.CharacterModel
 import org.junit.Before
 import org.junit.Test
 import org.mockito.ArgumentCaptor

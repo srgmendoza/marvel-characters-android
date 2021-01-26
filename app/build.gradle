@@ -8,6 +8,7 @@ android {
     buildToolsVersion "30.0.0"
 
     defaultConfig {
+        multiDexEnabled true
         applicationId "com.samr.marvelcharacterswiki"
         minSdkVersion 16
         targetSdkVersion 30
@@ -47,7 +48,11 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
 
-    implementation project(path: ':domain')
+    //Dependency Injector
+    implementation "org.koin:koin-androidx-scope:2.1.6"
+
+    implementation project(":domain")
+    implementation project(":data")
     implementation project(path: ':core')
 
 }

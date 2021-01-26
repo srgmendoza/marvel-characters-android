@@ -1,9 +1,10 @@
 package com.samr.marvelcharacterswiki.ui.views
 
-import com.samr.marvelcharacterswiki.ui.models.CharacterModel
+import com.samr.marvelcharacterswiki.models.CharacterDetailModel
+
 
 interface CharacterDetailView {
 
-//    fun onCharacterDetailReceived(character: )
-//    fun onError(errorMessage: String)
+    fun onCharacterDetailReceived(character: CharacterDetailModel)
+    fun onError(errorMessage: String)
 }

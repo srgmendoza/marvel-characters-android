@@ -1,4 +1,4 @@
-package com.samr.data.repositories
+package com.samr.domain.repositories
 
 import android.graphics.Bitmap
 import com.samr.core.utils.AspectRatio

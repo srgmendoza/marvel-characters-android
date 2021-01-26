@@ -1,4 +1,4 @@
-package com.samr.marvelcharacterswiki.ui.models
+package com.samr.marvelcharacterswiki.models
 
 
 

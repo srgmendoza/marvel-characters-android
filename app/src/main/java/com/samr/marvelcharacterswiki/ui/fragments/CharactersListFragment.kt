@@ -8,10 +8,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.samr.domain.usecases.ImagesUseCase
 import com.samr.marvelcharacterswiki.R
 import com.samr.marvelcharacterswiki.ui.adapters.CharacterListAdapter
-import com.samr.marvelcharacterswiki.ui.models.CharacterModel
+import com.samr.marvelcharacterswiki.models.CharacterModel
 import com.samr.marvelcharacterswiki.ui.presenters.CharactersListPresenter
 import com.samr.marvelcharacterswiki.ui.views.CharactersListView
 import kotlinx.android.synthetic.main.fragment_characters_list.*

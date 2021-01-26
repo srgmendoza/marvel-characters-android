@@ -13,8 +13,9 @@ import com.samr.data.PUBLIC_KEY
 import com.samr.data.entities.CharacterData
 import com.samr.data.entities.CharactersRawResponse
 import com.samr.data.services.NetworkService
+import com.samr.domain.entities.CharacterEntity
+import com.samr.domain.repositories.CharactersRepository
 import kotlinx.coroutines.runBlocking
-import java.lang.Exception
 import kotlin.text.Charsets.UTF_8
 
 
@@ -24,7 +25,7 @@ class DefaultCharacterRepo: CharactersRepository {
 
     override fun fetchCharactersList(
         offsetFactor: Int,
-        callback: (LayerResult<List<CharacterData>>?) -> Unit) {
+        callback: (LayerResult<List<CharacterEntity>>?) -> Unit) {
 
         //TODO: Should change to global scope,
         /*GlobalScope.launch(Dispatchers.IO)*/ runBlocking {
@@ -56,7 +57,9 @@ class DefaultCharacterRepo: CharactersRepository {
                 try{
                     when (result) {
                         is LayerResult.Success -> {
-                            val characters = mapToDomain(result.value)
+                            val characters: List<CharacterEntity> = result.value.toCharacterData().map {
+                                it.mapDataToEntity()
+                            }
                             callback(LayerResult.Success(characters))
                         }
                         is LayerResult.Error -> {
@@ -73,22 +76,12 @@ class DefaultCharacterRepo: CharactersRepository {
 
     }
 
-    private fun mapToDomain(result: ByteArray): List<CharacterData>{
+    private fun ByteArray.toCharacterData(): List<CharacterData> {
 
-        try{
+        val res = this.toString(UTF_8)
+        val data = Gson().fromJson(res,CharactersRawResponse::class.java)
 
-            val res = result.toString(UTF_8)
-
-            val data = Gson().fromJson(res,CharactersRawResponse::class.java)
-
-            return data.data.results
-
-        }catch (e: Exception){
-
-            throw DomainError(e, DomainError.Type.MAPPING_ERROR)
-        }
-
+        return data.data.results
     }
-
 
 }

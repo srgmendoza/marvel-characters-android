@@ -1,4 +1,4 @@
-package com.samr.data.repositories.mocks
+package com.samr.data.repositories
 
 import android.net.Uri
 import com.google.gson.Gson
@@ -10,8 +10,9 @@ import com.samr.data.PRIVATE_KEY
 import com.samr.data.PUBLIC_KEY
 import com.samr.data.entities.CharacterData
 import com.samr.data.entities.CharactersRawResponse
-import com.samr.data.repositories.CharacterDetailRepository
+import com.samr.domain.repositories.CharacterDetailRepository
 import com.samr.data.services.NetworkService
+import com.samr.domain.entities.CharacterEntity
 import kotlinx.coroutines.runBlocking
 import java.lang.Exception
 
@@ -20,7 +21,7 @@ class DefaultCharacterDetailRepository: CharacterDetailRepository {
     private var service = NetworkService()
 
     override fun fetchCharacterDetail(characterId: String,
-                                      callback: (LayerResult<CharacterData>?) -> Unit) {
+                                      callback: (LayerResult<CharacterEntity>?) -> Unit) {
 
         //TODO: Should change to global scope,
         /*GlobalScope.launch(Dispatchers.IO)*/ runBlocking {
@@ -47,8 +48,8 @@ class DefaultCharacterDetailRepository: CharacterDetailRepository {
                 try{
                     when (result) {
                         is LayerResult.Success -> {
-                            val characters = mapToDomain(result.value)
-                            callback(LayerResult.Success(characters))
+                            val character: CharacterEntity = result.value.toCharacterData().mapDataToEntity()
+                            callback(LayerResult.Success(character))
                         }
                         is LayerResult.Error -> {
                             //Raise error on domain
@@ -63,11 +64,11 @@ class DefaultCharacterDetailRepository: CharacterDetailRepository {
         }
     }
 
-    private fun mapToDomain(result: ByteArray): CharacterData{
+    private fun ByteArray.toCharacterData(): CharacterData{
 
         try{
 
-            val res = result.toString(Charsets.UTF_8)
+            val res = this.toString(Charsets.UTF_8)
 
             val data = Gson().fromJson(res, CharactersRawResponse::class.java)
 
