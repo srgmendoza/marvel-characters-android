@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.findNavController
 import com.samr.core.utils.AspectRatio
 import com.samr.marvelcharacterswiki.R
 import com.samr.marvelcharacterswiki.models.CharacterDetailModel
@@ -45,8 +46,20 @@ class CharacterDetailFragment : Fragment(), CharacterDetailView {
 
     override fun onCharacterDetailReceived(character: CharacterDetailModel) {
 
-        character_description.post{
-            character_description.text = character.description
+        character_name.post{
+            character_name.text = character.name
+            character_description.text = if(character.description.isNotEmpty()) character.description else "Description not available"
+
+
+            comics_count.text = "${character.comicsCount} Comics"
+            series_count.text = "${character.seriesCount} Series"
+            stories_count.text = "${character.storiesCount} Stories"
+
+            more_info_btn.setOnClickListener {
+                val action = CharacterDetailFragmentDirections.actionSecondFragmentToWebview(character.detailUrl)
+                more_info_btn.findNavController().navigate(action)
+            }
+
         }
 
 

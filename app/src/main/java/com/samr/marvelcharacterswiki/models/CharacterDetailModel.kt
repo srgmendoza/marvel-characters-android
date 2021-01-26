@@ -8,7 +8,8 @@ data class CharacterDetailModel(
     val storiesCount: Long,
     val comicsCount: Long,
     val seriesCount: Long,
-    val eventsCount: Long)
+    val eventsCount: Long,
+    val detailUrl: String)
 
 data class DetailThumbnail (
     val path: String,

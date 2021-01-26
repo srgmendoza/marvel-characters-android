@@ -41,6 +41,7 @@ class CharacterDetailPresenter(private val view: CharacterDetailView) {
             storiesCount = characterEntity.stories.available,
             seriesCount = characterEntity.series.available,
             comicsCount = characterEntity.comics.available,
-            eventsCount = characterEntity.events.available
+            eventsCount = characterEntity.events.available,
+            detailUrl = characterEntity.urls.find { it.type == "detail" }?.url ?: ""
         )
 }
