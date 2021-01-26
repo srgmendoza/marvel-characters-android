@@ -1,24 +1,17 @@
 package com.samr.data.repositories
 
-import android.net.Uri
-import com.google.gson.Gson
+
 import com.samr.core.utils.DomainError
 import com.samr.core.utils.LayerResult
-import com.samr.core.utils.Utils.md5
-import com.samr.core.utils.Utils.toHex
-import com.samr.data.PRIVATE_KEY
-import com.samr.data.PUBLIC_KEY
-import com.samr.data.entities.CharacterData
-import com.samr.data.entities.CharactersRawResponse
+import com.samr.data.services.CharacterService
 import com.samr.domain.repositories.CharacterDetailRepository
-import com.samr.data.services.NetworkService
 import com.samr.domain.entities.CharacterEntity
 import kotlinx.coroutines.runBlocking
-import java.lang.Exception
+
 
 class DefaultCharacterDetailRepository: CharacterDetailRepository {
 
-    private var service = NetworkService()
+    private var service = CharacterService()
 
     override fun fetchCharacterDetail(characterId: String,
                                       callback: (LayerResult<CharacterEntity>?) -> Unit) {
@@ -26,29 +19,12 @@ class DefaultCharacterDetailRepository: CharacterDetailRepository {
         //TODO: Should change to global scope,
         /*GlobalScope.launch(Dispatchers.IO)*/ runBlocking {
 
-            val timestamp = (System.currentTimeMillis()/1000).toString()
-            val hash =  md5(timestamp + PRIVATE_KEY + PUBLIC_KEY).toHex()
-
-            val builder = Uri.Builder()
-            builder.scheme("https")
-                .authority("gateway.marvel.com")
-                .appendPath("v1")
-                .appendPath("public")
-                .appendPath("characters")
-                .appendPath(characterId)
-                .appendQueryParameter("ts",timestamp)
-                .appendQueryParameter("apikey", PUBLIC_KEY)
-                .appendQueryParameter("hash", hash)
-
-            val url = builder.build().toString()
-
-
-            service.fetchData(queryUrl = url) { result ->
+            service.fetchCharacterDetail(characterId) { result ->
 
                 try{
                     when (result) {
                         is LayerResult.Success -> {
-                            val character: CharacterEntity = result.value.toCharacterData().mapDataToEntity()
+                            val character: CharacterEntity = result.value.mapToData()[0].mapDataToEntity()
                             callback(LayerResult.Success(character))
                         }
                         is LayerResult.Error -> {
@@ -64,20 +40,4 @@ class DefaultCharacterDetailRepository: CharacterDetailRepository {
         }
     }
 
-    private fun ByteArray.toCharacterData(): CharacterData{
-
-        try{
-
-            val res = this.toString(Charsets.UTF_8)
-
-            val data = Gson().fromJson(res, CharactersRawResponse::class.java)
-
-            return data.data.results[0]
-
-        }catch (e: Exception){
-
-            throw DomainError(e, DomainError.Type.MAPPING_ERROR)
-        }
-
-    }
 }

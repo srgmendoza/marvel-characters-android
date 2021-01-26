@@ -3,7 +3,7 @@ package com.samr.data.repositories
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import com.samr.core.utils.*
-import com.samr.data.services.NetworkService
+import com.samr.data.services.ImageService
 import com.samr.domain.repositories.ImagesRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -11,22 +11,20 @@ import kotlinx.coroutines.launch
 
 class DefaultImageRepository: ImagesRepository {
 
-    private var service = NetworkService()
+    private var service = ImageService()
 
     override fun fetchImage(path: String,
                             extension: String,
                             size: AspectRatio.ImageSize,
                             origin: AspectRatio.Origin,
                             callback: (LayerResult<Bitmap>?) -> Unit) {
+        
 
-        val size = (if(origin == AspectRatio.Origin.LIST) StandardAspectRatio.getSize(size)
-        else PortraitAspectRatio.getSize(size))
-
-        val url = "$path/$size.$extension"
+        val url = if(origin == AspectRatio.Origin.LIST) "$path/${StandardAspectRatio.getSize(size)}.$extension" else "$path.$extension"
 
         GlobalScope.launch(Dispatchers.IO) {
 
-            service.fetchData(url){result ->
+            service.fetchImage(url){result ->
 
                 try{
                     when (result) {

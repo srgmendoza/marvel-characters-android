@@ -33,7 +33,9 @@ class CharacterListAdapter: RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
         presenter.fetchImage(characters[position].thumbnail,AspectRatio.Origin.LIST){ result ->
 
-            holder.itemView.character_img.setImageBitmap(result)
+            holder.itemView.character_img.post {
+                holder.itemView.character_img.setImageBitmap(result)
+            }
 
         }
 

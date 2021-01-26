@@ -45,13 +45,19 @@ class CharacterDetailFragment : Fragment(), CharacterDetailView {
 
     override fun onCharacterDetailReceived(character: CharacterDetailModel) {
 
-        //character_description.text = character.description
+        character_description.post{
+            character_description.text = character.description
+        }
+
 
         imagePresenter.fetchImage(
             imageInfo = Thumbnail(character.thumbnail.path,character.thumbnail.extension),
             origin = AspectRatio.Origin.DETAIL){
 
-            character_image.setImageBitmap(it)
+            character_image.post{
+                character_image.setImageBitmap(it)
+            }
+
         }
     }
 
