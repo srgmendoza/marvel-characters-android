@@ -5,7 +5,7 @@ import com.samr.core.utils.AspectRatio
 import com.samr.core.utils.LayerResult
 
 
-interface ImagesRepository {
+interface ImageRepo {
 
     fun fetchImage(path: String,
                    extension: String,

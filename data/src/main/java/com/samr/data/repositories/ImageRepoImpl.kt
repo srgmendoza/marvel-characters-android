@@ -4,12 +4,12 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import com.samr.core.utils.*
 import com.samr.data.services.ImageService
-import com.samr.domain.repositories.ImagesRepository
+import com.samr.domain.repositories.ImageRepo
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
-class DefaultImageRepository: ImagesRepository {
+class ImageRepoImpl: ImageRepo {
 
     private var service = ImageService()
 
@@ -34,12 +34,13 @@ class DefaultImageRepository: ImagesRepository {
                         }
                         is LayerResult.Error -> {
 
-                            throw DomainError(result.errorInfo, DomainError.Type.DATA_LAYER_ERROR)
+                            throw CustomError(originLayer = CustomError.OriginLayer.DATA_LAYER,
+                                underLyingError = result.error)
                         }
                     }
-                }catch (de: DomainError){
+                }catch (e: Exception){
 
-                    callback(LayerResult.Error(de))
+                    callback(LayerResult.Error(e))
                 }
             }
 

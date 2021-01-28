@@ -8,17 +8,16 @@ import androidx.recyclerview.widget.RecyclerView
 import com.samr.core.utils.AspectRatio
 import com.samr.marvelcharacterswiki.R
 import com.samr.marvelcharacterswiki.ui.fragments.CharactersListFragmentDirections
-import com.samr.marvelcharacterswiki.ui.presenters.ImageFetchPresenter
 import com.samr.marvelcharacterswiki.models.CharacterModel
-import com.samr.marvelcharacterswiki.ui.views.CharacterImageView
+import com.samr.marvelcharacterswiki.ui.presenters.CharacterPresenterImpl
 import kotlinx.android.synthetic.main.character_item.view.*
 
 
 
-class CharacterListAdapter: RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class CharacterListAdapter(private val characterPresenterImpl: CharacterPresenterImpl): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     var characters: MutableList<CharacterModel> = mutableListOf()
-    private var presenter: CharacterImageView = ImageFetchPresenter()
+    //private var presenter: CharacterImageView = ImageFetchPresenter()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return CharactersListsViewHolder(
@@ -31,7 +30,7 @@ class CharacterListAdapter: RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         holder.itemView.character_id.text = characters[position].id.toString()
         holder.itemView.character_name.text = characters[position].name
 
-        presenter.fetchImage(characters[position].thumbnail,AspectRatio.Origin.LIST){ result ->
+        characterPresenterImpl.fetchImage(characters[position].thumbnail,AspectRatio.Origin.LIST){ result ->
 
             holder.itemView.character_img.post {
                 holder.itemView.character_img.setImageBitmap(result)

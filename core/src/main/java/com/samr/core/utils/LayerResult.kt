@@ -4,7 +4,19 @@ sealed class LayerResult<out T> {
 
     data class Success<out R>(val value: R): LayerResult<R>()
 
-    data class Error (val errorInfo: Throwable): LayerResult<Nothing>()
+    data class Error (val error: Throwable): LayerResult<Nothing>()
+
+}
+
+class CustomError(var underLyingError: Throwable? = null, private val originLayer: OriginLayer): Throwable(){
+
+    enum class OriginLayer{
+        DATA_LAYER, DOMAIN_LAYER, PRESENTATION_LAYER
+    }
+
+    fun getErrorOriginLayer() = originLayer
+
+    fun getUnderlyingError() = underLyingError
 
 }
 

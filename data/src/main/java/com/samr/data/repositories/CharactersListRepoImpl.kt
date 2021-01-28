@@ -2,21 +2,21 @@ package com.samr.data.repositories
 
 
 import com.google.gson.Gson
+import com.samr.core.utils.CustomError
 import com.samr.core.utils.DomainError
 import com.samr.core.utils.LayerResult
 import com.samr.data.entities.CharacterData
 import com.samr.data.entities.CharactersRawResponse
 import com.samr.data.services.CharacterService
 import com.samr.domain.entities.CharacterEntity
-import com.samr.domain.repositories.CharactersRepository
+import com.samr.domain.repositories.CharactersListRepo
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
 import kotlin.text.Charsets.UTF_8
 
 
-class DefaultCharacterRepo: CharactersRepository {
+class CharactersListRepoImpl: CharactersListRepo {
 
     private var service = CharacterService()
 
@@ -38,24 +38,18 @@ class DefaultCharacterRepo: CharactersRepository {
                         }
                         is LayerResult.Error -> {
 
-                            throw DomainError(result.errorInfo, DomainError.Type.DATA_LAYER_ERROR)
+                            throw CustomError(originLayer = CustomError.OriginLayer.DATA_LAYER,
+                                underLyingError = result.error)
                         }
                     }
-                }catch (de: DomainError){
+                }catch (e: Exception){
 
-                    callback(LayerResult.Error(de))
+                    callback(LayerResult.Error(e))
                 }
             }
         }
 
     }
 
-    private fun ByteArray.toCharacterData(): List<CharacterData> {
-
-        val res = this.toString(UTF_8)
-        val data = Gson().fromJson(res,CharactersRawResponse::class.java)
-
-        return data.data.results
-    }
 
 }

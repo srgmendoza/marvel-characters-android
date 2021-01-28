@@ -48,13 +48,12 @@ class CharacterService() {
 
                 callback(LayerResult.Success(result))
 
-            }catch (e: HttpException){
+            }catch (e: Exception){
 
-                callback(LayerResult.Error(DataError(errorCode = e.code())))
-            }
-            catch (e: Exception){
-
-                callback(LayerResult.Error(e))
+                callback(LayerResult.Error(
+                    CustomError(originLayer = CustomError.OriginLayer.DATA_LAYER,
+                                underLyingError = e))
+                )
             }
 
         }
@@ -81,7 +80,10 @@ class CharacterService() {
 
             }catch (e: Exception){
 
-                callback(LayerResult.Error(e))
+                callback(LayerResult.Error(
+                    CustomError(originLayer = CustomError.OriginLayer.DATA_LAYER,
+                        underLyingError = e))
+                )
             }
 
         }

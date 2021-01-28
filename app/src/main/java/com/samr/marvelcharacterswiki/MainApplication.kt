@@ -3,6 +3,8 @@ package com.samr.marvelcharacterswiki
 import android.app.Application
 import android.content.Context
 import androidx.multidex.MultiDex
+import com.samr.core.*
+import com.samr.di.*
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin
@@ -20,9 +22,10 @@ class MainApplication: Application() {
                 charactersRepoModule,
                 characterDetailRepoModule,
                 imagesRepoModule,
-            charactersUseCaseModule,
-            characterDetailsUseCaseModule,
-            imagesUseCaseModule)
+                charactersUseCaseModule,
+                characterDetailsUseCaseModule,
+                imagesUseCaseModule
+            )
             )
         }
     }
