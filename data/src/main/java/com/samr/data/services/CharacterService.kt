@@ -30,7 +30,7 @@ class CharacterService() {
     }
 
 
-    suspend fun fetchCharactersList(offsetFactor: Int, callback: (LayerResult<CharactersRawResponse>?) -> Unit){
+    suspend fun fetchCharactersList(offsetFactor: Int, callback: (LayerResult<CharactersRawResponse>) -> Unit){
 
 
         val timeStampPlusHash = getTimeStampPlusHash()
@@ -48,7 +48,7 @@ class CharacterService() {
 
                 callback(LayerResult.Success(result))
 
-            }catch (e: Exception){
+            }catch (e: Throwable){
 
                 callback(LayerResult.Error(
                     CustomError(originLayer = CustomError.OriginLayer.DATA_LAYER,
@@ -78,7 +78,7 @@ class CharacterService() {
 
                 callback(LayerResult.Success(result))
 
-            }catch (e: Exception){
+            }catch (e: Throwable){
 
                 callback(LayerResult.Error(
                     CustomError(originLayer = CustomError.OriginLayer.DATA_LAYER,

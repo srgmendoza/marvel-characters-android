@@ -9,46 +9,29 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
-class ImageRepoImpl: ImageRepo {
+class ImageRepoImpl(private val service: ImageService): ImageRepo {
 
-    private var service = ImageService()
-
-    override fun fetchImage(path: String,
-                            extension: String,
-                            size: AspectRatio.ImageSize,
-                            origin: AspectRatio.Origin,
+    override suspend fun fetchImage(url: String,
                             callback: (LayerResult<Bitmap>?) -> Unit) {
 
+        service.fetchImage(url){result ->
 
-        val url = if(origin == AspectRatio.Origin.LIST) "$path/${StandardAspectRatio.getSize(size)}.$extension" else "$path.$extension"
-
-        GlobalScope.launch(Dispatchers.IO) {
-
-            service.fetchImage(url){result ->
-
-                try{
-                    when (result) {
-                        is LayerResult.Success -> {
-                            val image = mapToBmp(result.value)
-                            callback(LayerResult.Success(image))
-                        }
-                        is LayerResult.Error -> {
-
-                            throw CustomError(originLayer = CustomError.OriginLayer.DATA_LAYER,
-                                underLyingError = result.error)
-                        }
+            try{
+                when (result) {
+                    is LayerResult.Success -> {
+                        callback(LayerResult.Success(result.value))
                     }
-                }catch (e: Exception){
+                    is LayerResult.Error -> {
 
-                    callback(LayerResult.Error(e))
+                        throw CustomError(originLayer = CustomError.OriginLayer.DATA_LAYER,
+                            underLyingError = (result.error as CustomError).getUnderlyingError())
+                    }
                 }
-            }
+            }catch (e: Throwable){
 
+                callback(LayerResult.Error(e))
+            }
         }
 
-
     }
-
-    private fun mapToBmp(value: ByteArray) = BitmapFactory.decodeByteArray(value,0,value.size)
-
 }

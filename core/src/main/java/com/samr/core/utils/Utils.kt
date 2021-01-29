@@ -30,4 +30,10 @@ object Utils {
 
         return result
     }
+
+    fun getImageUrl(path: String,
+                            extension: String,
+                            size: AspectRatio.ImageSize,
+                            origin: AspectRatio.Origin) = if(origin == AspectRatio.Origin.LIST) "$path/${StandardAspectRatio.getSize(size)}.$extension" else "$path.$extension"
+
 }

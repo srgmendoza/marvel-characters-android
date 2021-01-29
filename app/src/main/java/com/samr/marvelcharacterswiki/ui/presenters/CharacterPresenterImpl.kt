@@ -1,10 +1,9 @@
 package com.samr.marvelcharacterswiki.ui.presenters
 
 import android.graphics.Bitmap
-import android.util.Log
 import com.samr.core.utils.AspectRatio
+import com.samr.core.utils.CustomError
 import com.samr.core.utils.LayerResult
-import com.samr.core.utils.UIError
 import com.samr.domain.entities.CharacterEntity
 import com.samr.domain.usecases.CharacterDetailUseCase
 import com.samr.domain.usecases.CharactersUseCase
@@ -22,58 +21,106 @@ class CharacterPresenterImpl: CharacterPresenter {
     private val characterDetailUseCase: CharacterDetailUseCase by inject(CharacterDetailUseCase::class.java)
     private val imagesUseCase: ImagesUseCase by inject(ImagesUseCase::class.java)
 
+
     override fun fetchCharacterList(callback: (LayerResult<List<CharacterModel>>) -> Unit) {
 
         characterUseCase.execute{uiResult ->
 
-            when (uiResult){
-                is LayerResult.Success -> {
-                    callback(LayerResult.Success(mapDataToUi(uiResult.value)))
+            try{
+                when (uiResult){
+                    is LayerResult.Success -> {
+                        callback(LayerResult.Success(uiResult.value?.let { mapDataToUi(it) }))
+                    }
+                    is LayerResult.Error -> {
+
+                        throw CustomError(originLayer = (uiResult.error as CustomError).getErrorOriginLayer(),
+                            underLyingError = (uiResult.error as CustomError).getUnderlyingError())
+                    }
                 }
-                is LayerResult.Error -> {
-                    val error = uiResult.errorInfo as UIError
-                    callback(LayerResult.Error(error))
-                }
+            }catch (ce: CustomError){
+
+                callback(LayerResult.Error(ce))
             }
+            catch (e: Throwable){
+
+                callback(LayerResult.Error(
+                    CustomError(originLayer = CustomError.OriginLayer.PRESENTATION_LAYER,
+                        underLyingError = e)
+                ))
+
+            }
+
         }
     }
 
     override fun fetchCharacterDetail(
         characterId: String,
-        callback: (LayerResult<CharacterDetailModel>?) -> Unit
+        callback: (LayerResult<CharacterDetailModel>) -> Unit
     ) {
 
         characterDetailUseCase.execute(characterId){uiResult ->
 
-            when (uiResult){
-                is LayerResult.Success -> {
-                    callback(LayerResult.Success(mapDataToUi(uiResult.value)))
+            try{
+
+                when (uiResult){
+                    is LayerResult.Success -> {
+
+                        callback(LayerResult.Success(uiResult.value?.let { mapDataToUi(it) }))
+                    }
+                    is LayerResult.Error -> {
+
+                        throw CustomError(originLayer = (uiResult.error as CustomError).getErrorOriginLayer(),
+                            underLyingError = (uiResult.error as CustomError).getUnderlyingError())
+                    }
                 }
-                is LayerResult.Error -> {
-                    val error = uiResult.errorInfo as UIError
-                    callback(LayerResult.Error(error))
-                }
+            }catch (e: Throwable){
+
+                callback(LayerResult.Error(
+                    CustomError(originLayer = CustomError.OriginLayer.PRESENTATION_LAYER,
+                        underLyingError = e)
+                ))
+
+            }catch (ce: CustomError){
+
+                callback(LayerResult.Error(ce))
             }
+
 
         }
 
     }
 
 
-    override fun fetchImage(imageInfo: Thumbnail, origin: AspectRatio.Origin,callback: (Bitmap) -> Unit) {
+    override fun fetchImage(imageInfo: Thumbnail, origin: AspectRatio.Origin,callback: (LayerResult<Bitmap>) -> Unit) {
 
         imagesUseCase.execute(com.samr.domain.entities.Thumbnail(imageInfo.path,imageInfo.extension),origin){ result ->
 
-            when(result){
-                is LayerResult.Success -> {
-                    callback(result.value)
+            try {
+
+                when (result) {
+                    is LayerResult.Success -> {
+
+                        callback(LayerResult.Success(result.value))
+                    }
+                    is LayerResult.Error -> {
+                        throw CustomError(originLayer = (result.error as CustomError).getErrorOriginLayer(),
+                            underLyingError = (result.error as CustomError).getUnderlyingError())
+                    }
                 }
-                is LayerResult.Error -> {
-                    Log.e("Error", result.errorInfo.message.toString())
-                }
+            }catch (e: Throwable){
+
+                callback(LayerResult.Error(
+                    CustomError(originLayer = CustomError.OriginLayer.PRESENTATION_LAYER,
+                        underLyingError = e)
+                ))
+
+            }catch (ce: CustomError){
+
+                callback(LayerResult.Error(ce))
             }
         }
     }
+
 
 
     //Private Methods

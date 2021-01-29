@@ -1,5 +1,6 @@
 package com.samr.marvelcharacterswiki.ui.fragments
 
+import android.graphics.BitmapFactory
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -7,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.findNavController
 import com.samr.core.utils.AspectRatio
+import com.samr.core.utils.CustomError
 import com.samr.core.utils.LayerResult
 import com.samr.marvelcharacterswiki.R
 import com.samr.marvelcharacterswiki.models.CharacterDetailModel
@@ -41,10 +43,10 @@ class CharacterDetailFragment : Fragment() {
 
                     when(result) {
                         is LayerResult.Success -> {
-                            renderView(result.value)
+                            result.value?.let { renderView(it) }
                         }
                         is LayerResult.Error -> {
-                            renderError(result.errorInfo)
+                            renderError(result.error)
                         }
                     }
                 }
@@ -70,9 +72,27 @@ class CharacterDetailFragment : Fragment() {
 
         presenter.fetchImage(
             imageInfo = Thumbnail(character.thumbnail.path,character.thumbnail.extension),
-            origin = AspectRatio.Origin.DETAIL){
+            origin = AspectRatio.Origin.DETAIL){bmp ->
 
-            character_image.setImageBitmap(it)
+            activity?.runOnUiThread {
+
+                when (bmp) {
+                    is LayerResult.Success -> {
+
+                        character_image.setImageBitmap(bmp.value)
+                    }
+                    is LayerResult.Error -> {
+
+                        val defaultBmp = BitmapFactory.decodeResource(
+                            activity?.resources,
+                            R.drawable.image_not_available_marvel
+                        )
+
+                        character_image.setImageBitmap(defaultBmp)
+                    }
+                }
+
+            }
 
         }
 

@@ -5,6 +5,6 @@ import com.samr.domain.entities.CharacterEntity
 
 interface CharactersListRepo {
 
-    fun fetchCharactersList(offsetFactor: Int,
+    suspend fun fetchCharactersList(offsetFactor: Int,
                             callback: (LayerResult<List<CharacterEntity>>?) -> Unit)
 }

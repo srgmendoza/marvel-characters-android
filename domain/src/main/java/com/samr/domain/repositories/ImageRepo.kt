@@ -7,9 +7,6 @@ import com.samr.core.utils.LayerResult
 
 interface ImageRepo {
 
-    fun fetchImage(path: String,
-                   extension: String,
-                   size: AspectRatio.ImageSize,
-                   origin: AspectRatio.Origin,
+    suspend fun fetchImage(url: String,
                    callback: (LayerResult<Bitmap>?) -> Unit)
 }

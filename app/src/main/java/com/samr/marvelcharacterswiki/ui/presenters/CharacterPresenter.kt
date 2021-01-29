@@ -10,7 +10,7 @@ import com.samr.marvelcharacterswiki.models.Thumbnail
 interface CharacterPresenter {
 
     fun fetchCharacterList(callback: (LayerResult<List<CharacterModel>>) -> Unit)
-    fun fetchCharacterDetail(characterId: String, callback:(LayerResult<CharacterDetailModel>?) -> Unit)
-    fun fetchImage(imageInfo: Thumbnail, origin: AspectRatio.Origin,callback: (Bitmap) -> Unit)
+    fun fetchCharacterDetail(characterId: String, callback:(LayerResult<CharacterDetailModel>) -> Unit)
+    fun fetchImage(imageInfo: Thumbnail, origin: AspectRatio.Origin,callback: (LayerResult<Bitmap>) -> Unit)
 
 }

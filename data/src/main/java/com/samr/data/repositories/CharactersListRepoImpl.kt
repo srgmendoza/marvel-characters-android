@@ -1,51 +1,40 @@
 package com.samr.data.repositories
 
 
-import com.google.gson.Gson
 import com.samr.core.utils.CustomError
-import com.samr.core.utils.DomainError
 import com.samr.core.utils.LayerResult
-import com.samr.data.entities.CharacterData
 import com.samr.data.entities.CharactersRawResponse
 import com.samr.data.services.CharacterService
 import com.samr.domain.entities.CharacterEntity
 import com.samr.domain.repositories.CharactersListRepo
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
-import kotlin.text.Charsets.UTF_8
 
+class CharactersListRepoImpl(private val service: CharacterService): CharactersListRepo {
 
-class CharactersListRepoImpl: CharactersListRepo {
+//    private var service = CharacterService()
 
-    private var service = CharacterService()
-
-    override fun fetchCharactersList(
+    override suspend fun fetchCharactersList(
         offsetFactor: Int,
         callback: (LayerResult<List<CharacterEntity>>?) -> Unit) {
 
-        GlobalScope.launch(Dispatchers.IO) {
+        service.fetchCharactersList(offsetFactor) { result: LayerResult<CharactersRawResponse> ->
 
-            service.fetchCharactersList(offsetFactor) { result ->
+            try{
+                when (result) {
+                    is LayerResult.Success -> {
 
-                try{
-                    when (result) {
-                        is LayerResult.Success -> {
-                            val characters: List<CharacterEntity> = result.value.mapToData().map {
-                                it.mapDataToEntity()
-                            }
-                            callback(LayerResult.Success(characters))
-                        }
-                        is LayerResult.Error -> {
+                        val characters = result.value?.mapToData()?.map { it.mapDataToEntity() }
 
-                            throw CustomError(originLayer = CustomError.OriginLayer.DATA_LAYER,
-                                underLyingError = result.error)
-                        }
+                        callback(LayerResult.Success(characters))
                     }
-                }catch (e: Exception){
+                    is LayerResult.Error -> {
 
-                    callback(LayerResult.Error(e))
+                        throw CustomError(originLayer = CustomError.OriginLayer.DATA_LAYER,
+                            underLyingError = (result.error as CustomError).getUnderlyingError())
+                    }
                 }
+            }catch (e: Throwable){
+
+                callback(LayerResult.Error(e))
             }
         }
 

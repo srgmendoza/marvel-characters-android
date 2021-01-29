@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.samr.core.utils.CustomError
 import com.samr.core.utils.LayerResult
 import com.samr.marvelcharacterswiki.R
 import com.samr.marvelcharacterswiki.ui.adapters.CharacterListAdapter
@@ -22,10 +23,11 @@ class CharactersListFragment : Fragment() {
 
 
     private var presenter: CharacterPresenter = CharacterPresenterImpl()
-    private lateinit var adapter: CharacterListAdapter
+    private var adapter: CharacterListAdapter = CharacterListAdapter(presenter as CharacterPresenterImpl)
 
 
-        override fun onCreateView(
+
+    override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
@@ -36,16 +38,21 @@ class CharactersListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        //presenter = CharactersListPresenter()
-
         setupRecyclerView()
-        askForData()
+
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+
+        if(adapter.characters.isNullOrEmpty())
+            askForData()
     }
 
 
     private fun setupRecyclerView() {
 
-        adapter = CharacterListAdapter(presenter as CharacterPresenterImpl)
+//        adapter = CharacterListAdapter(presenter as CharacterPresenterImpl)
 
         characters_recyclerview.apply {
 
@@ -72,18 +79,21 @@ class CharactersListFragment : Fragment() {
 
 
     private fun askForData(){
-        progressBar.visibility = View.VISIBLE
+        progressBar?.visibility = View.VISIBLE
 
         presenter.fetchCharacterList { result ->
 
             activity?.runOnUiThread{
 
+                progressBar?.visibility = View.GONE
+
                 when(result) {
+
                     is LayerResult.Success -> {
-                        renderView(result.value)
+                        result.value?.let { renderView(it) }
                     }
                     is LayerResult.Error -> {
-                        renderError(result.errorInfo)
+                        renderError(result.error as CustomError)
                     }
                 }
             }
@@ -91,19 +101,22 @@ class CharactersListFragment : Fragment() {
     }
 
     private fun renderView(characters: List<CharacterModel>) {
+        val lastPosition = if(adapter.characters.isNullOrEmpty()) 0 else adapter.characters.size
         adapter.characters.addAll(characters)
 
 
         Log.d("Fragment List", "CharacterslistReceived")
 
-        progressBar.visibility = View.GONE
-        adapter.notifyDataSetChanged()
+        adapter.notifyItemRangeInserted(lastPosition,characters.size)
+
     }
 
-    private fun renderError(errorInfo: Throwable) {
-        progressBar.visibility = View.GONE
+    private fun renderError(errorInfo: CustomError) {
+
+        val errorOriginLayer = errorInfo.getErrorOriginLayerMsg()
+        val errorDescription = errorInfo.getErrorDetailedMsg()
         activity?.let {
-            ViewUtils.onDialog("Error getting Marvel Characters\nShould retry?",
+            ViewUtils.onDialog("Error: <$errorDescription> \nThrown in $errorOriginLayer \nShould retry?",
                 it){
                 askForData()
             }

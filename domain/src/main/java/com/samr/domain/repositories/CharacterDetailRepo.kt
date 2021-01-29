@@ -5,5 +5,5 @@ import com.samr.domain.entities.CharacterEntity
 
 interface CharacterDetailRepo {
 
-    fun fetchCharacterDetail(characterId: String, callback: (LayerResult<CharacterEntity>?) -> Unit)
+    suspend fun fetchCharacterDetail(characterId: String, callback: (LayerResult<CharacterEntity>?) -> Unit)
 }

@@ -24,7 +24,9 @@ class MainApplication: Application() {
                 imagesRepoModule,
                 charactersUseCaseModule,
                 characterDetailsUseCaseModule,
-                imagesUseCaseModule
+                imagesUseCaseModule,
+                characterServiceModule,
+                imageServiceModule
             )
             )
         }
