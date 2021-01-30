@@ -12,7 +12,7 @@ class CharacterDetailUseCase(private val characterDetailRepo: CharacterDetailRep
 
     fun execute(characterId: String,callback:(LayerResult<CharacterEntity>?) -> Unit) {
 
-        GlobalScope.launch(Dispatchers.IO) {
+        GlobalScope.launch(Dispatchers.Main) {
 
             characterDetailRepo.fetchCharacterDetail(characterId) { result ->
 

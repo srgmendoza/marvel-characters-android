@@ -1,10 +1,15 @@
 package com.samr.domain
 
-import com.nhaarman.mockitokotlin2.*
+import com.nhaarman.mockitokotlin2.any
+import com.nhaarman.mockitokotlin2.eq
+import com.nhaarman.mockitokotlin2.mock
+import com.nhaarman.mockitokotlin2.whenever
 import com.samr.core.utils.CustomError
 import com.samr.core.utils.LayerResult
 import com.samr.domain.entities.CharacterEntity
+import com.samr.domain.repositories.CharacterDetailRepo
 import com.samr.domain.repositories.CharactersListRepo
+import com.samr.domain.usecases.CharacterDetailUseCase
 import com.samr.domain.usecases.CharactersUseCase
 import com.samr.domain.utils.MainCoroutineRule
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -13,12 +18,10 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 
+class CharactersDetailUseCaseTest {
 
-
-class CharactersUseCaseTest {
-
-    private lateinit var useCase : CharactersUseCase
-    private lateinit var repo: CharactersListRepo
+    private lateinit var useCase : CharacterDetailUseCase
+    private lateinit var repo: CharacterDetailRepo
 
 
     @ExperimentalCoroutinesApi
@@ -29,7 +32,7 @@ class CharactersUseCaseTest {
     fun setup(){
 
         repo = mock()
-        useCase = CharactersUseCase(repo)
+        useCase = CharacterDetailUseCase(repo)
     }
 
     @ExperimentalCoroutinesApi
@@ -38,7 +41,7 @@ class CharactersUseCaseTest {
 
         whenever(
 
-                runBlocking { repo.fetchCharactersList(eq(1), any()) }
+                runBlocking { repo.fetchCharacterDetail(eq("someId"), any()) }
 
         ).thenAnswer {
 
@@ -46,7 +49,7 @@ class CharactersUseCaseTest {
             callback(LayerResult.Success(mock()))
         }
 
-        useCase.execute { result ->
+        useCase.execute("someId") { result ->
             assert(result is LayerResult.Success)
         }
     }
@@ -57,7 +60,7 @@ class CharactersUseCaseTest {
 
         whenever(
 
-                runBlocking { repo.fetchCharactersList(eq(1), any()) }
+                runBlocking { repo.fetchCharacterDetail(eq("someId"), any()) }
 
         ).thenAnswer {
             val callback = it.getArgument<((LayerResult<List<CharacterEntity>>) -> Unit)>(1)
@@ -68,23 +71,8 @@ class CharactersUseCaseTest {
                     ))
         }
 
-        useCase.execute { result ->
+        useCase.execute("someId") { result ->
             assert(result is LayerResult.Error)
         }
-    }
-
-    @Test
-    fun `should add 1 to offset variable when calling usecase`(){
-
-        whenever(
-
-                runBlocking { repo.fetchCharactersList(eq(1), any()) }
-
-        ).doReturnConsecutively()
-
-        useCase.execute { result ->
-            assert(result is LayerResult.Success)
-        }
-
     }
 }

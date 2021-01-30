@@ -20,12 +20,12 @@ class ImagesUseCase(private val imageRepo: ImageRepo) {
                 callback: (LayerResult<Bitmap>) -> Unit){
 
 
-        val url = getImageUrl(path =imageInfo.path,
+        val url = getImageUrl(path = imageInfo.path,
                 extension = imageInfo.extension,
                 size = AspectRatio.ImageSize.MEDIUM,
                 origin = origin)
 
-        GlobalScope.launch(Dispatchers.IO) {
+        GlobalScope.launch(Dispatchers.Main) {
 
             imageRepo.fetchImage(
                 url = url

@@ -15,15 +15,17 @@ class CharactersUseCase(private val characterRepo: CharactersListRepo) {
 
     fun execute(callback:(LayerResult<List<CharacterEntity>>?) -> Unit) {
 
-        GlobalScope.launch(Dispatchers.IO) {
+        GlobalScope.launch(Dispatchers.Main) {
 
             characterRepo.fetchCharactersList(offset) { result ->
 
                 try {
+
                     when (result) {
 
                         is LayerResult.Success -> {
-                            callback(LayerResult.Success(result.value?.map { it }))
+
+                            callback(LayerResult.Success(result.value))
                             offset += 1
                         }
                         is LayerResult.Error -> {

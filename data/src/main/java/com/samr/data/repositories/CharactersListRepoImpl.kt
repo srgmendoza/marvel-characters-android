@@ -10,8 +10,6 @@ import com.samr.domain.repositories.CharactersListRepo
 
 class CharactersListRepoImpl(private val service: CharacterService): CharactersListRepo {
 
-//    private var service = CharacterService()
-
     override suspend fun fetchCharactersList(
         offsetFactor: Int,
         callback: (LayerResult<List<CharacterEntity>>?) -> Unit) {
