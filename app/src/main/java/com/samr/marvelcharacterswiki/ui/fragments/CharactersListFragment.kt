@@ -18,11 +18,13 @@ import com.samr.marvelcharacterswiki.ui.presenters.CharacterPresenterImpl
 import com.samr.marvelcharacterswiki.ui.utils.ViewUtils
 import com.samr.marvelcharacterswiki.ui.presenters.CharacterPresenter
 import kotlinx.android.synthetic.main.fragment_characters_list.*
+import org.koin.java.KoinJavaComponent
+import org.koin.java.KoinJavaComponent.inject
 
 class CharactersListFragment : Fragment() {
 
 
-    private var presenter: CharacterPresenter = CharacterPresenterImpl()
+    private val presenter: CharacterPresenter by inject(CharacterPresenterImpl::class.java)
     private var adapter: CharacterListAdapter = CharacterListAdapter(presenter as CharacterPresenterImpl)
 
 

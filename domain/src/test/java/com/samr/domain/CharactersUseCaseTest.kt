@@ -73,18 +73,4 @@ class CharactersUseCaseTest {
         }
     }
 
-    @Test
-    fun `should add 1 to offset variable when calling usecase`(){
-
-        whenever(
-
-                runBlocking { repo.fetchCharactersList(eq(1), any()) }
-
-        ).doReturnConsecutively()
-
-        useCase.execute { result ->
-            assert(result is LayerResult.Success)
-        }
-
-    }
 }

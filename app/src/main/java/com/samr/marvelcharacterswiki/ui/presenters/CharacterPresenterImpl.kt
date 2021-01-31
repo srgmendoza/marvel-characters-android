@@ -15,21 +15,26 @@ import com.samr.marvelcharacterswiki.models.Thumbnail
 import org.koin.java.KoinJavaComponent.inject
 
 
-class CharacterPresenterImpl: CharacterPresenter {
+class CharacterPresenterImpl(private val characterUseCase: CharactersUseCase,
+                             private val characterDetailUseCase: CharacterDetailUseCase,
+                             private val imagesUseCase: ImagesUseCase): CharacterPresenter {
 
-    private val characterUseCase: CharactersUseCase by inject(CharactersUseCase::class.java)
-    private val characterDetailUseCase: CharacterDetailUseCase by inject(CharacterDetailUseCase::class.java)
-    private val imagesUseCase: ImagesUseCase by inject(ImagesUseCase::class.java)
+//    private val characterUseCase: CharactersUseCase by inject(CharactersUseCase::class.java)
+//    private val characterDetailUseCase: CharacterDetailUseCase by inject(CharacterDetailUseCase::class.java)
+//    private val imagesUseCase: ImagesUseCase by inject(ImagesUseCase::class.java)
 
 
     override fun fetchCharacterList(callback: (LayerResult<List<CharacterModel>>) -> Unit) {
 
-        characterUseCase.execute{uiResult ->
+        characterUseCase.execute{uiResult: LayerResult<List<CharacterEntity>>? ->
 
             try{
+
                 when (uiResult){
+
                     is LayerResult.Success -> {
-                        callback(LayerResult.Success(uiResult.value?.let { mapDataToUi(it) }))
+
+                        callback(LayerResult.Success(uiResult.value?.map { mapDataListToUi(it) }))
                     }
                     is LayerResult.Error -> {
 
@@ -122,32 +127,31 @@ class CharacterPresenterImpl: CharacterPresenter {
     }
 
 
-
     //Private Methods
 
-    private fun mapDataToUi(value: List<CharacterEntity>) =
-        value.map{
-            CharacterModel(
-                id = it.id,
-                name = it.name,
-                    thumbnail = com.samr.marvelcharacterswiki.models.Thumbnail(it.thumbnail.path,
-                    it.thumbnail.extension)
-            )
-        }
+    private fun mapDataListToUi(value: CharacterEntity?) =
 
-    private fun mapDataToUi(characterEntity: CharacterEntity) =
+        CharacterModel(
+                id = value?.id ?: 0,
+                name = value?.name ?: "",
+                thumbnail = Thumbnail(value?.thumbnail?.path ?: "",
+                        value?.thumbnail?.extension ?: "")
+        )
+
+    private fun mapDataToUi(characterEntity: CharacterEntity?) =
+
         CharacterDetailModel(
-            id = characterEntity.id,
-            name = characterEntity.name,
-            description = characterEntity.description,
+            id = characterEntity?.id ?: 0,
+            name = characterEntity?.name ?: "",
+            description = characterEntity?.description ?: "",
             thumbnail = DetailThumbnail(
-                path = characterEntity.thumbnail.path,
-                extension = characterEntity.thumbnail.extension),
-            storiesCount = characterEntity.stories.available,
-            seriesCount = characterEntity.series.available,
-            comicsCount = characterEntity.comics.available,
-            eventsCount = characterEntity.events.available,
-            detailUrl = characterEntity.urls.find { it.type == "detail" }?.url ?: ""
+                path = characterEntity?.thumbnail?.path ?: "",
+                extension = characterEntity?.thumbnail?.extension ?: ""),
+            storiesCount = characterEntity?.stories?.available ?: 0,
+            seriesCount = characterEntity?.series?.available ?: 0,
+            comicsCount = characterEntity?.comics?.available ?: 0,
+            eventsCount = characterEntity?.events?.available ?: 0,
+            detailUrl = characterEntity?.urls?.find { it.type == "detail" }?.url ?: ""
         )
 
 

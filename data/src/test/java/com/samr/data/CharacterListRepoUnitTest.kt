@@ -37,7 +37,6 @@ class CharacterListRepoUnitTest {
                 callback.invoke(LayerResult.Success(mock()))
             }
 
-
             repo.fetchCharactersList(1){result ->
                 assert(result is LayerResult.Success)
             }

@@ -17,10 +17,11 @@ import com.samr.marvelcharacterswiki.ui.presenters.CharacterPresenter
 import com.samr.marvelcharacterswiki.ui.presenters.CharacterPresenterImpl
 import com.samr.marvelcharacterswiki.ui.utils.ViewUtils
 import kotlinx.android.synthetic.main.fragment_character_detail.*
+import org.koin.java.KoinJavaComponent.inject
 
 class CharacterDetailFragment : Fragment() {
 
-    private var presenter: CharacterPresenter = CharacterPresenterImpl()
+    private val presenter: CharacterPresenter by inject(CharacterPresenterImpl::class.java)
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
