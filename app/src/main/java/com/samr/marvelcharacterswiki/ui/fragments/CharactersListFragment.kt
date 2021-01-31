@@ -24,7 +24,7 @@ import org.koin.java.KoinJavaComponent.inject
 class CharactersListFragment : Fragment() {
 
 
-    private val presenter: CharacterPresenter by inject(CharacterPresenterImpl::class.java)
+    private val presenter: CharacterPresenter by inject(CharacterPresenter::class.java)
     private var adapter: CharacterListAdapter = CharacterListAdapter(presenter as CharacterPresenterImpl)
 
 

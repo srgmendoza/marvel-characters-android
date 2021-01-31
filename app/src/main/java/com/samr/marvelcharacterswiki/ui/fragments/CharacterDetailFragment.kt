@@ -21,7 +21,7 @@ import org.koin.java.KoinJavaComponent.inject
 
 class CharacterDetailFragment : Fragment() {
 
-    private val presenter: CharacterPresenter by inject(CharacterPresenterImpl::class.java)
+    private val presenter: CharacterPresenter by inject(CharacterPresenter::class.java)
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
