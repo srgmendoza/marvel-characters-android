@@ -40,60 +40,12 @@ class ImageService {
 
                val response = restEndpoints.getImage(url).await()
 
-               if(response != null) {
-
-                   callback(LayerResult.Success(mapToBmp(response.bytes())))
-               }else{
-
-//                   val httpErrorResponse = retrofit2.Response.error<Response>(500,response.body())
-//                   throw CustomError(originLayer = CustomError.OriginLayer.DATA_LAYER,
-//                           underLyingError = HttpException(httpErrorResponse))
-               }
+               callback(LayerResult.Success(mapToBmp(response.bytes())))
            }catch (e: Throwable){
 
                callback(LayerResult.Error(CustomError(originLayer = CustomError.OriginLayer.DATA_LAYER,
                           underLyingError = e)))
            }
-//
-//           OkHttpClient().newCall(request).enqueue(object : Callback{
-//               override fun onFailure(call: Call, e: IOException) {
-//
-//                   callback(LayerResult.Error(
-//                       CustomError(originLayer = CustomError.OriginLayer.DATA_LAYER,
-//                           underLyingError = e))
-//                   )
-//               }
-//
-//               override fun onResponse(call: Call, response: Response) {
-//                   try{
-//
-//                       if(response.isSuccessful){
-//
-//                           if(response.body() != null) {
-//
-//                               callback(LayerResult.Success(response.body()!!.bytes()))
-//                           }else{
-//
-//                               val httpErrorResponse = retrofit2.Response.error<Response>(500,response.body())
-//                               throw CustomError(originLayer = CustomError.OriginLayer.DATA_LAYER,
-//                                   underLyingError = HttpException(httpErrorResponse))
-//                           }
-//                       }else{
-//
-//                           val httpErrorResponse = retrofit2.Response.error<Response>(response.code(),response.body())
-//                           throw CustomError(originLayer = CustomError.OriginLayer.DATA_LAYER,
-//                               underLyingError = HttpException(httpErrorResponse))
-//
-//                       }
-//                   }catch (e: Throwable){
-//
-//                       callback(LayerResult.Error(e))
-//                   }
-//
-//               }
-//
-//           })
-
        }
 
 

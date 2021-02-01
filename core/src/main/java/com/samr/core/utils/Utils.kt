@@ -7,11 +7,11 @@ object Utils {
     const val TIMESTAMP = "timestamp"
     const val HASH = "hash"
 
-    fun md5(str: String): ByteArray = MessageDigest.getInstance("MD5").digest(str.toByteArray(
+    private fun md5(str: String): ByteArray = MessageDigest.getInstance("MD5").digest(str.toByteArray(
         Charsets.UTF_8
     ))
 
-    fun ByteArray.toHex() = joinToString("") { "%02x".format(it) }
+    private fun ByteArray.toHex() = joinToString("") { "%02x".format(it) }
 
 
 

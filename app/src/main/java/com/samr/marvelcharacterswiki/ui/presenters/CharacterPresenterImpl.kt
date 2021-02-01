@@ -19,10 +19,6 @@ class CharacterPresenterImpl(private val characterUseCase: CharactersUseCase,
                              private val characterDetailUseCase: CharacterDetailUseCase,
                              private val imagesUseCase: ImagesUseCase): CharacterPresenter {
 
-//    private val characterUseCase: CharactersUseCase by inject(CharactersUseCase::class.java)
-//    private val characterDetailUseCase: CharacterDetailUseCase by inject(CharacterDetailUseCase::class.java)
-//    private val imagesUseCase: ImagesUseCase by inject(ImagesUseCase::class.java)
-
 
     override fun fetchCharacterList(callback: (LayerResult<List<CharacterModel>>) -> Unit) {
 

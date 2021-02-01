@@ -54,8 +54,6 @@ class CharactersListFragment : Fragment() {
 
     private fun setupRecyclerView() {
 
-//        adapter = CharacterListAdapter(presenter as CharacterPresenterImpl)
-
         characters_recyclerview.apply {
 
             this.layoutManager = activity?.let { fa ->
