@@ -13,20 +13,17 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 
-
-
 class CharactersUseCaseTest {
 
-    private lateinit var useCase : CharactersUseCase
+    private lateinit var useCase: CharactersUseCase
     private lateinit var repo: CharactersListRepo
-
 
     @ExperimentalCoroutinesApi
     @get:Rule
     var mainCoroutineRule = MainCoroutineRule()
 
     @Before
-    fun setup(){
+    fun setup() {
 
         repo = mock()
         useCase = CharactersUseCase(repo)
@@ -38,7 +35,7 @@ class CharactersUseCaseTest {
 
         whenever(
 
-                runBlocking { repo.fetchCharactersList(eq(1), any()) }
+            runBlocking { repo.fetchCharactersList(eq(1), any()) }
 
         ).thenAnswer {
 
@@ -51,26 +48,27 @@ class CharactersUseCaseTest {
         }
     }
 
-
     @Test
-    fun `should fail calling usecase and get LayerResult-Error`(){
+    fun `should fail calling usecase and get LayerResult-Error`() {
 
         whenever(
 
-                runBlocking { repo.fetchCharactersList(eq(1), any()) }
+            runBlocking { repo.fetchCharactersList(eq(1), any()) }
 
         ).thenAnswer {
             val callback = it.getArgument<((LayerResult<List<CharacterEntity>>) -> Unit)>(1)
             callback(
-                    LayerResult.Error(
-                            CustomError(Throwable("TestException"),
-                                    CustomError.OriginLayer.DATA_LAYER)
-                    ))
+                LayerResult.Error(
+                    CustomError(
+                        Throwable("TestException"),
+                        CustomError.OriginLayer.DATA_LAYER
+                    )
+                )
+            )
         }
 
         useCase.execute { result ->
             assert(result is LayerResult.Error)
         }
     }
-
 }

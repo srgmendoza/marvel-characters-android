@@ -2,15 +2,14 @@ package com.samr.core.utils
 
 sealed class LayerResult<out T> {
 
-    data class Success<out R>(val value: R?): LayerResult<R>()
+    data class Success<out R>(val value: R?) : LayerResult<R>()
 
-    data class Error (val error: Throwable): LayerResult<Nothing>()
-
+    data class Error(val error: Throwable) : LayerResult<Nothing>()
 }
 
-class CustomError(private var underLyingError: Throwable, private val originLayer: OriginLayer): Throwable(){
+class CustomError(private var underLyingError: Throwable, private val originLayer: OriginLayer) : Throwable() {
 
-    enum class OriginLayer{
+    enum class OriginLayer {
         DATA_LAYER, DOMAIN_LAYER, PRESENTATION_LAYER
     }
 
@@ -18,23 +17,17 @@ class CustomError(private var underLyingError: Throwable, private val originLaye
 
     fun getUnderlyingError() = underLyingError
 
-    fun getErrorOriginLayerMsg() = when (originLayer){
-            OriginLayer.DOMAIN_LAYER -> {
-                "Domain Layer"
-            }
-            OriginLayer.DATA_LAYER -> {
-                "Data Layer"
-            }
-            OriginLayer.PRESENTATION_LAYER -> {
-                "Presentation Layer"
-            }
+    fun getErrorOriginLayerMsg() = when (originLayer) {
+        OriginLayer.DOMAIN_LAYER -> {
+            "Domain Layer"
         }
+        OriginLayer.DATA_LAYER -> {
+            "Data Layer"
+        }
+        OriginLayer.PRESENTATION_LAYER -> {
+            "Presentation Layer"
+        }
+    }
 
     fun getErrorDetailedMsg() = underLyingError.localizedMessage
-
 }
-
-
-
-
-

@@ -3,34 +3,31 @@ package com.samr.marvelcharacterswiki.ui.fragments
 
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.samr.core.utils.CustomError
 import com.samr.core.utils.LayerResult
 import com.samr.marvelcharacterswiki.R
-import com.samr.marvelcharacterswiki.ui.adapters.CharacterListAdapter
 import com.samr.marvelcharacterswiki.models.CharacterModel
+import com.samr.marvelcharacterswiki.ui.adapters.CharacterListAdapter
+import com.samr.marvelcharacterswiki.ui.presenters.CharacterPresenter
 import com.samr.marvelcharacterswiki.ui.presenters.CharacterPresenterImpl
 import com.samr.marvelcharacterswiki.ui.utils.ViewUtils
-import com.samr.marvelcharacterswiki.ui.presenters.CharacterPresenter
 import kotlinx.android.synthetic.main.fragment_characters_list.*
-import org.koin.java.KoinJavaComponent
 import org.koin.java.KoinJavaComponent.inject
 
 class CharactersListFragment : Fragment() {
 
-
     private val presenter: CharacterPresenter by inject(CharacterPresenter::class.java)
     private var adapter: CharacterListAdapter = CharacterListAdapter(presenter as CharacterPresenterImpl)
 
-
-
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
 
@@ -41,16 +38,14 @@ class CharactersListFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         setupRecyclerView()
-
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        if(adapter.characters.isNullOrEmpty())
+        if (adapter.characters.isNullOrEmpty())
             askForData()
     }
-
 
     private fun setupRecyclerView() {
 
@@ -70,24 +65,22 @@ class CharactersListFragment : Fragment() {
                 override fun isLastPage() = false
 
                 override fun isLoading() = progressBar.visibility == View.VISIBLE
-
             })
         }
 
         characters_recyclerview.adapter = adapter
     }
 
-
-    private fun askForData(){
+    private fun askForData() {
         progressBar?.visibility = View.VISIBLE
 
         presenter.fetchCharacterList { result ->
 
-            activity?.runOnUiThread{
+            activity?.runOnUiThread {
 
                 progressBar?.visibility = View.GONE
 
-                when(result) {
+                when (result) {
 
                     is LayerResult.Success -> {
                         result.value?.let { renderView(it) }
@@ -101,14 +94,12 @@ class CharactersListFragment : Fragment() {
     }
 
     private fun renderView(characters: List<CharacterModel>) {
-        val lastPosition = if(adapter.characters.isNullOrEmpty()) 0 else adapter.characters.size
+        val lastPosition = if (adapter.characters.isNullOrEmpty()) 0 else adapter.characters.size
         adapter.characters.addAll(characters)
-
 
         Log.d("Fragment List", "CharacterslistReceived")
 
-        adapter.notifyItemRangeInserted(lastPosition,characters.size)
-
+        adapter.notifyItemRangeInserted(lastPosition, characters.size)
     }
 
     private fun renderError(errorInfo: CustomError) {
@@ -116,15 +107,15 @@ class CharactersListFragment : Fragment() {
         val errorOriginLayer = errorInfo.getErrorOriginLayerMsg()
         val errorDescription = errorInfo.getErrorDetailedMsg()
         activity?.let {
-            ViewUtils.onDialog("Error: <$errorDescription> \nThrown in $errorOriginLayer \nShould retry?",
-                it){
+            ViewUtils.onDialog(
+                "Error: <$errorDescription> \nThrown in $errorOriginLayer \nShould retry?",
+                it
+            ) {
                 askForData()
             }
         }
         Log.d("Fragment List", "Error: ${errorInfo.localizedMessage}")
     }
-
-
 }
 
 private abstract class CharactersListScrollListener(val layoutManager: LinearLayoutManager) : RecyclerView.OnScrollListener() {
@@ -139,9 +130,10 @@ private abstract class CharactersListScrollListener(val layoutManager: LinearLay
         val firstVisibleItemPosition = layoutManager.findFirstVisibleItemPosition()
 
         if (!isLoading() && !isLastPage()) {
-            if (visibleItemCount + firstVisibleItemPosition >= totalItemCount
-                && firstVisibleItemPosition >= 0
-                && totalItemCount >= PAGE_SIZE) {
+            if (visibleItemCount + firstVisibleItemPosition >= totalItemCount &&
+                firstVisibleItemPosition >= 0 &&
+                totalItemCount >= PAGE_SIZE
+            ) {
                 loadMoreItems()
             }
         }
@@ -152,5 +144,4 @@ private abstract class CharactersListScrollListener(val layoutManager: LinearLay
     abstract fun isLastPage(): Boolean
 
     abstract fun isLoading(): Boolean
-
 }

@@ -12,21 +12,20 @@ import com.samr.marvelcharacterswiki.models.CharacterDetailModel
 import com.samr.marvelcharacterswiki.models.CharacterModel
 import com.samr.marvelcharacterswiki.models.DetailThumbnail
 import com.samr.marvelcharacterswiki.models.Thumbnail
-import org.koin.java.KoinJavaComponent.inject
 
-
-class CharacterPresenterImpl(private val characterUseCase: CharactersUseCase,
-                             private val characterDetailUseCase: CharacterDetailUseCase,
-                             private val imagesUseCase: ImagesUseCase): CharacterPresenter {
-
+class CharacterPresenterImpl(
+    private val characterUseCase: CharactersUseCase,
+    private val characterDetailUseCase: CharacterDetailUseCase,
+    private val imagesUseCase: ImagesUseCase
+) : CharacterPresenter {
 
     override fun fetchCharacterList(callback: (LayerResult<List<CharacterModel>>) -> Unit) {
 
-        characterUseCase.execute{uiResult: LayerResult<List<CharacterEntity>>? ->
+        characterUseCase.execute { uiResult: LayerResult<List<CharacterEntity>>? ->
 
-            try{
+            try {
 
-                when (uiResult){
+                when (uiResult) {
 
                     is LayerResult.Success -> {
 
@@ -34,23 +33,26 @@ class CharacterPresenterImpl(private val characterUseCase: CharactersUseCase,
                     }
                     is LayerResult.Error -> {
 
-                        throw CustomError(originLayer = (uiResult.error as CustomError).getErrorOriginLayer(),
-                            underLyingError = (uiResult.error as CustomError).getUnderlyingError())
+                        throw CustomError(
+                            originLayer = (uiResult.error as CustomError).getErrorOriginLayer(),
+                            underLyingError = (uiResult.error as CustomError).getUnderlyingError()
+                        )
                     }
                 }
-            }catch (ce: CustomError){
+            } catch (ce: CustomError) {
 
                 callback(LayerResult.Error(ce))
+            } catch (e: Throwable) {
+
+                callback(
+                    LayerResult.Error(
+                        CustomError(
+                            originLayer = CustomError.OriginLayer.PRESENTATION_LAYER,
+                            underLyingError = e
+                        )
+                    )
+                )
             }
-            catch (e: Throwable){
-
-                callback(LayerResult.Error(
-                    CustomError(originLayer = CustomError.OriginLayer.PRESENTATION_LAYER,
-                        underLyingError = e)
-                ))
-
-            }
-
         }
     }
 
@@ -59,42 +61,43 @@ class CharacterPresenterImpl(private val characterUseCase: CharactersUseCase,
         callback: (LayerResult<CharacterDetailModel>) -> Unit
     ) {
 
-        characterDetailUseCase.execute(characterId){uiResult ->
+        characterDetailUseCase.execute(characterId) { uiResult ->
 
-            try{
+            try {
 
-                when (uiResult){
+                when (uiResult) {
                     is LayerResult.Success -> {
 
                         callback(LayerResult.Success(uiResult.value?.let { mapDataToUi(it) }))
                     }
                     is LayerResult.Error -> {
 
-                        throw CustomError(originLayer = (uiResult.error as CustomError).getErrorOriginLayer(),
-                            underLyingError = (uiResult.error as CustomError).getUnderlyingError())
+                        throw CustomError(
+                            originLayer = (uiResult.error as CustomError).getErrorOriginLayer(),
+                            underLyingError = (uiResult.error as CustomError).getUnderlyingError()
+                        )
                     }
                 }
-            }catch (e: Throwable){
+            } catch (e: Throwable) {
 
-                callback(LayerResult.Error(
-                    CustomError(originLayer = CustomError.OriginLayer.PRESENTATION_LAYER,
-                        underLyingError = e)
-                ))
-
-            }catch (ce: CustomError){
+                callback(
+                    LayerResult.Error(
+                        CustomError(
+                            originLayer = CustomError.OriginLayer.PRESENTATION_LAYER,
+                            underLyingError = e
+                        )
+                    )
+                )
+            } catch (ce: CustomError) {
 
                 callback(LayerResult.Error(ce))
             }
-
-
         }
-
     }
 
+    override fun fetchImage(imageInfo: Thumbnail, origin: AspectRatio.Origin, callback: (LayerResult<Bitmap>) -> Unit) {
 
-    override fun fetchImage(imageInfo: Thumbnail, origin: AspectRatio.Origin,callback: (LayerResult<Bitmap>) -> Unit) {
-
-        imagesUseCase.execute(com.samr.domain.entities.Thumbnail(imageInfo.path,imageInfo.extension),origin){ result ->
+        imagesUseCase.execute(com.samr.domain.entities.Thumbnail(imageInfo.path, imageInfo.extension), origin) { result ->
 
             try {
 
@@ -104,34 +107,40 @@ class CharacterPresenterImpl(private val characterUseCase: CharactersUseCase,
                         callback(LayerResult.Success(result.value))
                     }
                     is LayerResult.Error -> {
-                        throw CustomError(originLayer = (result.error as CustomError).getErrorOriginLayer(),
-                            underLyingError = (result.error as CustomError).getUnderlyingError())
+                        throw CustomError(
+                            originLayer = (result.error as CustomError).getErrorOriginLayer(),
+                            underLyingError = (result.error as CustomError).getUnderlyingError()
+                        )
                     }
                 }
-            }catch (e: Throwable){
+            } catch (e: Throwable) {
 
-                callback(LayerResult.Error(
-                    CustomError(originLayer = CustomError.OriginLayer.PRESENTATION_LAYER,
-                        underLyingError = e)
-                ))
-
-            }catch (ce: CustomError){
+                callback(
+                    LayerResult.Error(
+                        CustomError(
+                            originLayer = CustomError.OriginLayer.PRESENTATION_LAYER,
+                            underLyingError = e
+                        )
+                    )
+                )
+            } catch (ce: CustomError) {
 
                 callback(LayerResult.Error(ce))
             }
         }
     }
 
-
-    //Private Methods
+    // Private Methods
 
     private fun mapDataListToUi(value: CharacterEntity?) =
 
         CharacterModel(
-                id = value?.id ?: 0,
-                name = value?.name ?: "",
-                thumbnail = Thumbnail(value?.thumbnail?.path ?: "",
-                        value?.thumbnail?.extension ?: "")
+            id = value?.id ?: 0,
+            name = value?.name ?: "",
+            thumbnail = Thumbnail(
+                value?.thumbnail?.path ?: "",
+                value?.thumbnail?.extension ?: ""
+            )
         )
 
     private fun mapDataToUi(characterEntity: CharacterEntity?) =
@@ -142,15 +151,12 @@ class CharacterPresenterImpl(private val characterUseCase: CharactersUseCase,
             description = characterEntity?.description ?: "",
             thumbnail = DetailThumbnail(
                 path = characterEntity?.thumbnail?.path ?: "",
-                extension = characterEntity?.thumbnail?.extension ?: ""),
+                extension = characterEntity?.thumbnail?.extension ?: ""
+            ),
             storiesCount = characterEntity?.stories?.available ?: 0,
             seriesCount = characterEntity?.series?.available ?: 0,
             comicsCount = characterEntity?.comics?.available ?: 0,
             eventsCount = characterEntity?.events?.available ?: 0,
             detailUrl = characterEntity?.urls?.find { it.type == "detail" }?.url ?: ""
         )
-
-
-
-
 }

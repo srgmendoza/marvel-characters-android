@@ -1,9 +1,3 @@
 package com.samr.core.utils
 
-
-
-
-abstract class BaseError: Throwable()  {
-
-
-}
+abstract class BaseError : Throwable()

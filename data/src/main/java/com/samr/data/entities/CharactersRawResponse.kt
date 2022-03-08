@@ -2,7 +2,7 @@ package com.samr.data.entities
 
 data class CharactersRawResponse(
     val data: ResultsRawResponse
-){
+) {
     fun mapToData() = this.data.results
 }
 
