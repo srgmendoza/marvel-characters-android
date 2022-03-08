@@ -1,13 +1,12 @@
 package com.samr.marvelcharacterswiki.models
 
-
-
 data class CharacterModel(
-                          val id: Long,
-                          val name: String,
-                    val thumbnail: Thumbnail)
+    val id: Long,
+    val name: String,
+    val thumbnail: Thumbnail
+)
 
-data class Thumbnail (
-        val path: String,
-        val extension: String
+data class Thumbnail(
+    val path: String,
+    val extension: String
 )

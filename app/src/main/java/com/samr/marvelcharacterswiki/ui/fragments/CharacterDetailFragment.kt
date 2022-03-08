@@ -2,19 +2,17 @@ package com.samr.marvelcharacterswiki.ui.fragments
 
 import android.graphics.BitmapFactory
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import com.samr.core.utils.AspectRatio
-import com.samr.core.utils.CustomError
 import com.samr.core.utils.LayerResult
 import com.samr.marvelcharacterswiki.R
 import com.samr.marvelcharacterswiki.models.CharacterDetailModel
 import com.samr.marvelcharacterswiki.models.Thumbnail
 import com.samr.marvelcharacterswiki.ui.presenters.CharacterPresenter
-import com.samr.marvelcharacterswiki.ui.presenters.CharacterPresenterImpl
 import com.samr.marvelcharacterswiki.ui.utils.ViewUtils
 import kotlinx.android.synthetic.main.fragment_character_detail.*
 import org.koin.java.KoinJavaComponent.inject
@@ -24,25 +22,25 @@ class CharacterDetailFragment : Fragment() {
     private val presenter: CharacterPresenter by inject(CharacterPresenter::class.java)
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
 
         return inflater.inflate(R.layout.fragment_character_detail, container, false)
     }
 
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val characterId = arguments?.let { CharacterDetailFragmentArgs.fromBundle(it).characterId}
+        val characterId = arguments?.let { CharacterDetailFragmentArgs.fromBundle(it).characterId }
 
         if (characterId != null) {
-            presenter.fetchCharacterDetail(characterId){ result ->
+            presenter.fetchCharacterDetail(characterId) { result ->
 
-                activity?.runOnUiThread{
+                activity?.runOnUiThread {
 
-                    when(result) {
+                    when (result) {
                         is LayerResult.Success -> {
                             result.value?.let { renderView(it) }
                         }
@@ -55,12 +53,10 @@ class CharacterDetailFragment : Fragment() {
         }
     }
 
-
     private fun renderView(character: CharacterDetailModel) {
 
         character_name.text = character.name
-        character_description.text = if(character.description.isNotEmpty()) character.description else "Description not available"
-
+        character_description.text = if (character.description.isNotEmpty()) character.description else "Description not available"
 
         comics_count.text = "${character.comicsCount} Comics"
         series_count.text = "${character.seriesCount} Series"
@@ -72,8 +68,9 @@ class CharacterDetailFragment : Fragment() {
         }
 
         presenter.fetchImage(
-            imageInfo = Thumbnail(character.thumbnail.path,character.thumbnail.extension),
-            origin = AspectRatio.Origin.DETAIL){bmp ->
+            imageInfo = Thumbnail(character.thumbnail.path, character.thumbnail.extension),
+            origin = AspectRatio.Origin.DETAIL
+        ) { bmp ->
 
             activity?.runOnUiThread {
 
@@ -92,20 +89,18 @@ class CharacterDetailFragment : Fragment() {
                         character_image.setImageBitmap(defaultBmp)
                     }
                 }
-
             }
-
         }
-
     }
 
     private fun renderError(errorInfo: Throwable) {
 
         activity?.let {
 
-            ViewUtils.onDialog("Error getting Marvel Character",
-                it){}
+            ViewUtils.onDialog(
+                "Error getting Marvel Character",
+                it
+            ) {}
         }
     }
-
 }

@@ -9,14 +9,16 @@ import org.koin.dsl.module
 
 val charactersPresenterModule = module {
 
-    fun provideCharactersPresenterModule(charactersUseCase: CharactersUseCase,
-                                         characterDetailUseCase: CharacterDetailUseCase,
-                                         imagesUseCase: ImagesUseCase
-    ) : CharacterPresenter =
+    fun provideCharactersPresenterModule(
+        charactersUseCase: CharactersUseCase,
+        characterDetailUseCase: CharacterDetailUseCase,
+        imagesUseCase: ImagesUseCase
+    ): CharacterPresenter =
         CharacterPresenterImpl(
             charactersUseCase,
             characterDetailUseCase,
-            imagesUseCase)
+            imagesUseCase
+        )
 
-    single{ provideCharactersPresenterModule(get(),get(),get())}
+    single { provideCharactersPresenterModule(get(), get(), get()) }
 }

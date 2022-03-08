@@ -52,11 +52,11 @@ val imagesUseCaseModule = module {
 val characterServiceModule = module {
 
     fun provideCharacterServiceModule() = CharacterService()
-    single{ provideCharacterServiceModule()}
+    single { provideCharacterServiceModule() }
 }
 
 val imageServiceModule = module {
 
     fun provideImageServiceModule() = ImageService()
-    single{ provideImageServiceModule()}
+    single { provideImageServiceModule() }
 }

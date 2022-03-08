@@ -8,9 +8,7 @@ import com.samr.core.utils.CustomError
 import com.samr.core.utils.LayerResult
 import com.samr.domain.entities.CharacterEntity
 import com.samr.domain.repositories.CharacterDetailRepo
-import com.samr.domain.repositories.CharactersListRepo
 import com.samr.domain.usecases.CharacterDetailUseCase
-import com.samr.domain.usecases.CharactersUseCase
 import com.samr.domain.utils.MainCoroutineRule
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.runBlocking
@@ -20,16 +18,15 @@ import org.junit.Test
 
 class CharactersDetailUseCaseTest {
 
-    private lateinit var useCase : CharacterDetailUseCase
+    private lateinit var useCase: CharacterDetailUseCase
     private lateinit var repo: CharacterDetailRepo
-
 
     @ExperimentalCoroutinesApi
     @get:Rule
     var mainCoroutineRule = MainCoroutineRule()
 
     @Before
-    fun setup(){
+    fun setup() {
 
         repo = mock()
         useCase = CharacterDetailUseCase(repo)
@@ -41,7 +38,7 @@ class CharactersDetailUseCaseTest {
 
         whenever(
 
-                runBlocking { repo.fetchCharacterDetail(eq("someId"), any()) }
+            runBlocking { repo.fetchCharacterDetail(eq("someId"), any()) }
 
         ).thenAnswer {
 
@@ -54,21 +51,23 @@ class CharactersDetailUseCaseTest {
         }
     }
 
-
     @Test
-    fun `should fail calling usecase and get LayerResult-Error`(){
+    fun `should fail calling usecase and get LayerResult-Error`() {
 
         whenever(
 
-                runBlocking { repo.fetchCharacterDetail(eq("someId"), any()) }
+            runBlocking { repo.fetchCharacterDetail(eq("someId"), any()) }
 
         ).thenAnswer {
             val callback = it.getArgument<((LayerResult<List<CharacterEntity>>) -> Unit)>(1)
             callback(
-                    LayerResult.Error(
-                            CustomError(Throwable("TestException"),
-                                    CustomError.OriginLayer.DATA_LAYER)
-                    ))
+                LayerResult.Error(
+                    CustomError(
+                        Throwable("TestException"),
+                        CustomError.OriginLayer.DATA_LAYER
+                    )
+                )
+            )
         }
 
         useCase.execute("someId") { result ->

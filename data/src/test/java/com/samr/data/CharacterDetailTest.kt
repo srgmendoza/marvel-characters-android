@@ -15,18 +15,18 @@ import org.junit.Test
 
 class CharacterDetailTest {
 
-    private lateinit var service : CharacterService
+    private lateinit var service: CharacterService
     private lateinit var repo: CharacterDetailRepoImpl
 
     @Before
-    fun setup(){
+    fun setup() {
 
         service = mock()
         repo = CharacterDetailRepoImpl(service)
     }
 
     @Test
-    fun `should succed calling service and get LayerResult-Success`(){
+    fun `should succed calling service and get LayerResult-Success`() {
 
         runBlocking {
 
@@ -35,15 +35,14 @@ class CharacterDetailTest {
                 callback.invoke(LayerResult.Success(mock()))
             }
 
-            repo.fetchCharacterDetail("someId"){result ->
+            repo.fetchCharacterDetail("someId") { result ->
                 assert(result is LayerResult.Success)
             }
         }
-
     }
 
     @Test
-    fun `should fail calling service and get LayerResult-Error`(){
+    fun `should fail calling service and get LayerResult-Error`() {
 
         runBlocking {
 
@@ -51,12 +50,15 @@ class CharacterDetailTest {
                 val callback = it.getArgument<((LayerResult<CharactersRawResponse>) -> Unit)>(1)
                 callback.invoke(
                     LayerResult.Error(
-                        CustomError(Throwable("TestException"),
-                            CustomError.OriginLayer.DATA_LAYER)
-                    ))
+                        CustomError(
+                            Throwable("TestException"),
+                            CustomError.OriginLayer.DATA_LAYER
+                        )
+                    )
+                )
             }
 
-            repo.fetchCharacterDetail("someId"){result ->
+            repo.fetchCharacterDetail("someId") { result ->
                 assert(result is LayerResult.Error)
             }
         }

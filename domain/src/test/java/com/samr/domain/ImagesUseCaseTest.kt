@@ -7,7 +7,6 @@ import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.whenever
 import com.samr.core.utils.CustomError
 import com.samr.core.utils.LayerResult
-import com.samr.domain.entities.CharacterEntity
 import com.samr.domain.entities.Thumbnail
 import com.samr.domain.repositories.ImageRepo
 import com.samr.domain.usecases.ImagesUseCase
@@ -20,16 +19,15 @@ import org.junit.Test
 
 class ImagesUseCaseTest {
 
-    private lateinit var useCase : ImagesUseCase
+    private lateinit var useCase: ImagesUseCase
     private lateinit var repo: ImageRepo
-
 
     @ExperimentalCoroutinesApi
     @get:Rule
     var mainCoroutineRule = MainCoroutineRule()
 
     @Before
-    fun setup(){
+    fun setup() {
 
         repo = mock()
         useCase = ImagesUseCase(repo)
@@ -41,7 +39,7 @@ class ImagesUseCaseTest {
 
         whenever(
 
-                runBlocking { repo.fetchImage(eq("somePath.someExtension"), any()) }
+            runBlocking { repo.fetchImage(eq("somePath.someExtension"), any()) }
 
         ).thenAnswer {
 
@@ -49,30 +47,32 @@ class ImagesUseCaseTest {
             callback(LayerResult.Success(mock()))
         }
 
-        val thumbnail = Thumbnail(path = "somePath",extension = "someExtension")
+        val thumbnail = Thumbnail(path = "somePath", extension = "someExtension")
         useCase.execute(thumbnail, mock()) { result ->
             assert(result is LayerResult.Success)
         }
     }
 
-
     @Test
-    fun `should fail calling usecase and get LayerResult-Error`(){
+    fun `should fail calling usecase and get LayerResult-Error`() {
 
         whenever(
 
-                runBlocking { repo.fetchImage(eq("somePath.someExtension"), any()) }
+            runBlocking { repo.fetchImage(eq("somePath.someExtension"), any()) }
 
         ).thenAnswer {
             val callback = it.getArgument<((LayerResult<Bitmap>) -> Unit)>(1)
             callback(
-                    LayerResult.Error(
-                            CustomError(Throwable("TestException"),
-                                    CustomError.OriginLayer.DATA_LAYER)
-                    ))
+                LayerResult.Error(
+                    CustomError(
+                        Throwable("TestException"),
+                        CustomError.OriginLayer.DATA_LAYER
+                    )
+                )
+            )
         }
 
-        val thumbnail = Thumbnail(path = "somePath",extension = "someExtension")
+        val thumbnail = Thumbnail(path = "somePath", extension = "someExtension")
         useCase.execute(thumbnail, mock()) { result ->
             assert(result is LayerResult.Error)
         }
