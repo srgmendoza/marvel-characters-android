@@ -1,11 +1,11 @@
 package com.samr.domain.usecases
 
 import android.graphics.Bitmap
-import com.samr.core.utils.AspectRatio
-import com.samr.core.utils.CustomError
-import com.samr.core.utils.LayerResult
-import com.samr.core.utils.Utils.getImageUrl
-import com.samr.domain.entities.Thumbnail
+import com.samr.data.utils.AspectRatio
+import com.samr.data.utils.CustomError
+import com.samr.data.utils.LayerResult
+import com.samr.data.utils.Utils.getImageUrl
+import com.samr.domain.models.Thumbnail
 import com.samr.domain.repositories.ImageRepo
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -15,14 +15,14 @@ class ImagesUseCase(private val imageRepo: ImageRepo) {
 
     fun execute(
         imageInfo: Thumbnail,
-        origin: AspectRatio.Origin,
-        callback: (LayerResult<Bitmap>) -> Unit
+        origin: com.samr.data.utils.AspectRatio.Origin,
+        callback: (com.samr.data.utils.LayerResult<Bitmap>) -> Unit
     ) {
 
         val url = getImageUrl(
             path = imageInfo.path,
             extension = imageInfo.extension,
-            size = AspectRatio.ImageSize.MEDIUM,
+            size = com.samr.data.utils.AspectRatio.ImageSize.MEDIUM,
             origin = origin
         )
 
@@ -34,29 +34,29 @@ class ImagesUseCase(private val imageRepo: ImageRepo) {
 
                 try {
                     when (result) {
-                        is LayerResult.Success -> {
+                        is com.samr.data.utils.LayerResult.Success -> {
                             callback(result)
                         }
-                        is LayerResult.Error -> {
-                            throw CustomError(
-                                originLayer = (result.error as CustomError).getErrorOriginLayer(),
-                                underLyingError = (result.error as CustomError).getUnderlyingError()
+                        is com.samr.data.utils.LayerResult.Error -> {
+                            throw com.samr.data.utils.CustomError(
+                                originLayer = (result.error as com.samr.data.utils.CustomError).getErrorOriginLayer(),
+                                underLyingError = (result.error as com.samr.data.utils.CustomError).getUnderlyingError()
                             )
                         }
                     }
                 } catch (e: Throwable) {
 
                     callback(
-                        LayerResult.Error(
-                            CustomError(
-                                originLayer = CustomError.OriginLayer.DOMAIN_LAYER,
+                        com.samr.data.utils.LayerResult.Error(
+                            com.samr.data.utils.CustomError(
+                                originLayer = com.samr.data.utils.CustomError.OriginLayer.DOMAIN_LAYER,
                                 underLyingError = e
                             )
                         )
                     )
-                } catch (ce: CustomError) {
+                } catch (ce: com.samr.data.utils.CustomError) {
 
-                    callback(LayerResult.Error(ce))
+                    callback(com.samr.data.utils.LayerResult.Error(ce))
                 }
             }
         }

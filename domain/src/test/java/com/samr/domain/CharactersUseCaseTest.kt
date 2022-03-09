@@ -1,9 +1,9 @@
 package com.samr.domain
 
 import com.nhaarman.mockitokotlin2.*
-import com.samr.core.utils.CustomError
-import com.samr.core.utils.LayerResult
-import com.samr.domain.entities.CharacterEntity
+import com.samr.data.utils.CustomError
+import com.samr.data.utils.LayerResult
+import com.samr.domain.models.Character
 import com.samr.domain.repositories.CharactersListRepo
 import com.samr.domain.usecases.CharactersUseCase
 import com.samr.domain.utils.MainCoroutineRule
@@ -39,12 +39,12 @@ class CharactersUseCaseTest {
 
         ).thenAnswer {
 
-            val callback = it.getArgument<((LayerResult<List<CharacterEntity>>) -> Unit)>(1)
-            callback(LayerResult.Success(mock()))
+            val callback = it.getArgument<((com.samr.data.utils.LayerResult<List<Character>>) -> Unit)>(1)
+            callback(com.samr.data.utils.LayerResult.Success(mock()))
         }
 
         useCase.execute { result ->
-            assert(result is LayerResult.Success)
+            assert(result is com.samr.data.utils.LayerResult.Success)
         }
     }
 
@@ -56,19 +56,19 @@ class CharactersUseCaseTest {
             runBlocking { repo.fetchCharactersList(eq(1), any()) }
 
         ).thenAnswer {
-            val callback = it.getArgument<((LayerResult<List<CharacterEntity>>) -> Unit)>(1)
+            val callback = it.getArgument<((com.samr.data.utils.LayerResult<List<Character>>) -> Unit)>(1)
             callback(
-                LayerResult.Error(
-                    CustomError(
+                com.samr.data.utils.LayerResult.Error(
+                    com.samr.data.utils.CustomError(
                         Throwable("TestException"),
-                        CustomError.OriginLayer.DATA_LAYER
+                        com.samr.data.utils.CustomError.OriginLayer.DATA_LAYER
                     )
                 )
             )
         }
 
         useCase.execute { result ->
-            assert(result is LayerResult.Error)
+            assert(result is com.samr.data.utils.LayerResult.Error)
         }
     }
 }

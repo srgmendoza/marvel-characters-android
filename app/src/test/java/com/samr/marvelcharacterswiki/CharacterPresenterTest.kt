@@ -2,12 +2,12 @@ package com.samr.marvelcharacterswiki
 
 import android.graphics.Bitmap
 import com.nhaarman.mockitokotlin2.*
-import com.samr.core.utils.AspectRatio
-import com.samr.core.utils.CustomError
-import com.samr.core.utils.LayerResult
-import com.samr.domain.entities.CharacterEntity
-import com.samr.domain.entities.Publishings
-import com.samr.domain.entities.Thumbnail
+import com.samr.data.utils.AspectRatio
+import com.samr.data.utils.CustomError
+import com.samr.data.utils.LayerResult
+import com.samr.domain.models.Character
+import com.samr.domain.models.Publishings
+import com.samr.domain.models.Thumbnail
 import com.samr.domain.usecases.CharacterDetailUseCase
 import com.samr.domain.usecases.CharactersUseCase
 import com.samr.domain.usecases.ImagesUseCase
@@ -45,12 +45,12 @@ class CharacterPresenterTest {
 
         ).thenAnswer {
 
-            val callback = it.getArgument<((LayerResult<List<CharacterEntity>>?) -> Unit)>(0)
-            callback(LayerResult.Success(getCharacterEntityMockList()))
+            val callback = it.getArgument<((com.samr.data.utils.LayerResult<List<Character>>?) -> Unit)>(0)
+            callback(com.samr.data.utils.LayerResult.Success(getCharacterEntityMockList()))
         }
 
         presenter.fetchCharacterList { result ->
-            assert(result is LayerResult.Success)
+            assert(result is com.samr.data.utils.LayerResult.Success)
         }
     }
 
@@ -63,22 +63,22 @@ class CharacterPresenterTest {
 
         ).thenAnswer {
 
-            val callback = it.getArgument<((LayerResult<List<CharacterEntity>>?) -> Unit)>(0)
+            val callback = it.getArgument<((com.samr.data.utils.LayerResult<List<Character>>?) -> Unit)>(0)
             callback(
-                LayerResult.Error(
-                    CustomError(
+                com.samr.data.utils.LayerResult.Error(
+                    com.samr.data.utils.CustomError(
                         Throwable("TestException"),
-                        CustomError.OriginLayer.PRESENTATION_LAYER
+                        com.samr.data.utils.CustomError.OriginLayer.PRESENTATION_LAYER
                     )
                 )
             )
         }
 
         presenter.fetchCharacterList { result ->
-            val error = result as LayerResult.Error
-            val originLayer = (error.error as CustomError).getErrorOriginLayer()
+            val error = result as com.samr.data.utils.LayerResult.Error
+            val originLayer = (error.error as com.samr.data.utils.CustomError).getErrorOriginLayer()
 
-            assert(originLayer == CustomError.OriginLayer.PRESENTATION_LAYER)
+            assert(originLayer == com.samr.data.utils.CustomError.OriginLayer.PRESENTATION_LAYER)
         }
     }
 
@@ -91,12 +91,12 @@ class CharacterPresenterTest {
 
         ).thenAnswer {
 
-            val callback = it.getArgument<((LayerResult<CharacterEntity>?) -> Unit)>(1)
-            callback(LayerResult.Success(mock()))
+            val callback = it.getArgument<((com.samr.data.utils.LayerResult<Character>?) -> Unit)>(1)
+            callback(com.samr.data.utils.LayerResult.Success(mock()))
         }
 
         presenter.fetchCharacterDetail("someId") { result ->
-            assert(result is LayerResult.Success)
+            assert(result is com.samr.data.utils.LayerResult.Success)
         }
     }
 
@@ -109,22 +109,22 @@ class CharacterPresenterTest {
 
         ).thenAnswer {
 
-            val callback = it.getArgument<((LayerResult<List<CharacterEntity>>?) -> Unit)>(1)
+            val callback = it.getArgument<((com.samr.data.utils.LayerResult<List<Character>>?) -> Unit)>(1)
             callback(
-                LayerResult.Error(
-                    CustomError(
+                com.samr.data.utils.LayerResult.Error(
+                    com.samr.data.utils.CustomError(
                         Throwable("TestException"),
-                        CustomError.OriginLayer.PRESENTATION_LAYER
+                        com.samr.data.utils.CustomError.OriginLayer.PRESENTATION_LAYER
                     )
                 )
             )
         }
 
         presenter.fetchCharacterDetail("someId") { result ->
-            val error = result as LayerResult.Error
-            val originLayer = (error.error as CustomError).getErrorOriginLayer()
+            val error = result as com.samr.data.utils.LayerResult.Error
+            val originLayer = (error.error as com.samr.data.utils.CustomError).getErrorOriginLayer()
 
-            assert(originLayer == CustomError.OriginLayer.PRESENTATION_LAYER)
+            assert(originLayer == com.samr.data.utils.CustomError.OriginLayer.PRESENTATION_LAYER)
         }
     }
 
@@ -133,16 +133,16 @@ class CharacterPresenterTest {
 
         whenever(
 
-            runBlocking { imagesUseCase.execute(eq(Thumbnail("", "")), eq(AspectRatio.Origin.LIST), any()) }
+            runBlocking { imagesUseCase.execute(eq(Thumbnail("", "")), eq(com.samr.data.utils.AspectRatio.Origin.LIST), any()) }
 
         ).thenAnswer {
 
-            val callback = it.getArgument<((LayerResult<Bitmap>) -> Unit)>(2)
-            callback(LayerResult.Success(mock()))
+            val callback = it.getArgument<((com.samr.data.utils.LayerResult<Bitmap>) -> Unit)>(2)
+            callback(com.samr.data.utils.LayerResult.Success(mock()))
         }
 
-        presenter.fetchImage(com.samr.marvelcharacterswiki.models.Thumbnail("", ""), AspectRatio.Origin.LIST) { result ->
-            assert(result is LayerResult.Success)
+        presenter.fetchImage(com.samr.marvelcharacterswiki.models.Thumbnail("", ""), com.samr.data.utils.AspectRatio.Origin.LIST) { result ->
+            assert(result is com.samr.data.utils.LayerResult.Success)
         }
     }
 
@@ -151,37 +151,37 @@ class CharacterPresenterTest {
 
         whenever(
 
-            runBlocking { imagesUseCase.execute(eq(Thumbnail("", "")), eq(AspectRatio.Origin.LIST), any()) }
+            runBlocking { imagesUseCase.execute(eq(Thumbnail("", "")), eq(com.samr.data.utils.AspectRatio.Origin.LIST), any()) }
 
         ).thenAnswer {
 
-            val callback = it.getArgument<((LayerResult<Bitmap>) -> Unit)>(2)
+            val callback = it.getArgument<((com.samr.data.utils.LayerResult<Bitmap>) -> Unit)>(2)
             callback(
-                LayerResult.Error(
-                    CustomError(
+                com.samr.data.utils.LayerResult.Error(
+                    com.samr.data.utils.CustomError(
                         Throwable("TestException"),
-                        CustomError.OriginLayer.PRESENTATION_LAYER
+                        com.samr.data.utils.CustomError.OriginLayer.PRESENTATION_LAYER
                     )
                 )
             )
         }
 
-        presenter.fetchImage(com.samr.marvelcharacterswiki.models.Thumbnail("", ""), AspectRatio.Origin.LIST) { result ->
+        presenter.fetchImage(com.samr.marvelcharacterswiki.models.Thumbnail("", ""), com.samr.data.utils.AspectRatio.Origin.LIST) { result ->
 
-            val error = result as LayerResult.Error
-            val originLayer = (error.error as CustomError).getErrorOriginLayer()
+            val error = result as com.samr.data.utils.LayerResult.Error
+            val originLayer = (error.error as com.samr.data.utils.CustomError).getErrorOriginLayer()
 
-            assert(originLayer == CustomError.OriginLayer.PRESENTATION_LAYER)
+            assert(originLayer == com.samr.data.utils.CustomError.OriginLayer.PRESENTATION_LAYER)
         }
     }
 
-    private fun getCharacterEntityMockList(): List<CharacterEntity> {
-        val list: MutableList<CharacterEntity> = mutableListOf()
+    private fun getCharacterEntityMockList(): List<Character> {
+        val list: MutableList<Character> = mutableListOf()
 
         for (i in 0..5) {
 
             list.add(
-                CharacterEntity(
+                Character(
                     id = i.toLong(),
                     name = "",
                     description = "",

@@ -4,18 +4,18 @@ import com.nhaarman.mockitokotlin2.any
 import com.nhaarman.mockitokotlin2.eq
 import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.whenever
-import com.samr.core.utils.CustomError
-import com.samr.core.utils.LayerResult
+import com.samr.data.entities.CustomError
+import com.samr.data.entities.LayerResult
 import com.samr.data.entities.CharactersRawResponse
-import com.samr.data.repositories.CharactersListRepoImpl
-import com.samr.data.services.CharacterService
+import com.samr.data.remote.repositories.CharactersListRepoImpl
+import com.samr.data.remote.repositories.CharacterRemoteRepo
 import kotlinx.coroutines.runBlocking
 import org.junit.Before
 import org.junit.Test
 
 class CharacterListRepoUnitTest {
 
-    private lateinit var service: CharacterService
+    private lateinit var service: CharacterRemoteRepo
     private lateinit var repo: CharactersListRepoImpl
 
     @Before

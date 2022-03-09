@@ -1,8 +1,8 @@
 package com.samr.domain.usecases
 
-import com.samr.core.utils.CustomError
-import com.samr.core.utils.LayerResult
-import com.samr.domain.entities.*
+import com.samr.data.utils.CustomError
+import com.samr.data.utils.LayerResult
+import com.samr.domain.models.*
 import com.samr.domain.repositories.CharactersListRepo
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -12,7 +12,7 @@ class CharactersUseCase(private val characterRepo: CharactersListRepo) {
 
     private var offset = 1
 
-    fun execute(callback: (LayerResult<List<CharacterEntity>>?) -> Unit) {
+    fun execute(callback: (com.samr.data.utils.LayerResult<List<Character>>?) -> Unit) {
 
         GlobalScope.launch(Dispatchers.Main) {
 
@@ -22,28 +22,28 @@ class CharactersUseCase(private val characterRepo: CharactersListRepo) {
 
                     when (result) {
 
-                        is LayerResult.Success -> {
+                        is com.samr.data.utils.LayerResult.Success -> {
 
-                            callback(LayerResult.Success(result.value))
+                            callback(com.samr.data.utils.LayerResult.Success(result.value))
                             offset += 1
                         }
-                        is LayerResult.Error -> {
+                        is com.samr.data.utils.LayerResult.Error -> {
 
-                            throw CustomError(
-                                originLayer = (result.error as CustomError).getErrorOriginLayer(),
-                                underLyingError = (result.error as CustomError).getUnderlyingError()
+                            throw com.samr.data.utils.CustomError(
+                                originLayer = (result.error as com.samr.data.utils.CustomError).getErrorOriginLayer(),
+                                underLyingError = (result.error as com.samr.data.utils.CustomError).getUnderlyingError()
                             )
                         }
                     }
-                } catch (ce: CustomError) {
+                } catch (ce: com.samr.data.utils.CustomError) {
 
-                    callback(LayerResult.Error(ce))
+                    callback(com.samr.data.utils.LayerResult.Error(ce))
                 } catch (e: Throwable) {
 
                     callback(
-                        LayerResult.Error(
-                            CustomError(
-                                originLayer = CustomError.OriginLayer.DOMAIN_LAYER,
+                        com.samr.data.utils.LayerResult.Error(
+                            com.samr.data.utils.CustomError(
+                                originLayer = com.samr.data.utils.CustomError.OriginLayer.DOMAIN_LAYER,
                                 underLyingError = e
                             )
                         )

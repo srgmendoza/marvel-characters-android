@@ -1,4 +1,4 @@
-package com.samr.core.testUtils
+package com.samr.data.testUtils
 
 const val JSON_RESPONSE = "[\n" +
     "            {\n" +

@@ -1,10 +1,10 @@
 package com.samr.di
 
-import com.samr.data.repositories.CharacterDetailRepoImpl
-import com.samr.data.repositories.CharactersListRepoImpl
-import com.samr.data.repositories.ImageRepoImpl
-import com.samr.data.services.CharacterService
-import com.samr.data.services.ImageService
+import com.samr.data.remote.repositories.CharacterDetailRepoImpl
+import com.samr.data.remote.repositories.CharactersListRepoImpl
+import com.samr.data.remote.repositories.ImageRepoImpl
+import com.samr.data.remote.repositories.CharacterRemoteRepo
+import com.samr.data.remote.repositories.ImageService
 import com.samr.domain.repositories.CharacterDetailRepo
 import com.samr.domain.repositories.CharactersListRepo
 import com.samr.domain.repositories.ImageRepo
@@ -15,7 +15,7 @@ import org.koin.dsl.module
 
 val charactersRepoModule = module {
 
-    fun provideCharactersRepoModule(service: CharacterService): CharactersListRepo = CharactersListRepoImpl(service)
+    fun provideCharactersRepoModule(service: CharacterRemoteRepo): CharactersListRepo = CharactersListRepoImpl(service)
     single { provideCharactersRepoModule(get()) }
 }
 
@@ -27,7 +27,7 @@ val imagesRepoModule = module {
 
 val characterDetailRepoModule = module {
 
-    fun provideCharacterDetailRepoModule(service: CharacterService): CharacterDetailRepo = CharacterDetailRepoImpl(service)
+    fun provideCharacterDetailRepoModule(service: CharacterRemoteRepo): CharacterDetailRepo = CharacterDetailRepoImpl(service)
     single { provideCharacterDetailRepoModule(get()) }
 }
 
@@ -51,7 +51,7 @@ val imagesUseCaseModule = module {
 
 val characterServiceModule = module {
 
-    fun provideCharacterServiceModule() = CharacterService()
+    fun provideCharacterServiceModule() = CharacterRemoteRepo()
     single { provideCharacterServiceModule() }
 }
 

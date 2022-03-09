@@ -7,8 +7,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
-import com.samr.core.utils.AspectRatio
-import com.samr.core.utils.LayerResult
+import com.samr.data.utils.AspectRatio
+import com.samr.data.utils.LayerResult
 import com.samr.marvelcharacterswiki.R
 import com.samr.marvelcharacterswiki.models.CharacterDetailModel
 import com.samr.marvelcharacterswiki.models.Thumbnail
@@ -41,10 +41,10 @@ class CharacterDetailFragment : Fragment() {
                 activity?.runOnUiThread {
 
                     when (result) {
-                        is LayerResult.Success -> {
+                        is com.samr.data.utils.LayerResult.Success -> {
                             result.value?.let { renderView(it) }
                         }
-                        is LayerResult.Error -> {
+                        is com.samr.data.utils.LayerResult.Error -> {
                             renderError(result.error)
                         }
                     }
@@ -69,17 +69,17 @@ class CharacterDetailFragment : Fragment() {
 
         presenter.fetchImage(
             imageInfo = Thumbnail(character.thumbnail.path, character.thumbnail.extension),
-            origin = AspectRatio.Origin.DETAIL
+            origin = com.samr.data.utils.AspectRatio.Origin.DETAIL
         ) { bmp ->
 
             activity?.runOnUiThread {
 
                 when (bmp) {
-                    is LayerResult.Success -> {
+                    is com.samr.data.utils.LayerResult.Success -> {
 
                         character_image.setImageBitmap(bmp.value)
                     }
-                    is LayerResult.Error -> {
+                    is com.samr.data.utils.LayerResult.Error -> {
 
                         val defaultBmp = BitmapFactory.decodeResource(
                             activity?.resources,

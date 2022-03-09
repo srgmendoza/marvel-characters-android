@@ -1,10 +1,10 @@
 package com.samr.marvelcharacterswiki.ui.presenters
 
 import android.graphics.Bitmap
-import com.samr.core.utils.AspectRatio
-import com.samr.core.utils.CustomError
-import com.samr.core.utils.LayerResult
-import com.samr.domain.entities.CharacterEntity
+import com.samr.data.utils.AspectRatio
+import com.samr.data.utils.CustomError
+import com.samr.data.utils.LayerResult
+import com.samr.domain.models.Character
 import com.samr.domain.usecases.CharacterDetailUseCase
 import com.samr.domain.usecases.CharactersUseCase
 import com.samr.domain.usecases.ImagesUseCase
@@ -19,35 +19,35 @@ class CharacterPresenterImpl(
     private val imagesUseCase: ImagesUseCase
 ) : CharacterPresenter {
 
-    override fun fetchCharacterList(callback: (LayerResult<List<CharacterModel>>) -> Unit) {
+    override fun fetchCharacterList(callback: (com.samr.data.utils.LayerResult<List<CharacterModel>>) -> Unit) {
 
-        characterUseCase.execute { uiResult: LayerResult<List<CharacterEntity>>? ->
+        characterUseCase.execute { uiResult: com.samr.data.utils.LayerResult<List<Character>>? ->
 
             try {
 
                 when (uiResult) {
 
-                    is LayerResult.Success -> {
+                    is com.samr.data.utils.LayerResult.Success -> {
 
-                        callback(LayerResult.Success(uiResult.value?.map { mapDataListToUi(it) }))
+                        callback(com.samr.data.utils.LayerResult.Success(uiResult.value?.map { mapDataListToUi(it) }))
                     }
-                    is LayerResult.Error -> {
+                    is com.samr.data.utils.LayerResult.Error -> {
 
-                        throw CustomError(
-                            originLayer = (uiResult.error as CustomError).getErrorOriginLayer(),
-                            underLyingError = (uiResult.error as CustomError).getUnderlyingError()
+                        throw com.samr.data.utils.CustomError(
+                            originLayer = (uiResult.error as com.samr.data.utils.CustomError).getErrorOriginLayer(),
+                            underLyingError = (uiResult.error as com.samr.data.utils.CustomError).getUnderlyingError()
                         )
                     }
                 }
-            } catch (ce: CustomError) {
+            } catch (ce: com.samr.data.utils.CustomError) {
 
-                callback(LayerResult.Error(ce))
+                callback(com.samr.data.utils.LayerResult.Error(ce))
             } catch (e: Throwable) {
 
                 callback(
-                    LayerResult.Error(
-                        CustomError(
-                            originLayer = CustomError.OriginLayer.PRESENTATION_LAYER,
+                    com.samr.data.utils.LayerResult.Error(
+                        com.samr.data.utils.CustomError(
+                            originLayer = com.samr.data.utils.CustomError.OriginLayer.PRESENTATION_LAYER,
                             underLyingError = e
                         )
                     )
@@ -58,7 +58,7 @@ class CharacterPresenterImpl(
 
     override fun fetchCharacterDetail(
         characterId: String,
-        callback: (LayerResult<CharacterDetailModel>) -> Unit
+        callback: (com.samr.data.utils.LayerResult<CharacterDetailModel>) -> Unit
     ) {
 
         characterDetailUseCase.execute(characterId) { uiResult ->
@@ -66,73 +66,73 @@ class CharacterPresenterImpl(
             try {
 
                 when (uiResult) {
-                    is LayerResult.Success -> {
+                    is com.samr.data.utils.LayerResult.Success -> {
 
-                        callback(LayerResult.Success(uiResult.value?.let { mapDataToUi(it) }))
+                        callback(com.samr.data.utils.LayerResult.Success(uiResult.value?.let { mapDataToUi(it) }))
                     }
-                    is LayerResult.Error -> {
+                    is com.samr.data.utils.LayerResult.Error -> {
 
-                        throw CustomError(
-                            originLayer = (uiResult.error as CustomError).getErrorOriginLayer(),
-                            underLyingError = (uiResult.error as CustomError).getUnderlyingError()
+                        throw com.samr.data.utils.CustomError(
+                            originLayer = (uiResult.error as com.samr.data.utils.CustomError).getErrorOriginLayer(),
+                            underLyingError = (uiResult.error as com.samr.data.utils.CustomError).getUnderlyingError()
                         )
                     }
                 }
             } catch (e: Throwable) {
 
                 callback(
-                    LayerResult.Error(
-                        CustomError(
-                            originLayer = CustomError.OriginLayer.PRESENTATION_LAYER,
+                    com.samr.data.utils.LayerResult.Error(
+                        com.samr.data.utils.CustomError(
+                            originLayer = com.samr.data.utils.CustomError.OriginLayer.PRESENTATION_LAYER,
                             underLyingError = e
                         )
                     )
                 )
-            } catch (ce: CustomError) {
+            } catch (ce: com.samr.data.utils.CustomError) {
 
-                callback(LayerResult.Error(ce))
+                callback(com.samr.data.utils.LayerResult.Error(ce))
             }
         }
     }
 
-    override fun fetchImage(imageInfo: Thumbnail, origin: AspectRatio.Origin, callback: (LayerResult<Bitmap>) -> Unit) {
+    override fun fetchImage(imageInfo: Thumbnail, origin: com.samr.data.utils.AspectRatio.Origin, callback: (com.samr.data.utils.LayerResult<Bitmap>) -> Unit) {
 
-        imagesUseCase.execute(com.samr.domain.entities.Thumbnail(imageInfo.path, imageInfo.extension), origin) { result ->
+        imagesUseCase.execute(com.samr.domain.models.Thumbnail(imageInfo.path, imageInfo.extension), origin) { result ->
 
             try {
 
                 when (result) {
-                    is LayerResult.Success -> {
+                    is com.samr.data.utils.LayerResult.Success -> {
 
-                        callback(LayerResult.Success(result.value))
+                        callback(com.samr.data.utils.LayerResult.Success(result.value))
                     }
-                    is LayerResult.Error -> {
-                        throw CustomError(
-                            originLayer = (result.error as CustomError).getErrorOriginLayer(),
-                            underLyingError = (result.error as CustomError).getUnderlyingError()
+                    is com.samr.data.utils.LayerResult.Error -> {
+                        throw com.samr.data.utils.CustomError(
+                            originLayer = (result.error as com.samr.data.utils.CustomError).getErrorOriginLayer(),
+                            underLyingError = (result.error as com.samr.data.utils.CustomError).getUnderlyingError()
                         )
                     }
                 }
             } catch (e: Throwable) {
 
                 callback(
-                    LayerResult.Error(
-                        CustomError(
-                            originLayer = CustomError.OriginLayer.PRESENTATION_LAYER,
+                    com.samr.data.utils.LayerResult.Error(
+                        com.samr.data.utils.CustomError(
+                            originLayer = com.samr.data.utils.CustomError.OriginLayer.PRESENTATION_LAYER,
                             underLyingError = e
                         )
                     )
                 )
-            } catch (ce: CustomError) {
+            } catch (ce: com.samr.data.utils.CustomError) {
 
-                callback(LayerResult.Error(ce))
+                callback(com.samr.data.utils.LayerResult.Error(ce))
             }
         }
     }
 
     // Private Methods
 
-    private fun mapDataListToUi(value: CharacterEntity?) =
+    private fun mapDataListToUi(value: Character?) =
 
         CharacterModel(
             id = value?.id ?: 0,
@@ -143,7 +143,7 @@ class CharacterPresenterImpl(
             )
         )
 
-    private fun mapDataToUi(characterEntity: CharacterEntity?) =
+    private fun mapDataToUi(characterEntity: Character?) =
 
         CharacterDetailModel(
             id = characterEntity?.id ?: 0,

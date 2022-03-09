@@ -4,9 +4,9 @@ import com.nhaarman.mockitokotlin2.any
 import com.nhaarman.mockitokotlin2.eq
 import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.whenever
-import com.samr.core.utils.CustomError
-import com.samr.core.utils.LayerResult
-import com.samr.domain.entities.CharacterEntity
+import com.samr.data.utils.CustomError
+import com.samr.data.utils.LayerResult
+import com.samr.domain.models.Character
 import com.samr.domain.repositories.CharacterDetailRepo
 import com.samr.domain.usecases.CharacterDetailUseCase
 import com.samr.domain.utils.MainCoroutineRule
@@ -42,12 +42,12 @@ class CharactersDetailUseCaseTest {
 
         ).thenAnswer {
 
-            val callback = it.getArgument<((LayerResult<List<CharacterEntity>>) -> Unit)>(1)
-            callback(LayerResult.Success(mock()))
+            val callback = it.getArgument<((com.samr.data.utils.LayerResult<List<Character>>) -> Unit)>(1)
+            callback(com.samr.data.utils.LayerResult.Success(mock()))
         }
 
         useCase.execute("someId") { result ->
-            assert(result is LayerResult.Success)
+            assert(result is com.samr.data.utils.LayerResult.Success)
         }
     }
 
@@ -59,19 +59,19 @@ class CharactersDetailUseCaseTest {
             runBlocking { repo.fetchCharacterDetail(eq("someId"), any()) }
 
         ).thenAnswer {
-            val callback = it.getArgument<((LayerResult<List<CharacterEntity>>) -> Unit)>(1)
+            val callback = it.getArgument<((com.samr.data.utils.LayerResult<List<Character>>) -> Unit)>(1)
             callback(
-                LayerResult.Error(
-                    CustomError(
+                com.samr.data.utils.LayerResult.Error(
+                    com.samr.data.utils.CustomError(
                         Throwable("TestException"),
-                        CustomError.OriginLayer.DATA_LAYER
+                        com.samr.data.utils.CustomError.OriginLayer.DATA_LAYER
                     )
                 )
             )
         }
 
         useCase.execute("someId") { result ->
-            assert(result is LayerResult.Error)
+            assert(result is com.samr.data.utils.LayerResult.Error)
         }
     }
 }

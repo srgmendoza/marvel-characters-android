@@ -1,4 +1,4 @@
-package com.samr.core.utils
+package com.samr.data.entities
 
 sealed class LayerResult<out T> {
 

@@ -1,5 +1,4 @@
 include ':di'
-include ':core'
 include ':domain'
 include ':data'
 include ':app'
