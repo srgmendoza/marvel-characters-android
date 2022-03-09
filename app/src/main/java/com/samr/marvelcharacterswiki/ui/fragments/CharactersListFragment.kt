@@ -9,8 +9,8 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.samr.core.utils.CustomError
-import com.samr.core.utils.LayerResult
+import com.samr.data.utils.CustomError
+import com.samr.data.utils.LayerResult
 import com.samr.marvelcharacterswiki.R
 import com.samr.marvelcharacterswiki.models.CharacterModel
 import com.samr.marvelcharacterswiki.ui.adapters.CharacterListAdapter
@@ -82,11 +82,11 @@ class CharactersListFragment : Fragment() {
 
                 when (result) {
 
-                    is LayerResult.Success -> {
+                    is com.samr.data.utils.LayerResult.Success -> {
                         result.value?.let { renderView(it) }
                     }
-                    is LayerResult.Error -> {
-                        renderError(result.error as CustomError)
+                    is com.samr.data.utils.LayerResult.Error -> {
+                        renderError(result.error as com.samr.data.utils.CustomError)
                     }
                 }
             }
@@ -102,7 +102,7 @@ class CharactersListFragment : Fragment() {
         adapter.notifyItemRangeInserted(lastPosition, characters.size)
     }
 
-    private fun renderError(errorInfo: CustomError) {
+    private fun renderError(errorInfo: com.samr.data.utils.CustomError) {
 
         val errorOriginLayer = errorInfo.getErrorOriginLayerMsg()
         val errorDescription = errorInfo.getErrorDetailedMsg()

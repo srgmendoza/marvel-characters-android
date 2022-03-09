@@ -5,9 +5,9 @@ import com.nhaarman.mockitokotlin2.any
 import com.nhaarman.mockitokotlin2.eq
 import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.whenever
-import com.samr.core.utils.CustomError
-import com.samr.core.utils.LayerResult
-import com.samr.domain.entities.Thumbnail
+import com.samr.data.utils.CustomError
+import com.samr.data.utils.LayerResult
+import com.samr.domain.models.Thumbnail
 import com.samr.domain.repositories.ImageRepo
 import com.samr.domain.usecases.ImagesUseCase
 import com.samr.domain.utils.MainCoroutineRule
@@ -43,13 +43,13 @@ class ImagesUseCaseTest {
 
         ).thenAnswer {
 
-            val callback = it.getArgument<((LayerResult<Bitmap>) -> Unit)>(1)
-            callback(LayerResult.Success(mock()))
+            val callback = it.getArgument<((com.samr.data.utils.LayerResult<Bitmap>) -> Unit)>(1)
+            callback(com.samr.data.utils.LayerResult.Success(mock()))
         }
 
         val thumbnail = Thumbnail(path = "somePath", extension = "someExtension")
         useCase.execute(thumbnail, mock()) { result ->
-            assert(result is LayerResult.Success)
+            assert(result is com.samr.data.utils.LayerResult.Success)
         }
     }
 
@@ -61,12 +61,12 @@ class ImagesUseCaseTest {
             runBlocking { repo.fetchImage(eq("somePath.someExtension"), any()) }
 
         ).thenAnswer {
-            val callback = it.getArgument<((LayerResult<Bitmap>) -> Unit)>(1)
+            val callback = it.getArgument<((com.samr.data.utils.LayerResult<Bitmap>) -> Unit)>(1)
             callback(
-                LayerResult.Error(
-                    CustomError(
+                com.samr.data.utils.LayerResult.Error(
+                    com.samr.data.utils.CustomError(
                         Throwable("TestException"),
-                        CustomError.OriginLayer.DATA_LAYER
+                        com.samr.data.utils.CustomError.OriginLayer.DATA_LAYER
                     )
                 )
             )
@@ -74,7 +74,7 @@ class ImagesUseCaseTest {
 
         val thumbnail = Thumbnail(path = "somePath", extension = "someExtension")
         useCase.execute(thumbnail, mock()) { result ->
-            assert(result is LayerResult.Error)
+            assert(result is com.samr.data.utils.LayerResult.Error)
         }
     }
 }

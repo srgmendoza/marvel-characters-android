@@ -1,12 +1,12 @@
 package com.samr.domain.repositories
 
-import com.samr.core.utils.LayerResult
-import com.samr.domain.entities.CharacterEntity
+import com.samr.data.utils.LayerResult
+import com.samr.domain.models.Character
 
 interface CharactersListRepo {
 
     suspend fun fetchCharactersList(
         offsetFactor: Int,
-        callback: (LayerResult<List<CharacterEntity>>?) -> Unit
+        callback: (com.samr.data.utils.LayerResult<List<Character>>?) -> Unit
     )
 }

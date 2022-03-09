@@ -1,10 +1,10 @@
-package com.samr.data.services
+package com.samr.data.remote.repositories
 
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
-import com.samr.core.utils.CustomError
-import com.samr.core.utils.LayerResult
+import com.samr.data.entities.CustomError
+import com.samr.data.entities.LayerResult
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import okhttp3.*

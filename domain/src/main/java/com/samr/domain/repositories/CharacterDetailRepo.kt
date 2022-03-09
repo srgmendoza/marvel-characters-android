@@ -1,9 +1,9 @@
 package com.samr.domain.repositories
 
-import com.samr.core.utils.LayerResult
-import com.samr.domain.entities.CharacterEntity
+import com.samr.data.utils.LayerResult
+import com.samr.domain.models.Character
 
 interface CharacterDetailRepo {
 
-    suspend fun fetchCharacterDetail(characterId: String, callback: (LayerResult<CharacterEntity>?) -> Unit)
+    suspend fun fetchCharacterDetail(characterId: String, callback: (com.samr.data.utils.LayerResult<Character>?) -> Unit)
 }

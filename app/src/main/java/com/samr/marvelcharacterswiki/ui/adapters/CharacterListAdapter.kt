@@ -6,8 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
-import com.samr.core.utils.AspectRatio
-import com.samr.core.utils.LayerResult
+import com.samr.data.utils.AspectRatio
+import com.samr.data.utils.LayerResult
 import com.samr.marvelcharacterswiki.R
 import com.samr.marvelcharacterswiki.models.CharacterModel
 import com.samr.marvelcharacterswiki.ui.fragments.CharactersListFragmentDirections
@@ -33,17 +33,17 @@ class CharacterListAdapter(private val presenter: CharacterPresenterImpl) : Recy
         holder.itemView.character_id.text = characters[position].id.toString()
         holder.itemView.character_name.text = characters[position].name
 
-        presenter.fetchImage(characters[position].thumbnail, AspectRatio.Origin.LIST) { bmp ->
+        presenter.fetchImage(characters[position].thumbnail, com.samr.data.utils.AspectRatio.Origin.LIST) { bmp ->
 
             holder.itemView.character_img.post {
 
                 val context = holder.itemView.context
                 when (bmp) {
-                    is LayerResult.Success -> {
+                    is com.samr.data.utils.LayerResult.Success -> {
 
                         holder.itemView.character_img.setImageBitmap(bmp.value)
                     }
-                    is LayerResult.Error -> {
+                    is com.samr.data.utils.LayerResult.Error -> {
 
                         val defaultBmp = BitmapFactory.decodeResource(
                             context.resources,

@@ -1,8 +1,8 @@
-package com.samr.data.repositories
+package com.samr.data.remote.repositories
 
 import android.graphics.Bitmap
-import com.samr.core.utils.*
-import com.samr.data.services.ImageService
+import com.samr.data.entities.CustomError
+import com.samr.data.entities.LayerResult
 import com.samr.domain.repositories.ImageRepo
 
 class ImageRepoImpl(private val service: ImageService) : ImageRepo {

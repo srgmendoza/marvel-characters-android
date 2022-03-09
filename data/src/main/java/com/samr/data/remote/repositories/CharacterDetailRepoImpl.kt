@@ -1,16 +1,15 @@
-package com.samr.data.repositories
+package com.samr.data.remote.repositories
 
-import com.samr.core.utils.CustomError
-import com.samr.core.utils.LayerResult
-import com.samr.data.services.CharacterService
-import com.samr.domain.entities.CharacterEntity
+import com.samr.data.entities.CustomError
+import com.samr.data.entities.LayerResult
+import com.samr.domain.models.Character
 import com.samr.domain.repositories.CharacterDetailRepo
 
-class CharacterDetailRepoImpl(private val service: CharacterService) : CharacterDetailRepo {
+class CharacterDetailRepoImpl(private val service: CharacterRemoteRepo) : CharacterDetailRepo {
 
     override suspend fun fetchCharacterDetail(
         characterId: String,
-        callback: (LayerResult<CharacterEntity>?) -> Unit
+        callback: (LayerResult<Character>?) -> Unit
     ) {
 
         service.fetchCharacterDetail(characterId) { result ->

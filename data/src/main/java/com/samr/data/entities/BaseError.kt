@@ -1,3 +1,3 @@
-package com.samr.core.utils
+package com.samr.data.entities
 
 abstract class BaseError : Throwable()

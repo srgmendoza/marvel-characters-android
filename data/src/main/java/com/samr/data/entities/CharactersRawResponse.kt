@@ -7,5 +7,5 @@ data class CharactersRawResponse(
 }
 
 data class ResultsRawResponse(
-    val results: List<CharacterData>
+    val results: List<CharacterEntity>
 )

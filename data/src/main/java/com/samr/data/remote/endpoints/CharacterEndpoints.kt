@@ -1,10 +1,10 @@
-package com.samr.data.services
+package com.samr.data.remote.endpoints
 
-import com.samr.core.utils.CHARACTERS_ENDPOINT
-import com.samr.core.utils.DATA_LIMIT
-import com.samr.core.utils.PUBLIC_KEY
 import com.samr.data.entities.CharactersRawResponse
-import kotlinx.coroutines.Deferred
+import com.samr.data.utils.CHARACTERS_ENDPOINT
+import com.samr.data.utils.DATA_LIMIT
+import com.samr.data.utils.PUBLIC_KEY
+import io.reactivex.Observable
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
@@ -18,7 +18,7 @@ interface CharacterEndpoints {
         @Query("ts")ts: String,
         @Query("apikey")apiKey: String = PUBLIC_KEY,
         @Query("hash")hash: String
-    ): Deferred<CharactersRawResponse>
+    ): Observable<CharactersRawResponse>
 
     @GET("$CHARACTERS_ENDPOINT/{character}")
     fun getCharacterDetail(
@@ -27,5 +27,5 @@ interface CharacterEndpoints {
         @Query("hash")hash: String,
         @Query("ts")ts: String,
         @Query("limit")limit: String = DATA_LIMIT
-    ): Deferred<CharactersRawResponse>
+    ): Observable<CharactersRawResponse>
 }

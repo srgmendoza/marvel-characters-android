@@ -1,4 +1,4 @@
-package com.samr.data.services
+package com.samr.data.remote.repositories
 
 import kotlinx.coroutines.Deferred
 import okhttp3.ResponseBody

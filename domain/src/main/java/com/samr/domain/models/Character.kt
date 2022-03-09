@@ -1,8 +1,6 @@
-package com.samr.domain.entities
+package com.samr.domain.models
 
-import com.samr.core.utils.StoryType
-
-data class CharacterEntity(
+data class Character(
     val id: Long,
     val name: String,
     val description: String,
@@ -19,14 +17,8 @@ data class CharacterEntity(
 data class Publishings(
     val available: Long,
     val collectionURI: String,
-    val items: List<Any>,
+    val items: List<PublishingItem>,
     val returned: Long
-)
-
-data class PublishingItem(
-    val resourceURI: String,
-    val name: String,
-    val type: StoryType? = null
 )
 
 data class Thumbnail(
@@ -38,3 +30,16 @@ data class URL(
     val type: String,
     val url: String
 )
+
+data class PublishingItem(
+    val resourceURI: String,
+    val name: String,
+    val type: StoryType? = null
+)
+const val COVER_TITLE = "cover"
+const val INTERIOR_STORY_TITLE = "interiorStory"
+enum class StoryType(name: String) {
+    COVER(COVER_TITLE),
+    INTERIOR_STORY(INTERIOR_STORY_TITLE),
+    NA("")
+}
