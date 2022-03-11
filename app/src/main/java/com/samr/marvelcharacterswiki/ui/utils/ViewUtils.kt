@@ -2,6 +2,9 @@ package com.samr.marvelcharacterswiki.ui.utils
 
 import android.app.AlertDialog
 import android.content.Context
+import android.webkit.URLUtil
+import android.widget.ImageView
+import com.squareup.picasso.Picasso
 
 object ViewUtils {
 
@@ -15,5 +18,13 @@ object ViewUtils {
             .setCancelable(true)
         val dialog = builder.create()
         dialog.show()
+    }
+
+    fun paintImage(url: String, imageView: ImageView) {
+        if (URLUtil.isValidUrl(url)) {
+            Picasso.get().load(url)
+                .fit()
+                .into(imageView)
+        }
     }
 }

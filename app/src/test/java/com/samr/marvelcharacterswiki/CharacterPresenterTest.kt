@@ -7,12 +7,10 @@ import com.samr.data.utils.CustomError
 import com.samr.data.utils.LayerResult
 import com.samr.domain.models.Character
 import com.samr.domain.models.Publishings
-import com.samr.domain.models.Thumbnail
+import com.samr.domain.models.Images
 import com.samr.domain.usecases.CharacterDetailUseCase
-import com.samr.domain.usecases.CharactersUseCase
-import com.samr.domain.usecases.ImagesUseCase
-import com.samr.marvelcharacterswiki.ui.presenters.CharacterPresenter
-import com.samr.marvelcharacterswiki.ui.presenters.CharacterPresenterImpl
+import com.samr.domain.usecases.CharacterListUsecase
+import com.samr.marvelcharacterswiki.ui.viewModels.CharacterPresenterImpl
 import kotlinx.coroutines.runBlocking
 import org.junit.Before
 import org.junit.Test
@@ -22,7 +20,7 @@ class CharacterPresenterTest {
 
     private lateinit var presenter: CharacterPresenter
 
-    private val characterUseCase: CharactersUseCase = mock(CharactersUseCase::class.java)
+    private val characterUseCase: CharacterListUsecase = mock(CharacterListUsecase::class.java)
     private val characterDetailUseCase: CharacterDetailUseCase = mock(CharacterDetailUseCase::class.java)
     private val imagesUseCase: ImagesUseCase = mock(ImagesUseCase::class.java)
 
@@ -133,7 +131,7 @@ class CharacterPresenterTest {
 
         whenever(
 
-            runBlocking { imagesUseCase.execute(eq(Thumbnail("", "")), eq(com.samr.data.utils.AspectRatio.Origin.LIST), any()) }
+            runBlocking { imagesUseCase.execute(eq(Images("", "")), eq(com.samr.data.utils.AspectRatio.Origin.LIST), any()) }
 
         ).thenAnswer {
 
@@ -151,7 +149,7 @@ class CharacterPresenterTest {
 
         whenever(
 
-            runBlocking { imagesUseCase.execute(eq(Thumbnail("", "")), eq(com.samr.data.utils.AspectRatio.Origin.LIST), any()) }
+            runBlocking { imagesUseCase.execute(eq(Images("", "")), eq(com.samr.data.utils.AspectRatio.Origin.LIST), any()) }
 
         ).thenAnswer {
 
@@ -186,7 +184,7 @@ class CharacterPresenterTest {
                     name = "",
                     description = "",
                     modified = "",
-                    thumbnail = Thumbnail(path = "", extension = ""),
+                    thumbnail = Images(path = "", extension = ""),
                     resourceURI = "",
                     comics = Publishings(
                         available = 0,

@@ -1,8 +1,8 @@
 package com.samr.data
 
-import com.samr.data.entities.CustomError
-import com.samr.data.entities.LayerResult
-import com.samr.data.remote.repositories.CharacterRemoteRepo
+import com.samr.domain.models.CustomError
+import com.samr.domain.models.LayerResult
+import com.samr.data.remote.repositories.CharacterRemoteRepoImpl
 import kotlinx.coroutines.runBlocking
 import org.junit.Before
 import org.junit.Test
@@ -10,11 +10,11 @@ import retrofit2.HttpException
 
 class CharactersServiceUnitTest {
 
-    private lateinit var service: CharacterRemoteRepo
+    private lateinit var service: CharacterRemoteRepoImpl
 
     @Before
     fun setup() {
-        service = CharacterRemoteRepo()
+        service = CharacterRemoteRepoImpl()
     }
 
     @Test

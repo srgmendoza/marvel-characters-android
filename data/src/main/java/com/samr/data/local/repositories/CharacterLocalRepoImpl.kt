@@ -1,18 +1,20 @@
 package com.samr.data.local.repositories
 
 import android.annotation.SuppressLint
-import com.samr.data.entities.CharacterEntity
 import com.samr.data.local.Database
-import com.samr.data.entities.CustomError
+import com.samr.domain.models.Character
+import com.samr.domain.models.CustomError
+import com.samr.domain.repositories.CharacterLocalRepository
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 
-class CharacterLocalRepo(private val database: Database) {
+class CharacterLocalRepoImpl(private val database: Database): CharacterLocalRepository {
 
     @SuppressLint("CheckResult")
-    fun insert(characterEntity: CharacterEntity,
+    override fun insert(character: Character,
                onCharacterSaved: (Result<Boolean>) -> Unit) {
-        database.getCharactersDao().insert(characterEntity)
+
+        database.getCharactersDao().insert(character)
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeOn(Schedulers.io())
             .subscribe({
@@ -23,12 +25,12 @@ class CharacterLocalRepo(private val database: Database) {
             })
     }
 
-    fun selectAll() = database.getCharactersDao().getAll()
+    override fun selectAll() = database.getCharactersDao().getAll()
 
-    fun selectById(characterId: String) = database.getCharactersDao().getCharacterById(characterId)
+    override fun selectById(characterId: String) = database.getCharactersDao().getCharacterById(characterId)
 
     @SuppressLint("CheckResult")
-    fun deleteAll(onCharactersDeleted: (Result<Boolean>) -> Unit) {
+    override fun deleteAll(onCharactersDeleted: (Result<Boolean>) -> Unit) {
         database.getCharactersDao().clearAll()
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeOn(Schedulers.io())

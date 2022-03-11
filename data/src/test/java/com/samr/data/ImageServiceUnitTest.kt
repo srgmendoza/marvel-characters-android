@@ -1,8 +1,7 @@
 package com.samr.data
 
-import com.samr.data.entities.CustomError
-import com.samr.data.entities.LayerResult
-import com.samr.data.remote.repositories.ImageService
+import com.samr.domain.models.CustomError
+import com.samr.domain.models.LayerResult
 import kotlinx.coroutines.runBlocking
 import org.junit.Before
 import org.junit.Test

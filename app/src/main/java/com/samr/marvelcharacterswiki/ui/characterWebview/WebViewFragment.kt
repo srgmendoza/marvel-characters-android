@@ -1,4 +1,4 @@
-package com.samr.marvelcharacterswiki.ui.fragments
+package com.samr.marvelcharacterswiki.ui.characterWebview
 
 import android.graphics.Bitmap
 import android.os.Build
@@ -39,7 +39,7 @@ class WebViewFragment : Fragment() {
                 this.javaScriptEnabled = true
             }
 
-            detail_webview.scrollIndicators = View.SCROLLBARS_INSIDE_OVERLAY
+            detail_webview.scrollIndicators = View.SCROLL_INDICATOR_BOTTOM
 
             progressBar_webview.visibility = View.VISIBLE
 

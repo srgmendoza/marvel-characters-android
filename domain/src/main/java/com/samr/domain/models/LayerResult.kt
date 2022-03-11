@@ -1,4 +1,4 @@
-package com.samr.data.entities
+package com.samr.domain.models
 
 sealed class LayerResult<out T> {
 

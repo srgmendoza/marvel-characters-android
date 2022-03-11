@@ -5,7 +5,6 @@ enum class StoryType {
     INTERIOR_STORY
 }
 
-const val BASE_CHARACTERS_URL = "https://gateway.marvel.com/v1/public/"
 const val CHARACTERS_ENDPOINT = "characters"
 
 const val DATA_LIMIT = "40"
