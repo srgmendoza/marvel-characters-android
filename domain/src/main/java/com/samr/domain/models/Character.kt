@@ -1,17 +1,22 @@
 package com.samr.domain.models
 
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+
+@Entity(tableName = "Characters")
 data class Character(
+    @PrimaryKey
     val id: Long,
     val name: String,
     val description: String,
     val modified: String,
-    val thumbnail: Thumbnail,
+    val thumbnail: Images,
     val resourceURI: String,
     val comics: Publishings,
     val series: Publishings,
     val stories: Publishings,
     val events: Publishings,
-    val urls: List<URL>
+    val detailUrl: String
 )
 
 data class Publishings(
@@ -21,14 +26,9 @@ data class Publishings(
     val returned: Long
 )
 
-data class Thumbnail(
-    val path: String,
-    val extension: String
-)
-
-data class URL(
-    val type: String,
-    val url: String
+data class Images(
+    val thumbnail: String,
+    val poster: String
 )
 
 data class PublishingItem(
@@ -36,6 +36,7 @@ data class PublishingItem(
     val name: String,
     val type: StoryType? = null
 )
+
 const val COVER_TITLE = "cover"
 const val INTERIOR_STORY_TITLE = "interiorStory"
 enum class StoryType(name: String) {

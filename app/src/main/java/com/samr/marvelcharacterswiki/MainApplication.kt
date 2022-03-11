@@ -2,9 +2,7 @@ package com.samr.marvelcharacterswiki
 
 import android.app.Application
 import android.content.Context
-import androidx.multidex.MultiDex
-import com.samr.core.*
-import com.samr.di.*
+import com.samr.marvelcharacterswiki.di.mainModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin
@@ -18,24 +16,11 @@ class MainApplication : Application() {
         startKoin {
             androidContext(this@MainApplication)
             androidLogger(Level.ERROR)
-            modules(
-                listOf(
-                    charactersRepoModule,
-                    characterDetailRepoModule,
-                    imagesRepoModule,
-                    charactersUseCaseModule,
-                    characterDetailsUseCaseModule,
-                    imagesUseCaseModule,
-                    characterServiceModule,
-                    imageServiceModule,
-                    charactersPresenterModule
-                )
-            )
+            modules(mainModule)
         }
     }
 
     override fun attachBaseContext(base: Context?) {
         super.attachBaseContext(base)
-        MultiDex.install(this)
     }
 }

@@ -6,7 +6,7 @@ import com.samr.data.local.Database
 import org.koin.android.ext.koin.androidContext
 import org.koin.dsl.module
 
-val databaseModule = module {
+internal val databaseModule = module {
 
     single {
         Room.databaseBuilder(

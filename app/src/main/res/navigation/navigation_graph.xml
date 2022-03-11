@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/listFragment"
-        android:name="com.samr.marvelcharacterswiki.ui.fragments.CharactersListFragment"
+        android:name="com.samr.marvelcharacterswiki.ui.characterWebview.CharactersListFragment"
         android:label="list_fragment"
         tools:layout="@layout/fragment_characters_list" >
         <action
@@ -18,7 +18,7 @@
 
     <fragment
         android:id="@+id/detailFragment"
-        android:name="com.samr.marvelcharacterswiki.ui.fragments.CharacterDetailFragment"
+        android:name="com.samr.marvelcharacterswiki.ui.characterDetail.CharacterDetailFragment"
         android:label="detail_fragment"
         tools:layout="@layout/fragment_character_detail" >
         <argument
@@ -31,7 +31,7 @@
     </fragment>
     <fragment
         android:id="@+id/webViewFragment"
-        android:name="com.samr.marvelcharacterswiki.ui.fragments.WebViewFragment"
+        android:name="com.samr.marvelcharacterswiki.ui.characterWebview.WebViewFragment"
         android:label="fragment_web_view"
         tools:layout="@layout/fragment_web_view" >
         <argument

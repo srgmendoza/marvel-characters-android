@@ -1,12 +1,10 @@
 package com.samr.data.entities
 
-import androidx.room.Entity
-import androidx.room.PrimaryKey
+import com.samr.data.utils.AspectRatio
+import com.samr.data.utils.Utils.getImageUrl
 import com.samr.domain.models.*
 
-@Entity(tableName = "Characters")
 data class CharacterEntity(
-    @PrimaryKey
     val id: Long,
     val name: String,
     val description: String,
@@ -26,10 +24,7 @@ data class CharacterEntity(
             name = name,
             description = description,
             modified = modified,
-            thumbnail = com.samr.domain.models.Thumbnail(
-                thumbnail.path,
-                thumbnail.extension
-            ),
+            thumbnail = getImages(thumbnail),
             resourceURI = resourceURI,
             comics = Publishings(
                 available = comics.available,
@@ -55,8 +50,28 @@ data class CharacterEntity(
                 items = events.items.map { it.mapComicItemsToDomain() },
                 returned = events.returned
             ),
-            urls = urls.map { it.mapUrls() }
+            detailUrl = getDetailUrl(urls)
         )
+
+    private fun getDetailUrl(urls: List<URLEntity>): String {
+        return urls.find { it.type == "detail" }?.url ?: ""
+    }
+
+    private fun getImages(thumbnail: ThumbnailEntity): Images {
+        return Images(
+            thumbnail = getImageUrl(
+                path = thumbnail.path,
+                extension = thumbnail.extension,
+                size = AspectRatio.ImageSize.MEDIUM,
+                origin = AspectRatio.Origin.LIST),
+            poster = getImageUrl(
+                path = thumbnail.path,
+                extension = thumbnail.extension,
+                size = AspectRatio.ImageSize.MEDIUM,
+                origin = AspectRatio.Origin.DETAIL
+            )
+        )
+    }
 }
 
 data class ComicsEntity(
@@ -86,9 +101,9 @@ data class StoriesItem(
     val type: String
 ) {
     fun mapStoriesItemsToDomain() = PublishingItem(this.resourceURI, this.name, when(this.type) {
-        COVER_TITLE -> com.samr.domain.models.StoryType.COVER
-        INTERIOR_STORY_TITLE -> com.samr.domain.models.StoryType.INTERIOR_STORY
-        else -> com.samr.domain.models.StoryType.NA })
+        COVER_TITLE -> StoryType.COVER
+        INTERIOR_STORY_TITLE -> StoryType.INTERIOR_STORY
+        else -> StoryType.NA })
 }
 
 data class ThumbnailEntity(
@@ -99,11 +114,4 @@ data class ThumbnailEntity(
 data class URLEntity(
     val type: String,
     val url: String
-) {
-
-    fun mapUrls() =
-        com.samr.domain.models.URL(
-            type = this.type,
-            url = this.url
-        )
-}
+)
