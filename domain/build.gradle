@@ -41,9 +41,9 @@ dependencies {
 
     testImplementation 'junit:junit:4.+'
     testImplementation "io.insert-koin:koin-test:$koin_version"
-    testImplementation "io.mockk:mockk:1.10.5"
-    testImplementation "com.nhaarman.mockitokotlin2:mockito-kotlin:2.2.0"
-    testImplementation 'org.jetbrains.kotlinx:kotlinx-coroutines-test:1.4.2'
+
+    testImplementation "io.mockk:mockk:$mockk_version"
+    testImplementation "io.mockk:mockk-agent-jvm:$mockk_version"
 
     //ROOM
     implementation "androidx.room:room-runtime:$room_version"

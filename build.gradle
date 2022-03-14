@@ -23,6 +23,7 @@ buildscript {
         room_version = '2.4.1'
         nav_version = '2.4.1'
         picasso_version = '2.8'
+        mockk_version = '1.12.3'
     }
 
     repositories {
