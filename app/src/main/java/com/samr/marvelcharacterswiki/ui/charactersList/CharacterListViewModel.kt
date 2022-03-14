@@ -3,6 +3,7 @@ package com.samr.marvelcharacterswiki.ui.charactersList
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.samr.domain.models.Character
 import com.samr.domain.models.CustomError
 import com.samr.domain.usecases.CharacterListUsecase
 
@@ -27,6 +28,10 @@ class CharacterListViewModel(
         }
     }
 
-    fun onCharactersListReady() = characterUseCase.getCharactersList()
+    fun onCharactersListReady(): LiveData<List<Character>>
+    {
+
+        return characterUseCase.getCharactersList()
+    }
 
 }

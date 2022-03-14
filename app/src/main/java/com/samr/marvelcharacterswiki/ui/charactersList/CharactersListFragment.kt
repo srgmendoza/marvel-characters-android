@@ -74,16 +74,7 @@ class CharactersListFragment : Fragment() {
 
     private fun renderView(characters: List<Character>) {
         binding.progressBar.visibility = View.GONE
-        val lastPosition = if (adapter?.characters.isNullOrEmpty()) {
-            0
-        } else {
-            adapter?.characters?.size
-        } ?: 0
-        adapter?.characters?.addAll(characters)
-
-        Log.d("Fragment List", "CharacterslistReceived")
-
-        adapter?.notifyItemRangeInserted(lastPosition, characters.size)
+        adapter?.addCharacters(characters)
     }
 
     private fun setupRecyclerView() {

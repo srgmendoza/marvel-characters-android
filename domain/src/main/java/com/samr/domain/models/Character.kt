@@ -1,6 +1,7 @@
 package com.samr.domain.models
 
 import androidx.room.Entity
+import androidx.room.Index
 import androidx.room.PrimaryKey
 
 @Entity(tableName = "Characters")
@@ -16,7 +17,8 @@ data class Character(
     val series: Publishings,
     val stories: Publishings,
     val events: Publishings,
-    val detailUrl: String
+    val detailUrl: String,
+    val internalTS: Long
 )
 
 data class Publishings(

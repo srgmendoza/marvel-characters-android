@@ -1,7 +1,9 @@
 package com.samr.data.local.repositories
 
 import android.annotation.SuppressLint
+import androidx.lifecycle.LiveData
 import com.samr.data.local.Database
+import com.samr.data.utils.Utils.getOffset
 import com.samr.domain.models.Character
 import com.samr.domain.models.CustomError
 import com.samr.domain.repositories.CharacterLocalRepository
@@ -11,7 +13,7 @@ import io.reactivex.schedulers.Schedulers
 class CharacterLocalRepoImpl(private val database: Database): CharacterLocalRepository {
 
     @SuppressLint("CheckResult")
-    override fun insert(character: Character,
+    override fun insert(character: List<Character>,
                onCharacterSaved: (Result<Boolean>) -> Unit) {
 
         database.getCharactersDao().insert(character)
@@ -25,7 +27,9 @@ class CharacterLocalRepoImpl(private val database: Database): CharacterLocalRepo
             })
     }
 
-    override fun selectAll() = database.getCharactersDao().getAll()
+    override fun selectAll(limit: Int): LiveData<List<Character>> {
+        return database.getCharactersDao().getAll(limit.getOffset())
+    }
 
     override fun selectById(characterId: String) = database.getCharactersDao().getCharacterById(characterId)
 

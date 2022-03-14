@@ -15,7 +15,7 @@ object Utils {
 
     private fun ByteArray.toHex() = joinToString("") { "%02x".format(it) }
 
-    fun Int.getOffset() = (if (this == 0) 40 else this * 40).toString()
+    fun Int.getOffset() = (if (this == 0) 40 else this * 40)
 
     private fun getTimeStamp() = (System.currentTimeMillis() / 1000).toString()
 

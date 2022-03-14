@@ -12,18 +12,17 @@ class CharacterListUsecase(private val localRepo: CharacterLocalRepository,
     fun execute(onListReceived: (Result<Boolean>) -> Unit) {
         remoteRepo.fetchCharactersList(offset) { charactersResult ->
             charactersResult.onSuccess { characters ->
-                characters.map { character ->
-                    localRepo.insert(character) { saveResult ->
-                        saveResult.onSuccess {
-                            onListReceived(Result.success(true))
-                        }
-                        saveResult.onFailure {
-                            val error = CustomError(
-                                originLayer = CustomError.OriginLayer.DOMAIN_LAYER,
-                                underLyingError = it
-                            )
-                            onListReceived(Result.failure(error))
-                        }
+                offset += 1
+                localRepo.insert(characters) { saveResult ->
+                    saveResult.onSuccess {
+                        onListReceived(Result.success(true))
+                    }
+                    saveResult.onFailure {
+                        val error = CustomError(
+                            originLayer = CustomError.OriginLayer.DOMAIN_LAYER,
+                            underLyingError = it
+                        )
+                        onListReceived(Result.failure(error))
                     }
                 }
             }
@@ -37,6 +36,6 @@ class CharacterListUsecase(private val localRepo: CharacterLocalRepository,
         }
     }
 
-    fun getCharactersList() = localRepo.selectAll()
+    fun getCharactersList() = localRepo.selectAll(offset)
 
 }

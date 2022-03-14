@@ -21,7 +21,7 @@ class CharacterRemoteRepoImpl(private val endpoints: CharacterEndpoints): Charac
         val timeStampPlusHash = getTimeStampPlusHash()
 
         endpoints.getCharacters(
-            offset = offsetFactor.getOffset(),
+            offset = offsetFactor.getOffset().toString(),
             hash = timeStampPlusHash[HASH] ?: "",
             ts = timeStampPlusHash[TIMESTAMP].toString()
         )
