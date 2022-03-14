@@ -1,5 +1,6 @@
 package com.samr.marvelcharacterswiki.ui.charactersList
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -11,6 +12,20 @@ class CharacterListAdapter(private val onClickListener: (String) -> Unit):
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     var characters: MutableList<Character> = mutableListOf()
+
+    fun addCharacters(freshData: List<Character>) {
+        val lastPosition = if (characters.isNullOrEmpty()) {
+            0
+        } else {
+            characters.size
+        }
+
+        if(!characters.containsAll(freshData)) {
+            Log.d("Fragment List", "Characterslist Will update")
+            characters.addAll(freshData.takeLast(40).reversed())
+            notifyItemRangeInserted(lastPosition, freshData.size)
+        }
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val binding = CharacterItemBinding.inflate(

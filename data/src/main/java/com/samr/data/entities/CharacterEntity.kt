@@ -3,6 +3,7 @@ package com.samr.data.entities
 import com.samr.data.utils.AspectRatio
 import com.samr.data.utils.Utils.getImageUrl
 import com.samr.domain.models.*
+import java.util.*
 
 data class CharacterEntity(
     val id: Long,
@@ -50,7 +51,8 @@ data class CharacterEntity(
                 items = events.items.map { it.mapComicItemsToDomain() },
                 returned = events.returned
             ),
-            detailUrl = getDetailUrl(urls)
+            detailUrl = getDetailUrl(urls),
+            internalTS = Date().time
         )
 
     private fun getDetailUrl(urls: List<URLEntity>): String {

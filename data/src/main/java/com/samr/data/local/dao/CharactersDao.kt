@@ -13,10 +13,10 @@ import io.reactivex.Completable
 interface CharactersDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insert(character: Character): Completable
+    fun insert(character: List<Character>): Completable
 
-    @Query("SELECT * FROM Characters")
-    fun getAll(): LiveData<List<Character>>
+    @Query("SELECT * FROM Characters ORDER BY internalTS DESC LIMIT :limit")
+    fun getAll(limit: Int): LiveData<List<Character>>
 
     @Query("SELECT * FROM Characters WHERE id = :characterId")
     fun getCharacterById(characterId: String): LiveData<Character>
