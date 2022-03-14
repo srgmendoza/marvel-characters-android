@@ -30,7 +30,6 @@ class CharacterListViewModel(
 
     fun onCharactersListReady(): LiveData<List<Character>>
     {
-
         return characterUseCase.getCharactersList()
     }
 

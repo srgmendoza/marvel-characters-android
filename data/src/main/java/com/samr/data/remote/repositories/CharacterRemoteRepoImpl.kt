@@ -16,7 +16,7 @@ class CharacterRemoteRepoImpl(private val endpoints: CharacterEndpoints): Charac
 
     @SuppressLint("CheckResult")
     override fun fetchCharactersList(offsetFactor: Int,
-                            onCharactersReceived: (Result<List<Character>>) -> Unit) {
+                                     onCharactersReceived: (Result<List<Character>>) -> Unit) {
 
         val timeStampPlusHash = getTimeStampPlusHash()
 
@@ -45,32 +45,4 @@ class CharacterRemoteRepoImpl(private val endpoints: CharacterEndpoints): Charac
                 }
             )
     }
-
-//    suspend fun fetchCharacterDetail(characterId: String, callback: (LayerResult<CharactersRawResponse>?) -> Unit) {
-//
-//        val timeStampPlusHash = getTimeStampPlusHash()
-//
-//        withContext(Dispatchers.IO) {
-//
-//            try {
-//                val result = restEndpoints.getCharacterDetail(
-//                    hash = timeStampPlusHash[HASH] ?: "",
-//                    ts = timeStampPlusHash[TIMESTAMP].toString(),
-//                    character = characterId
-//                ).await()
-//
-//                callback(LayerResult.Success(result))
-//            } catch (e: Throwable) {
-//
-//                callback(
-//                    LayerResult.Error(
-//                        CustomError(
-//                            originLayer = CustomError.OriginLayer.DATA_LAYER,
-//                            underLyingError = e
-//                        )
-//                    )
-//                )
-//            }
-//        }
-//    }
 }
