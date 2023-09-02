@@ -1,7 +1,7 @@
 package com.samr.data.remote.repositories
 
 import android.annotation.SuppressLint
-import com.samr.domain.models.CustomError
+import com.samr.domain.models.CustomErrorA
 import com.samr.data.remote.endpoints.CharacterEndpoints
 import com.samr.data.utils.Utils.HASH
 import com.samr.data.utils.Utils.TIMESTAMP
@@ -37,8 +37,8 @@ class CharacterRemoteRepoImpl(private val endpoints: CharacterEndpoints): Charac
                     onCharactersReceived(Result.success(model))
                 },
                 {
-                    val error = CustomError(
-                        originLayer = CustomError.OriginLayer.DATA_LAYER,
+                    val error = CustomErrorA(
+                        originLayer = CustomErrorA.OriginLayerA.DATA_LAYER,
                         underLyingError = it
                     )
                     onCharactersReceived(Result.failure(error))

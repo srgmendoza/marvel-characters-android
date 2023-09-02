@@ -5,7 +5,7 @@ import com.samr.data.entities.CharactersRawResponse
 import com.samr.data.local.Database
 import com.samr.data.local.repositories.CharacterLocalRepoImpl
 import com.samr.domain.models.Character
-import com.samr.domain.models.CustomError
+import com.samr.domain.models.CustomErrorA
 import com.samr.domain.repositories.CharacterLocalRepository
 import io.mockk.MockKAnnotations
 import io.mockk.every
@@ -49,15 +49,15 @@ class CharacterLocalRepositoryUnitTest {
         val callback = slot<(Result<Boolean>) -> Unit>()
 
         every { repo.insert(characters, capture(callback)) } answers {
-            val error = CustomError(
+            val error = CustomErrorA(
                 Throwable("Error"),
-                CustomError.OriginLayer.DATA_LAYER)
+                CustomErrorA.OriginLayerA.DATA_LAYER)
             callback.captured.invoke(Result.failure(error))
         }
 
         repo.insert(characters) { result ->
             result.onFailure {
-                assert(it is CustomError)
+                assert(it is CustomErrorA)
             }
         }
     }

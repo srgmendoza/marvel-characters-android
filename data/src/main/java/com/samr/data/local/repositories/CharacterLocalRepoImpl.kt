@@ -5,7 +5,7 @@ import androidx.lifecycle.LiveData
 import com.samr.data.local.Database
 import com.samr.data.utils.Utils.getOffset
 import com.samr.domain.models.Character
-import com.samr.domain.models.CustomError
+import com.samr.domain.models.CustomErrorA
 import com.samr.domain.repositories.CharacterLocalRepository
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -22,7 +22,7 @@ class CharacterLocalRepoImpl(private val database: Database): CharacterLocalRepo
             .subscribe({
                 onCharacterSaved(Result.success(true))
             }, {
-                val error = CustomError(it, CustomError.OriginLayer.DATA_LAYER)
+                val error = CustomErrorA(it, CustomErrorA.OriginLayerA.DATA_LAYER)
                 onCharacterSaved(Result.failure(error))
             })
     }
@@ -41,7 +41,7 @@ class CharacterLocalRepoImpl(private val database: Database): CharacterLocalRepo
             .subscribe({
                 onCharactersDeleted(Result.success(true))
             }, {
-                val error = CustomError(it, CustomError.OriginLayer.DATA_LAYER)
+                val error = CustomErrorA(it, CustomErrorA.OriginLayerA.DATA_LAYER)
                 onCharactersDeleted(Result.failure(error))
             })
     }

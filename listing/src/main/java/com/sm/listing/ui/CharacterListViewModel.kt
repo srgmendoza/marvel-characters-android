@@ -1,21 +1,20 @@
-package com.samr.marvelcharacterswiki.ui.charactersList
+package com.sm.listing.ui
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.samr.domain.models.Character
-import com.samr.domain.models.CustomError
-import com.samr.domain.usecases.CharacterListUsecase
+import com.samr.domain.models.CustomErrorQ
+import com.sm.listing.domain.usecases.CharacterListUsecase
 
 class CharacterListViewModel(
     private val characterUseCase: CharacterListUsecase
 ) : ViewModel() {
 
-    val onError: LiveData<CustomError>
+    val onError: LiveData<CustomErrorQ>
     get() {
         return onErrorLD
     }
-    private val onErrorLD: MutableLiveData<CustomError> = MutableLiveData()
+    private val onErrorLD: MutableLiveData<CustomErrorQ> = MutableLiveData()
 
     fun getCharacters() {
         characterUseCase.execute { listResult ->
@@ -23,14 +22,14 @@ class CharacterListViewModel(
                 //Todo: Maybe Log this
             }
             listResult.onFailure {
-                onErrorLD.postValue(it as CustomError)
+                onErrorLD.postValue(it as CustomErrorQ)
             }
         }
     }
 
-    fun onCharactersListReady(): LiveData<List<Character>>
+/*    fun onCharactersListReady(): LiveData<List<Character>>
     {
-        return characterUseCase.getCharactersList()
-    }
+        return
+    }*/
 
 }

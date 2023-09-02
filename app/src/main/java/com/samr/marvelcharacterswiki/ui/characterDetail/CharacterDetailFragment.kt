@@ -41,9 +41,9 @@ class CharacterDetailFragment : Fragment() {
     }
 
     private fun setupObservers(id: String) {
-        viewModel.getCharacterById(id).observe(viewLifecycleOwner) {
+/*        viewModel.getCharacterById(id).observe(viewLifecycleOwner) {
             renderView(it)
-        }
+        }*/
     }
 
     private fun renderView(character: Character) {
