@@ -60,3 +60,10 @@ app/pro/
 
 *.keystore
 app/proStore
+gradlew.bat
+gradlew
+gradle/wrapper/gradle-wrapper.properties
+gradle/wrapper/gradle-wrapper.jar
+.idea/misc.xml
+.idea/gradle.xml
+.idea/compiler.xml
