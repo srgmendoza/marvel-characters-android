@@ -36,6 +36,7 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
+    namespace 'com.samr.marvelcharacterswiki'
 
 }
 
@@ -67,6 +68,7 @@ dependencies {
 
     implementation project(path: ':domain')
     implementation project(path: ':di')
+    implementation project(path: ':listing')
 
 }
 

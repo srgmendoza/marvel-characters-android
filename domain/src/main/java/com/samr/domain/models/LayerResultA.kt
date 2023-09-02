@@ -1,15 +1,15 @@
 package com.samr.domain.models
 
-sealed class LayerResult<out T> {
+sealed class LayerResultA<out T> {
 
-    data class Success<out R>(val value: R?) : LayerResult<R>()
+    data class Success<out R>(val value: R?) : LayerResultA<R>()
 
-    data class Error(val error: Throwable) : LayerResult<Nothing>()
+    data class Error(val error: Throwable) : LayerResultA<Nothing>()
 }
 
-class CustomError(private var underLyingError: Throwable, private val originLayer: OriginLayer) : Throwable() {
+class CustomErrorA(private var underLyingError: Throwable, private val originLayer: OriginLayerA) : Throwable() {
 
-    enum class OriginLayer {
+    enum class OriginLayerA {
         DATA_LAYER, DOMAIN_LAYER, PRESENTATION_LAYER
     }
 
@@ -18,13 +18,13 @@ class CustomError(private var underLyingError: Throwable, private val originLaye
     fun getUnderlyingError() = underLyingError
 
     fun getErrorOriginLayerMsg() = when (originLayer) {
-        OriginLayer.DOMAIN_LAYER -> {
+        OriginLayerA.DOMAIN_LAYER -> {
             "Domain Layer"
         }
-        OriginLayer.DATA_LAYER -> {
+        OriginLayerA.DATA_LAYER -> {
             "Data Layer"
         }
-        OriginLayer.PRESENTATION_LAYER -> {
+        OriginLayerA.PRESENTATION_LAYER -> {
             "Presentation Layer"
         }
     }

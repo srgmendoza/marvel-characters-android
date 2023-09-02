@@ -1,19 +1,18 @@
-package com.samr.marvelcharacterswiki.ui.charactersList
+package com.sm.listing.ui
 
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.samr.domain.models.Character
-import com.samr.marvelcharacterswiki.databinding.CharacterItemBinding
-import com.samr.marvelcharacterswiki.ui.utils.ViewUtils
+import com.sm.listing.databinding.CharacterItemBinding
+import com.sm.listing.ui.utils.ViewUtils
 
 class CharacterListAdapter(private val onClickListener: (String) -> Unit):
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    var characters: MutableList<Character> = mutableListOf()
+    var characters: MutableList<com.sm.listing.domain.models.Character> = mutableListOf()
 
-    fun addCharacters(freshData: List<Character>) {
+    fun addCharacters(freshData: List<com.sm.listing.domain.models.Character>) {
         val lastPosition = if (characters.isNullOrEmpty()) {
             0
         } else {
@@ -53,7 +52,7 @@ class CharacterListAdapter(private val onClickListener: (String) -> Unit):
     internal inner class CharactersListsViewHolder(private val binding: CharacterItemBinding):
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(character: Character) {
+        fun bind(character: com.sm.listing.domain.models.Character) {
             binding.characterId.text = character.id.toString()
             binding.characterName.text = character.name
             ViewUtils.paintImage(character.thumbnail.thumbnail, binding.characterImg)

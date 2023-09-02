@@ -1,6 +1,6 @@
 package com.samr.domain.usecases
 
-import com.samr.domain.models.CustomError
+import com.samr.domain.models.CustomErrorA
 import com.samr.domain.repositories.CharacterLocalRepository
 import com.samr.domain.repositories.CharacterRemoteRepository
 
@@ -18,8 +18,8 @@ class CharacterListUsecase(private val localRepo: CharacterLocalRepository,
                         onListReceived(Result.success(true))
                     }
                     saveResult.onFailure {
-                        val error = CustomError(
-                            originLayer = CustomError.OriginLayer.DOMAIN_LAYER,
+                        val error = CustomErrorA(
+                            originLayer = CustomErrorA.OriginLayerA.DOMAIN_LAYER,
                             underLyingError = it
                         )
                         onListReceived(Result.failure(error))
@@ -27,8 +27,8 @@ class CharacterListUsecase(private val localRepo: CharacterLocalRepository,
                 }
             }
             charactersResult.onFailure {
-                val error = CustomError(
-                    originLayer = CustomError.OriginLayer.DOMAIN_LAYER,
+                val error = CustomErrorA(
+                    originLayer = CustomErrorA.OriginLayerA.DOMAIN_LAYER,
                     underLyingError = it
                 )
                 onListReceived(Result.failure(error))

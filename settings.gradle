@@ -3,3 +3,5 @@ include ':domain'
 include ':data'
 include ':app'
 rootProject.name = "MarvelCharactersWiki"
+include ':network_core'
+include ':listing'
