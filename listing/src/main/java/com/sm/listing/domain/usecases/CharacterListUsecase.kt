@@ -1,6 +1,7 @@
 package com.sm.listing.domain.usecases
 
 import com.samr.domain.models.CustomErrorQ
+import com.sm.listing.domain.models.Character
 import com.sm.listing.domain.repositories.CharacterRemoteRepository
 
 class CharacterListUsecase(private val remoteRepo: CharacterRemoteRepository
@@ -8,10 +9,12 @@ class CharacterListUsecase(private val remoteRepo: CharacterRemoteRepository
 
     private var offset = 1
 
-    fun execute(onListReceived: (Result<Boolean>) -> Unit) {
+    fun execute(onListReceived: (Result<List<Character>>) -> Unit) {
         remoteRepo.fetchCharactersList(offset) { charactersResult ->
             charactersResult.onSuccess { characters ->
                 offset += 1
+                onListReceived(Result.success(characters))
+
 /*                localRepo.insert(characters) { saveResult ->
                     saveResult.onSuccess {
                         onListReceived(Result.success(true))

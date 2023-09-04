@@ -84,8 +84,8 @@ class CharactersListFragment : Fragment() {
     }
 
     private fun renderView(characters: List<Character>) {
-
-        //adapter?.addCharacters(characters)
+        binding.progressBar.visibility = View.GONE
+        adapter?.addCharacters(characters)
     }
 
     private fun setupRecyclerView() {

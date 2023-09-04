@@ -12,7 +12,6 @@ import android.webkit.WebViewClient
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import com.samr.marvelcharacterswiki.R
-import kotlinx.android.synthetic.main.fragment_web_view.*
 
 class WebViewFragment : Fragment() {
 
@@ -34,7 +33,7 @@ class WebViewFragment : Fragment() {
         if (url != null) {
             Log.d("url", url)
 
-            detail_webview.settings.apply {
+/*            detail_webview.settings.apply {
                 this.loadsImagesAutomatically = true
                 this.javaScriptEnabled = true
             }
@@ -53,7 +52,7 @@ class WebViewFragment : Fragment() {
                     progressBar_webview.visibility = View.GONE
                 }
             }
-            detail_webview.loadUrl(url)
+            detail_webview.loadUrl(url)*/
         }
     }
 }
