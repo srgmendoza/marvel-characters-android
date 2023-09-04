@@ -5,9 +5,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.sm.listing.databinding.FragmentCharactersListBinding
+import com.sm.listing.ui.models.Character
 import com.sm.listing.ui.utils.CharactersListScrollListener
+import com.sm.listing.ui.utils.ViewUtils
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 import org.koin.java.KoinJavaComponent
 
 class CharactersListFragment : Fragment() {
@@ -23,8 +28,6 @@ class CharactersListFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentCharactersListBinding.inflate(inflater)
-        binding.lifecycleOwner = this
-
         return binding.root
     }
 
@@ -40,31 +43,48 @@ class CharactersListFragment : Fragment() {
     }
 
     private fun setupObservers() {
-        viewmodel.onError.observe(viewLifecycleOwner) {
-            //renderError(it)
+        lifecycleScope.launch {
+            viewmodel.uiState.collect {
+                when (it.state) {
+                    is CharacterListContract.CharacterListState.Idle -> {
+                        binding.progressBar.visibility = View.GONE
+                    }
+
+                    is CharacterListContract.CharacterListState.Loading -> {
+                        binding.progressBar.visibility = View.VISIBLE
+                    }
+
+                    is CharacterListContract.CharacterListState.Success -> {
+                        renderView(it.state.characters)
+                    }
+                }
+            }
         }
-/*        viewmodel.onCharactersListReady().observe(viewLifecycleOwner) {
-            renderView(it)
-        }*/
+
+        lifecycleScope.launch {
+            viewmodel.effect.collect {
+                when (it) {
+                    CharacterListContract.Effect.Error -> {
+                        renderError()
+                    }
+                }
+            }
+        }
     }
 
-/*    private fun renderError(error: CustomError) {
-
-        val errorOriginLayer = error.getErrorOriginLayerMsg()
-        val errorDescription = error.getErrorDetailedMsg()
+    private fun renderError() {
         activity?.let {
             ViewUtils.onDialog(
-                "Error: <$errorDescription> \nThrown in $errorOriginLayer \nShould retry?",
+                "Oops, an error happened!! \nShould retry?",
                 it
             ) {
                 askForData()
             }
         }
-        Log.d("Fragment List", "Error: ${error.localizedMessage}")
-    }*/
+    }
 
     private fun renderView(characters: List<Character>) {
-        binding.progressBar.visibility = View.GONE
+
         //adapter?.addCharacters(characters)
     }
 
@@ -78,7 +98,8 @@ class CharactersListFragment : Fragment() {
                 )
             }
 
-            this.addOnScrollListener(object : CharactersListScrollListener(this.layoutManager as LinearLayoutManager) {
+            this.addOnScrollListener(object :
+                CharactersListScrollListener(this.layoutManager as LinearLayoutManager) {
                 override fun loadMoreItems() {
                     askForData()
                 }
@@ -93,13 +114,12 @@ class CharactersListFragment : Fragment() {
     }
 
     private fun askForData() {
-        binding.progressBar.visibility = View.VISIBLE
-        viewmodel.getCharacters()
+        viewmodel.setEvent(CharacterListContract.Event.OnLoadRequested)
     }
 
     private fun navigateToDetails(detailId: String) {
-/*        val action = CharactersListFragmentDirections.actionInitFragmentToSecondFragment(detailId)
-        findNavController().navigate(action)*/
+        /*        val action = CharactersListFragmentDirections.actionInitFragmentToSecondFragment(detailId)
+                findNavController().navigate(action)*/
     }
 
 }

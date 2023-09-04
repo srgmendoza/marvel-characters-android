@@ -12,10 +12,10 @@ internal val dataModule = module {
     }
 }
 
-internal fun getRepository(networkCore: NetworkCore): CharacterRemoteRepository =
+private fun getRepository(networkCore: NetworkCore): CharacterRemoteRepository =
     ListingRepository(getListingEndpoint(networkCore))
 
-internal fun getListingEndpoint(networkCore: NetworkCore): ListingEndpoints =
+private fun getListingEndpoint(networkCore: NetworkCore): ListingEndpoints =
     networkCore.getCoreNetwork(
         "https://gateway.marvel.com/v1/public/",
         ListingEndpoints::class.java
