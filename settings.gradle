@@ -5,3 +5,4 @@ include ':app'
 rootProject.name = "MarvelCharactersWiki"
 include ':network_core'
 include ':listing'
+include ':base_core'

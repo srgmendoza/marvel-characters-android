@@ -4,11 +4,11 @@ plugins {
 }
 
 android {
-    namespace 'com.sm.listing'
+    namespace 'com.sm.base_core'
     compileSdk 33
 
     defaultConfig {
-        minSdk 21
+        minSdk 24
         targetSdk 33
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -28,9 +28,6 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
-    buildFeatures {
-        dataBinding true
-    }
 }
 
 dependencies {
@@ -42,16 +39,11 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
 
-    //Dependency Injector
-    implementation "io.insert-koin:koin-android:$koin_version"
+    // Coroutines
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.4.2'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4'
 
-    //RX
-    implementation "io.reactivex.rxjava2:rxandroid:$rx_android_version"
-    implementation "io.reactivex.rxjava2:rxkotlin:$rx_kotlin_version"
-
-    //PICASSO
-    implementation "com.squareup.picasso:picasso:$picasso_version"
-
-    implementation project(path: ':network_core')
-    implementation project(path: ':base_core')
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.7.0-alpha01'
+    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.7.0-alpha01'
+    implementation 'androidx.fragment:fragment-ktx:1.6.1'
 }

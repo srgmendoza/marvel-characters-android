@@ -3,33 +3,45 @@ package com.sm.listing.ui
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.samr.domain.models.CustomErrorQ
+import com.sm.base_core.BaseViewModel
 import com.sm.listing.domain.usecases.CharacterListUsecase
+import kotlinx.coroutines.launch
 
 class CharacterListViewModel(
     private val characterUseCase: CharacterListUsecase
-) : ViewModel() {
+) : BaseViewModel<CharacterListContract.Event, CharacterListContract.State, CharacterListContract.Effect>() {
 
-    val onError: LiveData<CustomErrorQ>
-    get() {
-        return onErrorLD
+    override fun createInitialState(): CharacterListContract.State {
+        return CharacterListContract.State(CharacterListContract.CharacterListState.Idle)
     }
-    private val onErrorLD: MutableLiveData<CustomErrorQ> = MutableLiveData()
 
-    fun getCharacters() {
-        characterUseCase.execute { listResult ->
-            listResult.onSuccess {
-                //Todo: Maybe Log this
+    override fun handleEvent(event: CharacterListContract.Event) {
+        when (event) {
+            is CharacterListContract.Event.OnLoadRequested -> {
+                setState { copy(state = CharacterListContract.CharacterListState.Loading) }
+                getCharacters()
             }
-            listResult.onFailure {
-                onErrorLD.postValue(it as CustomErrorQ)
+
+            is CharacterListContract.Event.OnItemSelected -> {
+                TODO("Implement OnItemSelected flow")
             }
         }
     }
 
-/*    fun onCharactersListReady(): LiveData<List<Character>>
-    {
-        return
-    }*/
+    private fun getCharacters() {
+        viewModelScope.launch {
+            characterUseCase.execute { listResult ->
+                listResult.onSuccess {
+                    setState { copy(state = CharacterListContract.CharacterListState.Success(listOf())) }
+                }
+                listResult.onFailure {
+                    setEffect { CharacterListContract.Effect.Error }
+                }
+            }
+        }
+    }
+
 
 }
