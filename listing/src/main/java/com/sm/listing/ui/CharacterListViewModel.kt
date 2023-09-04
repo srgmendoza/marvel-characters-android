@@ -7,6 +7,8 @@ import androidx.lifecycle.viewModelScope
 import com.samr.domain.models.CustomErrorQ
 import com.sm.base_core.BaseViewModel
 import com.sm.listing.domain.usecases.CharacterListUsecase
+import com.sm.listing.ui.models.Character
+import com.sm.listing.ui.models.Images
 import kotlinx.coroutines.launch
 
 class CharacterListViewModel(
@@ -34,10 +36,32 @@ class CharacterListViewModel(
         viewModelScope.launch {
             characterUseCase.execute { listResult ->
                 listResult.onSuccess {
-                    setState { copy(state = CharacterListContract.CharacterListState.Success(listOf())) }
+                    val characters = it.map { c ->
+                        Character(
+                            id = c.id,
+                            name = c.name,
+                            description = c.description,
+                            thumbnail = Images(
+                                thumbnail = c.thumbnail.thumbnail,
+                                poster = c.thumbnail.poster
+                            )
+                        )
+                    }
+                    setState {
+                        copy(
+                            state = CharacterListContract.CharacterListState.Success(
+                                characters
+                            )
+                        )
+                    }
                 }
                 listResult.onFailure {
                     setEffect { CharacterListContract.Effect.Error }
+                    setState {
+                        copy(
+                            state = CharacterListContract.CharacterListState.Idle
+                        )
+                    }
                 }
             }
         }

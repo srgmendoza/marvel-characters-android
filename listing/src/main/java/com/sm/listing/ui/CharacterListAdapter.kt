@@ -5,14 +5,15 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.sm.listing.databinding.CharacterItemBinding
+import com.sm.listing.ui.models.Character
 import com.sm.listing.ui.utils.ViewUtils
 
 class CharacterListAdapter(private val onClickListener: (String) -> Unit):
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    var characters: MutableList<com.sm.listing.domain.models.Character> = mutableListOf()
+    var characters: MutableList<Character> = mutableListOf()
 
-    fun addCharacters(freshData: List<com.sm.listing.domain.models.Character>) {
+    fun addCharacters(freshData: List<Character>) {
         val lastPosition = if (characters.isNullOrEmpty()) {
             0
         } else {
@@ -52,7 +53,7 @@ class CharacterListAdapter(private val onClickListener: (String) -> Unit):
     internal inner class CharactersListsViewHolder(private val binding: CharacterItemBinding):
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(character: com.sm.listing.domain.models.Character) {
+        fun bind(character: Character) {
             binding.characterId.text = character.id.toString()
             binding.characterName.text = character.name
             ViewUtils.paintImage(character.thumbnail.thumbnail, binding.characterImg)

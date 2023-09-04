@@ -13,7 +13,7 @@ buildscript {
         BASE_URL = "https://gateway.marvel.com/v1/public/"
 
         gradle_version = '8.0.2'
-        kotlin_version = '1.6.21'
+        kotlin_version = '1.8.0'
         koin_version = '3.3.3'
         rx_android_version = '2.1.1'
         rx_kotlin_version = '2.4.0'
