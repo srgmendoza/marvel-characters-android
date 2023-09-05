@@ -51,7 +51,7 @@ dependencies {
 
     //PICASSO
     implementation "com.squareup.picasso:picasso:$picasso_version"
+    implementation project(path: ':core_network')
+    implementation project(path: ':core_base_ui')
 
-    implementation project(path: ':network_core')
-    implementation project(path: ':base_core')
 }
