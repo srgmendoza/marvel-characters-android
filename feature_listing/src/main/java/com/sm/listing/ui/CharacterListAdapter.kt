@@ -14,7 +14,7 @@ class CharacterListAdapter(private val onClickListener: (String) -> Unit):
     var characters: MutableList<Character> = mutableListOf()
 
     fun addCharacters(freshData: List<Character>) {
-        val lastPosition = if (characters.isNullOrEmpty()) {
+        val lastPosition = if (characters.isEmpty()) {
             0
         } else {
             characters.size

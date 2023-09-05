@@ -6,3 +6,5 @@ rootProject.name = "MarvelCharactersWiki"
 include ':core_network'
 include ':feature_listing'
 include ':core_base_ui'
+include ':feature_search'
+include ':feature_detail'
