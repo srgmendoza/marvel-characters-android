@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/listFragment"
-        android:name="com.sm.listing.ui.CharactersListFragment"
+        android:name="com.sm.feature_listing.presentation.CharactersListFragment"
         android:label="list_fragment"
         tools:layout="@layout/fragment_characters_list" >
         <action

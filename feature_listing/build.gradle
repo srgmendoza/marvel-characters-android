@@ -4,12 +4,12 @@ plugins {
 }
 
 android {
-    namespace 'com.sm.listing'
-    compileSdk 33
+    namespace 'com.sm.feature_listing'
+    compileSdk TARGET_SDK
 
     defaultConfig {
-        minSdk 21
-        targetSdk 33
+        minSdk MIN_SDK
+        targetSdk TARGET_SDK
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"
@@ -51,6 +51,8 @@ dependencies {
 
     //PICASSO
     implementation "com.squareup.picasso:picasso:$picasso_version"
+
+    implementation project(path: ':core_utils')
     implementation project(path: ':core_network')
     implementation project(path: ':core_base_ui')
 

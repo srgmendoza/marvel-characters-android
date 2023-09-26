@@ -68,7 +68,9 @@ dependencies {
 
     implementation project(path: ':domain')
     implementation project(path: ':di')
+
     implementation project(path: ':feature_listing')
+    implementation project(path: ':feature_search')
 
 }
 
