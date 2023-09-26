@@ -5,11 +5,11 @@ plugins {
 
 android {
     namespace 'com.sm.base_core'
-    compileSdk 33
+    compileSdk TARGET_SDK
 
     defaultConfig {
-        minSdk 21
-        targetSdk 33
+        minSdk MIN_SDK
+        targetSdk TARGET_SDK
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"
