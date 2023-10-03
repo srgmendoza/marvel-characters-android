@@ -28,6 +28,9 @@ class CharacterListViewModel(
         }
     }
 
+    override fun isInLoadingState() =
+        uiState.value.state == CharacterListContract.CharacterListState.Loading
+
     private fun getCharacters() {
         viewModelScope.launch {
             characterUseCase.execute { listResult ->

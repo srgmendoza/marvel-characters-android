@@ -1,6 +1,6 @@
 package com.sm.feature_search.data.di
 
-import com.sm.feature_search.data.api.SearchEndpoint
+import com.sm.feature_search.data.api.SearchEndpoints
 import com.sm.feature_search.data.repo.SearchRepositoryImpl
 import com.sm.feature_search.domain.repositories.SearchRepository
 import com.sm.network_core.NetworkCore
@@ -12,8 +12,8 @@ internal val dataModule = module {
     }
 }
 
-private fun getSearchEndpoint(networkCore: NetworkCore): SearchEndpoint =
+private fun getSearchEndpoint(networkCore: NetworkCore): SearchEndpoints =
     networkCore.getCoreNetwork(
         baseUrl = "https://gateway.marvel.com/v1/public/",
-        SearchEndpoint::class.java
+        SearchEndpoints::class.java
     )

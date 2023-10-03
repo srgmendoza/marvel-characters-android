@@ -1,4 +1,4 @@
-package com.sm.feature_listing.presentation.utils
+package com.example.core_utils
 
 import android.app.AlertDialog
 import android.content.Context

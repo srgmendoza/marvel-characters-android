@@ -2,13 +2,13 @@ package com.sm.feature_search.data.entities
 
 import com.example.core_utils.AspectRatio
 import com.example.core_utils.StandardAspectRatio
-import com.sm.feature_search.presentation.models.COVER_TITLE
-import com.sm.feature_search.presentation.models.CharacterSearch
-import com.sm.feature_search.presentation.models.INTERIOR_STORY_TITLE
-import com.sm.feature_search.presentation.models.Images
-import com.sm.feature_search.presentation.models.PublishingItem
-import com.sm.feature_search.presentation.models.Publishings
-import com.sm.feature_search.presentation.models.StoryType
+import com.sm.feature_search.domain.models.COVER_TITLE
+import com.sm.feature_search.domain.models.INTERIOR_STORY_TITLE
+import com.sm.feature_search.domain.models.Images
+import com.sm.feature_search.domain.models.PublishingItem
+import com.sm.feature_search.domain.models.Publishings
+import com.sm.feature_search.domain.models.SearchDM
+import com.sm.feature_search.domain.models.StoryType
 import java.util.Date
 
 data class CharacterSearchEntity(
@@ -26,7 +26,7 @@ data class CharacterSearchEntity(
 ) {
 
     fun mapDataToEntity() =
-        CharacterSearch(
+        SearchDM(
             id = id,
             name = name,
             description = description,

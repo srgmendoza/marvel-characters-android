@@ -62,6 +62,7 @@ abstract class BaseViewModel<Event : UiEvent, State : UiState, Effect : UiEffect
      */
     abstract fun handleEvent(event : Event)
 
+    abstract fun isInLoadingState(): Boolean
 
     /**
      * Set new Event
@@ -71,8 +72,7 @@ abstract class BaseViewModel<Event : UiEvent, State : UiState, Effect : UiEffect
         viewModelScope.launch { _event.emit(newEvent) }
     }
 
-
-    /**
+        /**
      * Set new Ui State
      */
     protected fun setState(reduce: State.() -> State) {
@@ -87,4 +87,5 @@ abstract class BaseViewModel<Event : UiEvent, State : UiState, Effect : UiEffect
         val effectValue = builder()
         viewModelScope.launch { _effect.send(effectValue) }
     }
+
 }

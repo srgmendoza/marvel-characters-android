@@ -4,8 +4,7 @@ import com.samr.domain.models.CustomErrorQ
 import com.sm.feature_listing.domain.models.Character
 import com.sm.feature_listing.domain.repositories.CharacterRemoteRepository
 
-class CharacterListUsecase(private val remoteRepo: CharacterRemoteRepository
-) {
+class CharacterListUsecase(private val remoteRepo: CharacterRemoteRepository) {
 
     private var offset = 1
 

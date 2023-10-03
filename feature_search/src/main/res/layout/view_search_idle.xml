@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="8dp">
+
+        <!--
+        Todo: Add here a view to show a random 4 elements
+        -->
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

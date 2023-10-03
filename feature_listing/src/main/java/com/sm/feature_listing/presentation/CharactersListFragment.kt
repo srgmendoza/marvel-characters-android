@@ -9,8 +9,8 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.sm.feature_listing.databinding.FragmentCharactersListBinding
 import com.sm.feature_listing.presentation.models.Character
-import com.sm.feature_listing.presentation.utils.CharactersListScrollListener
-import com.sm.feature_listing.presentation.utils.ViewUtils
+import com.example.core_utils.ListScrollListener
+import com.example.core_utils.ViewUtils
 import kotlinx.coroutines.launch
 import org.koin.java.KoinJavaComponent
 
@@ -98,7 +98,7 @@ class CharactersListFragment : Fragment() {
             }
 
             this.addOnScrollListener(object :
-                CharactersListScrollListener(this.layoutManager as LinearLayoutManager) {
+                ListScrollListener(this.layoutManager as LinearLayoutManager) {
                 override fun loadMoreItems() {
                     askForData()
                 }

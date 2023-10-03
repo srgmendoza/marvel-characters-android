@@ -1,6 +1,6 @@
-package com.sm.feature_search.presentation.models
+package com.sm.feature_search.domain.models
 
-data class CharacterSearch(
+data class SearchDM(
     val id: Long,
     val name: String,
     val description: String,
@@ -35,6 +35,7 @@ data class PublishingItem(
 
 const val COVER_TITLE = "cover"
 const val INTERIOR_STORY_TITLE = "interiorStory"
+
 enum class StoryType(name: String) {
     COVER(COVER_TITLE),
     INTERIOR_STORY(INTERIOR_STORY_TITLE),

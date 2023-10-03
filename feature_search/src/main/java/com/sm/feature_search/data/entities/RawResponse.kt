@@ -1,6 +1,6 @@
 package com.sm.feature_search.data.entities
 
-data class SearchRawResponse(
+data class RawResponse(
     val data: ResultsRawResponse
 ) {
     fun mapToData() = this.data.results

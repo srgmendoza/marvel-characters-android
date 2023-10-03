@@ -49,9 +49,6 @@ dependencies {
     implementation "io.reactivex.rxjava2:rxandroid:$rx_android_version"
     implementation "io.reactivex.rxjava2:rxkotlin:$rx_kotlin_version"
 
-    //PICASSO
-    implementation "com.squareup.picasso:picasso:$picasso_version"
-
     implementation project(path: ':core_utils')
     implementation project(path: ':core_network')
     implementation project(path: ':core_base_ui')
