@@ -21,6 +21,7 @@
             <option value="$PROJECT_DIR$/domain" />
             <option value="$PROJECT_DIR$/feature_detail" />
             <option value="$PROJECT_DIR$/feature_listing" />
+            <option value="$PROJECT_DIR$/feature_listing_api" />
             <option value="$PROJECT_DIR$/feature_search" />
           </set>
         </option>

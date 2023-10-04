@@ -27,7 +27,12 @@ android {
         }
     }
     buildFeatures {
+        compose true
         dataBinding true
+    }
+
+    composeOptions {
+        kotlinCompilerExtensionVersion = compose_compiler_version
     }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_17
@@ -60,7 +65,22 @@ dependencies {
     implementation "androidx.navigation:navigation-dynamic-features-fragment:$nav_version"
 
     implementation("androidx.navigation:navigation-compose:2.7.3")
+    implementation("androidx.compose.foundation:foundation:1.6.0-alpha06")
+    // Material Design
+    implementation("androidx.compose.material:material:1.6.0-alpha06")
+    // Material design icons
+    implementation("androidx.compose.material:material-icons-core:1.6.0-alpha06")
+    implementation("androidx.compose.material:material-icons-extended:1.6.0-alpha06")
+    // Tooling support (Previews, etc.)
+    implementation("androidx.compose.ui:ui-tooling:1.6.0-alpha06")
 
+
+    implementation("androidx.window:window:1.1.0")
+    implementation "com.google.accompanist:accompanist-systemuicontroller:0.24.2-alpha"
+
+    // DataStore
+    implementation "androidx.datastore:datastore:1.0.0"
+    implementation "androidx.datastore:datastore-preferences:1.0.0"
 
     //Dependency Injector
     implementation "io.insert-koin:koin-android:$koin_version"
@@ -73,6 +93,7 @@ dependencies {
 
     implementation project(path: ':feature_listing')
     implementation project(path: ':feature_search')
+    implementation project(path: ':core_navigation')
 
 }
 

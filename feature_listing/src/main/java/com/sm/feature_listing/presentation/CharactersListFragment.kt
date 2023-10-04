@@ -8,7 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.sm.feature_listing.databinding.FragmentCharactersListBinding
-import com.sm.feature_listing.presentation.models.Character
+import com.sm.feature_listing.presentation.models.ListedCharacter
 import com.sm.feature_listing.presentation.utils.CharactersListScrollListener
 import com.sm.feature_listing.presentation.utils.ViewUtils
 import kotlinx.coroutines.launch
@@ -54,7 +54,7 @@ class CharactersListFragment : Fragment() {
                     }
 
                     is CharacterListContract.CharacterListState.Success -> {
-                        renderView(it.state.characters)
+                        renderView(it.state.listedCharacters)
                     }
                 }
             }
@@ -66,6 +66,8 @@ class CharactersListFragment : Fragment() {
                     CharacterListContract.Effect.Error -> {
                         renderError()
                     }
+
+                    else -> {}
                 }
             }
         }
@@ -82,9 +84,9 @@ class CharactersListFragment : Fragment() {
         }
     }
 
-    private fun renderView(characters: List<Character>) {
+    private fun renderView(listedCharacters: List<ListedCharacter>) {
         binding.progressBar.visibility = View.GONE
-        adapter?.addCharacters(characters)
+        adapter?.addCharacters(listedCharacters)
     }
 
     private fun setupRecyclerView() {

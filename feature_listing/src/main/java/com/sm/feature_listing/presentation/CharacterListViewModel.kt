@@ -3,7 +3,7 @@ package com.sm.feature_listing.presentation
 import androidx.lifecycle.viewModelScope
 import com.sm.base_core.BaseViewModel
 import com.sm.feature_listing.domain.usecases.CharacterListUsecase
-import com.sm.feature_listing.presentation.models.Character
+import com.sm.feature_listing.presentation.models.ListedCharacter
 import com.sm.feature_listing.presentation.models.Images
 import kotlinx.coroutines.launch
 
@@ -32,8 +32,8 @@ class CharacterListViewModel(
         viewModelScope.launch {
             characterUseCase.execute { listResult ->
                 listResult.onSuccess {
-                    val characters = it.map { c ->
-                        Character(
+                    val listedCharacters = it.map { c ->
+                        ListedCharacter(
                             id = c.id,
                             name = c.name,
                             description = c.description,
@@ -46,7 +46,7 @@ class CharacterListViewModel(
                     setState {
                         copy(
                             state = CharacterListContract.CharacterListState.Success(
-                                characters
+                                listedCharacters
                             )
                         )
                     }

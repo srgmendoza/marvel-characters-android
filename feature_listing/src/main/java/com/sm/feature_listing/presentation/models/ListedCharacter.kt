@@ -1,6 +1,6 @@
 package com.sm.feature_listing.presentation.models
 
-data class Character(
+data class ListedCharacter(
     val id: Long,
     val name: String,
     val description: String,
