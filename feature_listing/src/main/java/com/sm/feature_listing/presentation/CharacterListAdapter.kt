@@ -5,24 +5,24 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.sm.feature_listing.databinding.CharacterItemBinding
-import com.sm.feature_listing.presentation.models.Character
+import com.sm.feature_listing.presentation.models.ListedCharacter
 import com.sm.feature_listing.presentation.utils.ViewUtils
 
 class CharacterListAdapter(private val onClickListener: (String) -> Unit):
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    var characters: MutableList<Character> = mutableListOf()
+    var listedCharacters: MutableList<ListedCharacter> = mutableListOf()
 
-    fun addCharacters(freshData: List<Character>) {
-        val lastPosition = if (characters.isEmpty()) {
+    fun addCharacters(freshData: List<ListedCharacter>) {
+        val lastPosition = if (listedCharacters.isEmpty()) {
             0
         } else {
-            characters.size
+            listedCharacters.size
         }
 
-        if(!characters.containsAll(freshData)) {
+        if(!listedCharacters.containsAll(freshData)) {
             Log.d("Fragment List", "Characterslist Will update")
-            characters.addAll(freshData.takeLast(40).reversed())
+            listedCharacters.addAll(freshData.takeLast(40).reversed())
             notifyItemRangeInserted(lastPosition, freshData.size)
         }
     }
@@ -37,7 +37,7 @@ class CharacterListAdapter(private val onClickListener: (String) -> Unit):
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        val character = characters[position]
+        val character = listedCharacters[position]
 
         (holder as CharactersListsViewHolder).bind(character)
 
@@ -47,16 +47,16 @@ class CharacterListAdapter(private val onClickListener: (String) -> Unit):
     }
 
     override fun getItemCount(): Int {
-        return characters.count()
+        return listedCharacters.count()
     }
 
     internal inner class CharactersListsViewHolder(private val binding: CharacterItemBinding):
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(character: Character) {
-            binding.characterId.text = character.id.toString()
-            binding.characterName.text = character.name
-            ViewUtils.paintImage(character.thumbnail.thumbnail, binding.characterImg)
+        fun bind(listedCharacter: ListedCharacter) {
+            binding.characterId.text = listedCharacter.id.toString()
+            binding.characterName.text = listedCharacter.name
+            ViewUtils.paintImage(listedCharacter.thumbnail.thumbnail, binding.characterImg)
         }
     }
 

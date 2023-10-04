@@ -29,7 +29,12 @@ android {
         jvmTarget = '17'
     }
     buildFeatures {
+        compose true
         dataBinding true
+    }
+
+    composeOptions {
+        kotlinCompilerExtensionVersion = compose_compiler_version
     }
 }
 
@@ -43,7 +48,9 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
 
     //Dependency Injector
+    implementation "io.insert-koin:koin-core:$koin_version"
     implementation "io.insert-koin:koin-android:$koin_version"
+    implementation "io.insert-koin:koin-androidx-compose:3.4.1"
 
     //RX
     implementation "io.reactivex.rxjava2:rxandroid:$rx_android_version"
@@ -52,8 +59,26 @@ dependencies {
     //PICASSO
     implementation "com.squareup.picasso:picasso:$picasso_version"
 
+    implementation("io.coil-kt:coil-compose:2.4.0")
+
+    api project(path: ':feature_listing_api')
+
     implementation project(path: ':core_utils')
     implementation project(path: ':core_network')
     implementation project(path: ':core_base_ui')
+
+    //Compose
+    implementation "androidx.compose.runtime:runtime:$compose_compiler_version"
+    def composeBom = platform('androidx.compose:compose-bom:2023.04.01')
+    implementation composeBom
+    androidTestImplementation composeBom
+
+    // Material Design
+    implementation("androidx.compose.material:material:1.6.0-alpha06")
+    // Material design icons
+    implementation("androidx.compose.material:material-icons-core:1.6.0-alpha06")
+    implementation("androidx.compose.material:material-icons-extended:1.6.0-alpha06")
+    // Tooling support (Previews, etc.)
+    implementation("androidx.compose.ui:ui-tooling:1.6.0-alpha06")
 
 }
