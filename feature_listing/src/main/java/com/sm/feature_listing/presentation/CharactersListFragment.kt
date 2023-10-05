@@ -54,7 +54,7 @@ class CharactersListFragment : Fragment() {
                     }
 
                     is CharacterListContract.CharacterListState.Success -> {
-                        renderView(it.state.listedCharacters)
+                        //renderView(it.state.listedCharacters)
                     }
                 }
             }

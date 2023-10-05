@@ -1,6 +1,6 @@
 package com.sm.feature_listing.domain.models
 
-data class Character(
+data class CharacterDomain(
     val id: Long,
     val name: String,
     val description: String,

@@ -1,8 +1,9 @@
 package com.sm.feature_listing.domain.repositories
 
-import com.sm.feature_listing.domain.models.Character
+import androidx.paging.PagingData
+import com.sm.feature_listing.domain.models.CharacterDomain
+import kotlinx.coroutines.flow.Flow
 
 interface CharacterRemoteRepository {
-    fun fetchCharactersList(offsetFactor: Int,
-                            onCharactersReceived: (Result<List<Character>>) -> Unit)
+    suspend fun fetchCharactersList(offsetFactor: Int): List<CharacterDomain>
 }

@@ -1,10 +1,15 @@
 package com.sm.feature_listing.presentation
 
 import androidx.lifecycle.viewModelScope
+import androidx.paging.cachedIn
+import androidx.paging.map
 import com.sm.base_core.BaseViewModel
 import com.sm.feature_listing.domain.usecases.CharacterListUsecase
 import com.sm.feature_listing.presentation.models.ListedCharacter
 import com.sm.feature_listing.presentation.models.Images
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 
 class CharacterListViewModel(
@@ -30,9 +35,9 @@ class CharacterListViewModel(
 
     private fun getCharacters() {
         viewModelScope.launch {
-            characterUseCase.execute { listResult ->
-                listResult.onSuccess {
-                    val listedCharacters = it.map { c ->
+            characterUseCase.execute()
+                .map {
+                    it.map { c ->
                         ListedCharacter(
                             id = c.id,
                             name = c.name,
@@ -43,23 +48,18 @@ class CharacterListViewModel(
                             )
                         )
                     }
+                }
+                .cachedIn(viewModelScope)
+                .collect {
                     setState {
                         copy(
                             state = CharacterListContract.CharacterListState.Success(
-                                listedCharacters
+                                MutableStateFlow(it)
                             )
                         )
                     }
                 }
-                listResult.onFailure {
-                    setEffect { CharacterListContract.Effect.Error }
-                    setState {
-                        copy(
-                            state = CharacterListContract.CharacterListState.Idle
-                        )
-                    }
-                }
-            }
+
         }
     }
 
