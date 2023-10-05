@@ -5,10 +5,9 @@ import androidx.paging.cachedIn
 import androidx.paging.map
 import com.sm.base_core.BaseViewModel
 import com.sm.feature_listing.domain.usecases.CharacterListUsecase
-import com.sm.feature_listing.presentation.models.ListedCharacter
 import com.sm.feature_listing.presentation.models.Images
+import com.sm.feature_listing.presentation.models.ListedCharacter
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 
