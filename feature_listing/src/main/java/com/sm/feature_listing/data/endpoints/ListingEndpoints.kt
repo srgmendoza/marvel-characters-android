@@ -1,4 +1,4 @@
-package com.sm.feature_listing.data
+package com.sm.feature_listing.data.endpoints
 
 import com.sm.feature_listing.data.entities.CharactersRawResponse
 import com.sm.feature_listing.data.repo.CHARACTERS_ENDPOINT

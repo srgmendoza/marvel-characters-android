@@ -1,8 +1,8 @@
 package com.sm.feature_listing.data.di
 
-import com.sm.feature_listing.data.ListingEndpoints
-import com.sm.feature_listing.data.repo.ListingRepository
-import com.sm.feature_listing.domain.repositories.CharacterRemoteRepository
+import com.sm.feature_listing.data.endpoints.ListingEndpoints
+import com.sm.feature_listing.data.repo.CharactersListRemoteRepositoryImpl
+import com.sm.feature_listing.data.repo.CharactersListRemoteRepository
 import com.sm.network_core.NetworkCore
 import org.koin.dsl.module
 
@@ -12,8 +12,8 @@ internal val dataModule = module {
     }
 }
 
-private fun getRepository(networkCore: NetworkCore): CharacterRemoteRepository =
-    ListingRepository(getListingEndpoint(networkCore))
+private fun getRepository(networkCore: NetworkCore): CharactersListRemoteRepository =
+    CharactersListRemoteRepositoryImpl(getListingEndpoint(networkCore))
 
 private fun getListingEndpoint(networkCore: NetworkCore): ListingEndpoints =
     networkCore.getCoreNetwork(
