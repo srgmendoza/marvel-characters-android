@@ -5,11 +5,11 @@ plugins {
 
 android {
     namespace 'com.sm.feature_search'
-    compileSdk 33
+    compileSdk TARGET_SDK
 
     defaultConfig {
-        minSdk 21
-        targetSdk 33
+        minSdk MIN_SDK
+        targetSdk TARGET_SDK
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"
@@ -41,7 +41,7 @@ android {
 
 dependencies {
 
-    implementation 'androidx.core:core-ktx:1.8.20'
+    implementation 'androidx.core:core-ktx:1.8.0'
     implementation 'androidx.appcompat:appcompat:1.6.1'
     implementation 'com.google.android.material:material:1.9.0'
     testImplementation 'junit:junit:4.13.2'
