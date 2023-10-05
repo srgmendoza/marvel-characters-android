@@ -23,8 +23,6 @@ fun MainListingUi(navController: NavHostController,
     }
 
     val state = viewModel.uiState.collectAsState().value.state
-    Toast.makeText(LocalContext.current, state.javaClass.simpleName.toString(), Toast.LENGTH_SHORT).show()
-
     val effect = viewModel.effect.collectAsState(CharacterListContract.Effect.NA).value
 
     when (state) {
