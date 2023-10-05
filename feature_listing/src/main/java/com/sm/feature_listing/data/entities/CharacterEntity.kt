@@ -1,14 +1,12 @@
 package com.sm.feature_listing.data.entities
 
 import com.sm.feature_listing.domain.models.COVER_TITLE
-import com.sm.feature_listing.domain.models.Character
+import com.sm.feature_listing.domain.models.CharacterDomain
 import com.sm.feature_listing.domain.models.INTERIOR_STORY_TITLE
 import com.sm.feature_listing.domain.models.Images
 import com.sm.feature_listing.domain.models.PublishingItem
 import com.sm.feature_listing.domain.models.Publishings
 import com.sm.feature_listing.domain.models.StoryType
-import com.example.core_utils.AspectRatio
-import com.example.core_utils.StandardAspectRatio
 import java.util.*
 
 data class CharacterEntity(
@@ -26,7 +24,7 @@ data class CharacterEntity(
 ) {
 
     fun mapDataToEntity() =
-        Character(
+        CharacterDomain(
             id = id,
             name = name,
             description = description,

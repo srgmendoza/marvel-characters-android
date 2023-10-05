@@ -1,9 +1,11 @@
 package com.sm.feature_listing.presentation
 
+import androidx.paging.PagingData
 import com.sm.base_core.user_intents.UiEffect
 import com.sm.base_core.user_intents.UiEvent
 import com.sm.base_core.user_intents.UiState
 import com.sm.feature_listing.presentation.models.ListedCharacter
+import kotlinx.coroutines.flow.Flow
 
 class CharacterListContract {
 
@@ -15,7 +17,7 @@ class CharacterListContract {
     sealed class CharacterListState {
         data object Idle: CharacterListState()
         data object Loading: CharacterListState()
-        class Success(val listedCharacters: List<ListedCharacter>): CharacterListState()
+        class Success(val listedCharacters: Flow<PagingData<ListedCharacter>>): CharacterListState()
     }
 
     data class State(val state: CharacterListState): UiState
