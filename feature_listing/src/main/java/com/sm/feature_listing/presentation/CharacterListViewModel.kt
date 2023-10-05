@@ -9,6 +9,7 @@ import com.sm.feature_listing.presentation.models.Images
 import com.sm.feature_listing.presentation.models.ListedCharacter
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onErrorReturn
 import kotlinx.coroutines.launch
 
 class CharacterListViewModel(

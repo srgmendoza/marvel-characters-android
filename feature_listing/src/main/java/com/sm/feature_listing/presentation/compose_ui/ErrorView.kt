@@ -1,4 +1,4 @@
-package com.sm.feature_listing.presentation.compose_ui
+ package com.sm.feature_listing.presentation.compose_ui
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -13,12 +13,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
 
 @Composable
-@Preview
-private fun testErrorView() = ErrorView({})
-@Composable
-fun ErrorView(onClick: () -> Unit) {
+fun ErrorView(navHostController: NavHostController) {
     Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
         Column(modifier = Modifier.fillMaxWidth()) {
             Text(
@@ -26,7 +24,7 @@ fun ErrorView(onClick: () -> Unit) {
                 modifier = Modifier
                     .fillMaxWidth()
             )
-            Button(onClick = onClick) {
+            Button(onClick = { navHostController.popBackStack() }) {
                 Text(text = "Retry")
             }
         }

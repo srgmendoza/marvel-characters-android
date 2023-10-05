@@ -1,6 +1,6 @@
 package com.sm.feature_listing.presentation.di
 
-import com.sm.feature_listing.ListingFeatureImpl
+import com.sm.feature_listing.navigation.ListingFeatureImpl
 import com.sm.feature_listing.presentation.CharacterListViewModel
 import com.sm.feature_listing_api.ListingFeatureApi
 import org.koin.androidx.viewmodel.dsl.viewModel

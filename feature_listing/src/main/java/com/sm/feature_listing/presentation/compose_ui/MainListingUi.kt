@@ -6,6 +6,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.navigation.NavHostController
 import com.sm.feature_detail_api.DetailsFeatureApi
+import com.sm.feature_listing.navigation.ListingFeatInternalNavImpl
 import com.sm.feature_listing.presentation.CharacterListContract
 import com.sm.feature_listing.presentation.CharacterListViewModel
 import org.koin.androidx.compose.koinViewModel
@@ -39,19 +40,23 @@ fun MainListingUi(
         }
 
         is CharacterListContract.CharacterListState.Success -> {
-            ListView(characters = state.listedCharacters) {
-                Log.d("MainListing", it.thumbnail.poster)
-                val route = detailsFeatNavigation.detailsRoute().replace("{id}", "${it.id}")
-                navController.navigate(route)
-            }
+            ListView(
+                characters = state.listedCharacters,
+                onClick = {
+                    Log.d("MainListing", it.thumbnail.poster)
+                    val route = detailsFeatNavigation.detailsRoute().replace("{id}", "${it.id}")
+                    navController.navigate(route)
+                },
+                onError = {
+                    navController.navigate(ListingFeatInternalNavImpl.errorScreenRoute())
+                }
+            )
         }
     }
 
     when (effect) {
         is CharacterListContract.Effect.Error -> {
-            ErrorView {
-                viewModel.setEvent(CharacterListContract.Event.OnLoadRequested)
-            }
+            navController.navigate(ListingFeatInternalNavImpl.errorScreenRoute())
         }
 
         else -> {
