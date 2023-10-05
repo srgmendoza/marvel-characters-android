@@ -1,4 +1,4 @@
-package com.sm.feature_listing
+package com.sm.feature_listing.navigation
 
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavGraphBuilder
@@ -20,8 +20,16 @@ class ListingFeatureImpl: ListingFeatureApi {
         navController: NavHostController,
         modifier: Modifier
     ) {
+        //External navigation
         navGraphBuilder.composable(route) {
             MainListingUi(navController)
         }
+
+        //Internal navigation
+        ListingFeatInternalNavImpl.registerGraph(
+            navGraphBuilder = navGraphBuilder,
+            navController = navController,
+            modifier = modifier
+        )
     }
 }
