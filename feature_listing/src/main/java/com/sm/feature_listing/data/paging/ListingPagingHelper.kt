@@ -4,9 +4,9 @@ import android.util.Log
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.sm.feature_listing.domain.models.CharacterDomain
-import com.sm.feature_listing.domain.repositories.CharacterRemoteRepository
+import com.sm.feature_listing.data.repo.CharactersListRemoteRepository
 
-class ListingPagingHelper(private val remoteRepo: CharacterRemoteRepository) :
+class ListingPagingHelper(private val remoteRepo: CharactersListRemoteRepository) :
     PagingSource<Int, CharacterDomain>() {
 
     init {

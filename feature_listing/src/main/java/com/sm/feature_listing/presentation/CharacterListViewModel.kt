@@ -4,7 +4,7 @@ import androidx.lifecycle.viewModelScope
 import androidx.paging.cachedIn
 import androidx.paging.map
 import com.sm.base_core.BaseViewModel
-import com.sm.feature_listing.domain.usecases.CharacterListUsecase
+import com.sm.feature_listing.domain.usecases.GetPagedCharactersListUseCase
 import com.sm.feature_listing.presentation.models.Images
 import com.sm.feature_listing.presentation.models.ListedCharacter
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -12,7 +12,7 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 
 class CharacterListViewModel(
-    private val characterUseCase: CharacterListUsecase
+    private val characterUseCase: GetPagedCharactersListUseCase
 ) : BaseViewModel<CharacterListContract.Event, CharacterListContract.State, CharacterListContract.Effect>() {
 
     override fun createInitialState(): CharacterListContract.State {
@@ -58,7 +58,6 @@ class CharacterListViewModel(
                         )
                     }
                 }
-
         }
     }
 
