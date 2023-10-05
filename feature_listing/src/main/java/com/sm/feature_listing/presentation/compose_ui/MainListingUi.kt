@@ -1,22 +1,26 @@
 package com.sm.feature_listing.presentation.compose_ui
 
 import android.util.Log
-import android.widget.Toast
-
-import androidx.compose.foundation.layout.Column
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
-import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavHostController
+import com.sm.feature_detail_api.DetailsFeatureApi
 import com.sm.feature_listing.presentation.CharacterListContract
 import com.sm.feature_listing.presentation.CharacterListViewModel
 import org.koin.androidx.compose.koinViewModel
+import org.koin.java.KoinJavaComponent
 
 
 @Composable
-fun MainListingUi(navController: NavHostController,
-                  viewModel : CharacterListViewModel = koinViewModel()) {
+fun MainListingUi(
+    navController: NavHostController,
+    viewModel: CharacterListViewModel = koinViewModel()
+) {
+
+    val detailsFeatNavigation: DetailsFeatureApi by KoinJavaComponent.inject(
+        DetailsFeatureApi::class.java
+    )
 
     LaunchedEffect(Unit) {
         viewModel.setEvent(CharacterListContract.Event.OnLoadRequested)
@@ -37,16 +41,19 @@ fun MainListingUi(navController: NavHostController,
         is CharacterListContract.CharacterListState.Success -> {
             ListView(characters = state.listedCharacters) {
                 Log.d("MainListing", it.thumbnail.poster)
+                val route = detailsFeatNavigation.detailsRoute().replace("{id}", "${it.id}")
+                navController.navigate(route)
             }
         }
     }
 
-    when(effect) {
+    when (effect) {
         is CharacterListContract.Effect.Error -> {
             ErrorView {
                 viewModel.setEvent(CharacterListContract.Event.OnLoadRequested)
             }
         }
+
         else -> {
             //Nothing to do
         }

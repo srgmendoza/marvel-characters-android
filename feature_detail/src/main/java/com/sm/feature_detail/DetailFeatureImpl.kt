@@ -9,7 +9,7 @@ import com.sm.feature_detail_api.DetailsFeatureApi
 
 class DetailFeatureImpl: DetailsFeatureApi {
     
-    private val route = "details"
+    private val route = "details/{id}"
     override fun detailsRoute(): String {
         return route
     }

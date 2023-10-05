@@ -7,6 +7,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
 import com.sm.core_navigation.CoreNavigation
+import com.sm.feature_detail_api.DetailsFeatureApi
 import com.sm.feature_listing.ListingFeatureImpl
 import com.sm.feature_listing_api.ListingFeatureApi
 import com.sm.feature_search_api.SearchFeatureApi
@@ -24,10 +25,14 @@ fun MainNavigationUi(
     val searchFeatNavigation: SearchFeatureApi by KoinJavaComponent.inject(
         SearchFeatureApi::class.java
     )
+    val detailsFeatNavigation: DetailsFeatureApi by KoinJavaComponent.inject(
+        DetailsFeatureApi::class.java
+    )
 
     val destinations = listOf(
         listingFeatNavigation,
-        searchFeatNavigation
+        searchFeatNavigation,
+        detailsFeatNavigation
     )
 
     NavHost(

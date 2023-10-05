@@ -62,10 +62,13 @@ dependencies {
     implementation("io.coil-kt:coil-compose:2.4.0")
 
     api project(path: ':feature_listing_api')
+    implementation project(path: ':feature_detail_api')
 
     implementation project(path: ':core_utils')
     implementation project(path: ':core_network')
     implementation project(path: ':core_base_ui')
+
+
 
     //Compose
     implementation "androidx.compose.runtime:runtime:$compose_compiler_version"
