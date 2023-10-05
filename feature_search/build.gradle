@@ -61,10 +61,23 @@ dependencies {
     implementation project(path: ':core_utils')
     implementation project(path: ':core_network')
     implementation project(path: ':core_base_ui')
+    api project(path: ':feature_search_api')
 
     //Compose
     implementation "androidx.compose.runtime:runtime:$compose_compiler_version"
     def composeBom = platform('androidx.compose:compose-bom:2023.04.01')
     implementation composeBom
     androidTestImplementation composeBom
+
+    // Material Design
+    implementation("androidx.compose.material:material:1.6.0-alpha06")
+    // Material design icons
+    implementation("androidx.compose.material:material-icons-core:1.6.0-alpha06")
+    implementation("androidx.compose.material:material-icons-extended:1.6.0-alpha06")
+    // Tooling support (Previews, etc.)
+    implementation("androidx.compose.ui:ui-tooling:1.6.0-alpha06")
+
+    //Paging
+    implementation "androidx.paging:paging-runtime-ktx:3.2.1"
+    implementation "androidx.paging:paging-compose:3.3.0-alpha02"
 }

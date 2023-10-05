@@ -23,6 +23,7 @@
             <option value="$PROJECT_DIR$/feature_listing" />
             <option value="$PROJECT_DIR$/feature_listing_api" />
             <option value="$PROJECT_DIR$/feature_search" />
+            <option value="$PROJECT_DIR$/feature_search_api" />
           </set>
         </option>
       </GradleProjectSettings>
