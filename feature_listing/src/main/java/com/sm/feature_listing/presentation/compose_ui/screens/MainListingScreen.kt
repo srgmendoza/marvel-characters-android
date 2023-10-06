@@ -1,4 +1,4 @@
-package com.sm.feature_listing.presentation.compose_ui
+package com.sm.feature_listing.presentation.compose_ui.screens
 
 import android.util.Log
 import androidx.compose.runtime.Composable
@@ -9,12 +9,14 @@ import com.sm.feature_detail_api.DetailsFeatureApi
 import com.sm.feature_listing.navigation.ListingFeatInternalNavImpl
 import com.sm.feature_listing.presentation.CharacterListContract
 import com.sm.feature_listing.presentation.CharacterListViewModel
+import com.sm.feature_listing.presentation.compose_ui.views.ListView
+import com.sm.feature_listing.presentation.compose_ui.views.LoaderView
 import org.koin.androidx.compose.koinViewModel
 import org.koin.java.KoinJavaComponent
 
 
 @Composable
-fun MainListingUi(
+fun MainListingScreen(
     navController: NavHostController,
     viewModel: CharacterListViewModel = koinViewModel()
 ) {

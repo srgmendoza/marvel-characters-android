@@ -1,4 +1,4 @@
-package com.sm.feature_listing.presentation.compose_ui
+package com.sm.feature_listing.presentation.compose_ui.views
 
 import android.util.Log
 import androidx.compose.foundation.lazy.grid.GridCells
