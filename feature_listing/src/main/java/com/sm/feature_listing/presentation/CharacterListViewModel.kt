@@ -3,13 +3,12 @@ package com.sm.feature_listing.presentation
 import androidx.lifecycle.viewModelScope
 import androidx.paging.cachedIn
 import androidx.paging.map
+import com.example.core_utils.ImageVariant
 import com.sm.base_core.BaseViewModel
 import com.sm.feature_listing.domain.usecases.GetPagedCharactersListUseCase
-import com.sm.feature_listing.presentation.models.Images
 import com.sm.feature_listing.presentation.models.ListedCharacter
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.onErrorReturn
 import kotlinx.coroutines.launch
 
 class CharacterListViewModel(
@@ -42,10 +41,7 @@ class CharacterListViewModel(
                             id = c.id,
                             name = c.name,
                             description = c.description,
-                            thumbnail = Images(
-                                thumbnail = c.thumbnail.thumbnail,
-                                poster = c.thumbnail.poster
-                            )
+                            imageUrl = getProperImageUrl(c.images)
                         )
                     }
                 }
@@ -60,6 +56,13 @@ class CharacterListViewModel(
                     }
                 }
         }
+    }
+
+    private fun getProperImageUrl(
+        images: Map<ImageVariant, Map<ImageVariant.ImageSize, String>>): String {
+
+        //TODO: Select the proper image based on device aspect ratio
+        return images[ImageVariant.SquareAspectRatio]?.get(ImageVariant.ImageSize.XLARGE).orEmpty()
     }
 
 

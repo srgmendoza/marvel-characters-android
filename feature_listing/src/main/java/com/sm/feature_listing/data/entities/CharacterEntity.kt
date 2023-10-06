@@ -1,5 +1,6 @@
 package com.sm.feature_listing.data.entities
 
+import com.example.core_utils.ImageVariant
 import com.sm.feature_listing.domain.models.COVER_TITLE
 import com.sm.feature_listing.domain.models.CharacterDomain
 import com.sm.feature_listing.domain.models.INTERIOR_STORY_TITLE
@@ -29,7 +30,7 @@ data class CharacterEntity(
             name = name,
             description = description,
             modified = modified,
-            thumbnail = getImages(thumbnail),
+            images = getImages(thumbnail),
             resourceURI = resourceURI,
             comics = Publishings(
                 available = comics.available,
@@ -63,28 +64,50 @@ data class CharacterEntity(
         return urls.find { it.type == "detail" }?.url ?: ""
     }
 
-    private fun getImages(thumbnail: ThumbnailEntity): Images {
-        return Images(
-            thumbnail = getImageUrl(
-                path = thumbnail.path,
-                extension = thumbnail.extension,
-                size = com.example.core_utils.AspectRatio.ImageSize.MEDIUM,
-                origin = com.example.core_utils.AspectRatio.Origin.LIST),
-            poster = getImageUrl(
-                path = thumbnail.path,
-                extension = thumbnail.extension,
-                size = com.example.core_utils.AspectRatio.ImageSize.MEDIUM,
-                origin = com.example.core_utils.AspectRatio.Origin.DETAIL
-            )
+    private fun getImages(thumbnail: ThumbnailEntity):
+            Map<ImageVariant, Map<ImageVariant.ImageSize, String>> {
+
+        val imagesMap: MutableMap<ImageVariant, Map<ImageVariant.ImageSize, String>> =
+            mutableMapOf()
+
+        val imagesVariants = listOf(
+            ImageVariant.PortraitAspectRatio,
+            ImageVariant.SquareAspectRatio,
+            ImageVariant.LandscapeAspectRatio,
+            ImageVariant.FullSize
         )
+
+        imagesVariants.forEach {variant ->
+            imagesMap[variant] =
+                variant.getAvailableSizes().associate { size ->
+                    (size to getImageUrl(
+                        variant = variant,
+                        path = thumbnail.path,
+                        extension = thumbnail.extension,
+                        size = size
+                    ))
+                }
+        }
+
+        return imagesMap
     }
 
     private fun getImageUrl(
+        variant: ImageVariant,
         path: String,
         extension: String,
-        size: com.example.core_utils.AspectRatio.ImageSize,
-        origin: com.example.core_utils.AspectRatio.Origin
-    ) = if (origin == com.example.core_utils.AspectRatio.Origin.LIST) "$path/${com.example.core_utils.StandardAspectRatio.getSize(size)}.$extension" else "$path.$extension"
+        size: ImageVariant.ImageSize
+    ): String {
+        val name = variant.getSize(size)
+
+        val url = if (name.isNotEmpty()) {
+            "$path/$name.$extension"
+        } else {
+            "$path.$extension"
+        }
+
+        return url
+    }
 }
 
 data class ComicsEntity(

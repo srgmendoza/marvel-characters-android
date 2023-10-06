@@ -1,11 +1,13 @@
 package com.sm.feature_listing.domain.models
 
+import com.example.core_utils.ImageVariant
+
 data class CharacterDomain(
     val id: Long,
     val name: String,
     val description: String,
     val modified: String,
-    val thumbnail: Images,
+    val images: Map<ImageVariant, Map<ImageVariant.ImageSize,String>>,
     val resourceURI: String,
     val comics: Publishings,
     val series: Publishings,

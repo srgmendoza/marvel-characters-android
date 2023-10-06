@@ -4,10 +4,6 @@ data class ListedCharacter(
     val id: Long,
     val name: String,
     val description: String,
-    val thumbnail: Images,
+    val imageUrl: String,
 )
 
-data class Images(
-    val thumbnail: String,
-    val poster: String
-)

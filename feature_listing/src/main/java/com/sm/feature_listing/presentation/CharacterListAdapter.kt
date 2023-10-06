@@ -56,7 +56,7 @@ class CharacterListAdapter(private val onClickListener: (String) -> Unit):
         fun bind(listedCharacter: ListedCharacter) {
             binding.characterId.text = listedCharacter.id.toString()
             binding.characterName.text = listedCharacter.name
-            ViewUtils.paintImage(listedCharacter.thumbnail.thumbnail, binding.characterImg)
+            ViewUtils.paintImage(listedCharacter.imageUrl, binding.characterImg)
         }
     }
 
