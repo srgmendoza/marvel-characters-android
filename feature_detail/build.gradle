@@ -47,7 +47,9 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
 
     //Dependency Injector
+    implementation "io.insert-koin:koin-core:$koin_version"
     implementation "io.insert-koin:koin-android:$koin_version"
+    implementation "io.insert-koin:koin-androidx-compose:3.4.1"
 
     implementation project(path: ':core_utils')
     implementation project(path: ':core_network')

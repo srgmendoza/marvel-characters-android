@@ -4,7 +4,7 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
-import com.sm.feature_detail.presentation.composable_ui.MainDetailsUi
+import com.sm.feature_detail.presentation.composable_ui.screens.main.MainDetailsScreen
 import com.sm.feature_detail_api.DetailsFeatureApi
 
 class DetailFeatureImpl: DetailsFeatureApi {
@@ -20,7 +20,7 @@ class DetailFeatureImpl: DetailsFeatureApi {
         modifier: Modifier
     ) {
         navGraphBuilder.composable(route) {
-            MainDetailsUi(navController = navController)
+            MainDetailsScreen(navController = navController)
         }
     }
 }
