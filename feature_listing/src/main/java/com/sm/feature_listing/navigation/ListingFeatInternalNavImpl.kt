@@ -5,8 +5,7 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
 import com.sm.core_navigation.CoreNavigation
-import com.sm.feature_listing.presentation.compose_ui.ErrorView
-import com.sm.feature_listing.presentation.compose_ui.MainListingUi
+import com.sm.feature_listing.presentation.compose_ui.screens.ErrorScreen
 
 internal object ListingFeatInternalNavImpl: CoreNavigation {
 
@@ -21,7 +20,7 @@ internal object ListingFeatInternalNavImpl: CoreNavigation {
         modifier: Modifier
     ) {
         navGraphBuilder.composable(errorScreenRoute) {
-            ErrorView(navController)
+            ErrorScreen(navController)
         }
     }
 }

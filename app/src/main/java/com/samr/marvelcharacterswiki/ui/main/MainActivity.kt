@@ -3,9 +3,7 @@ package com.samr.marvelcharacterswiki.ui.main
 import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
-import com.samr.marvelcharacterswiki.R
 import com.samr.marvelcharacterswiki.ui.theme.ThemeStore
-import com.sm.feature_listing.presentation.compose_ui.MainListingUi
 
 class MainActivity : AppCompatActivity() {
 

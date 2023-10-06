@@ -4,7 +4,7 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
-import com.sm.feature_listing.presentation.compose_ui.MainListingUi
+import com.sm.feature_listing.presentation.compose_ui.screens.MainListingScreen
 import com.sm.feature_listing_api.ListingFeatureApi
 
 class ListingFeatureImpl: ListingFeatureApi {
@@ -22,7 +22,7 @@ class ListingFeatureImpl: ListingFeatureApi {
     ) {
         //External navigation
         navGraphBuilder.composable(route) {
-            MainListingUi(navController)
+            MainListingScreen(navController)
         }
 
         //Internal navigation

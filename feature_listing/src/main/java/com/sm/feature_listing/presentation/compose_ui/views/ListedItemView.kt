@@ -1,4 +1,4 @@
-package com.sm.feature_listing.presentation.compose_ui
+package com.sm.feature_listing.presentation.compose_ui.views
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column

@@ -10,7 +10,7 @@ import com.sm.feature_search_api.SearchFeatureApi
 class SearchFeatureImpl: SearchFeatureApi {
 
     private val route = "search"
-    override fun listingRoute(): String {
+    override fun searchRoute(): String {
         return route
     }
 
