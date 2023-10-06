@@ -16,7 +16,6 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
-import com.sm.feature_listing.presentation.models.Images
 import com.sm.feature_listing.presentation.models.ListedCharacter
 
 @OptIn(ExperimentalMaterialApi::class)
@@ -31,7 +30,7 @@ fun ListedItemView(item: ListedCharacter, onClick: (ListedCharacter) -> Unit) {
     ) {
         Column {
             AsyncImage(
-                model = item.thumbnail.poster,
+                model = item.imageUrl,
                 contentDescription = "${item.name} image",
                 modifier = Modifier
                     .fillMaxWidth()
@@ -54,8 +53,5 @@ private fun getExampleCharacter() = ListedCharacter(
     id = 1,
     name = "name",
     description = "description",
-    thumbnail = Images(
-        thumbnail = "thumbnail",
-        poster = "http://i.annihil.us/u/prod/marvel/i/mg/b/b0/4ce59ea2103ac.jpg"
-    )
+    imageUrl = "http://i.annihil.us/u/prod/marvel/i/mg/b/b0/4ce59ea2103ac.jpg"
 )

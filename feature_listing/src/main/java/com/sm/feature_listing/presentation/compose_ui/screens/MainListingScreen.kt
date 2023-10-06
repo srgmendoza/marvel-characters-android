@@ -45,7 +45,6 @@ fun MainListingScreen(
             ListView(
                 characters = state.listedCharacters,
                 onClick = {
-                    Log.d("MainListing", it.thumbnail.poster)
                     val route = detailsFeatNavigation.detailsRoute().replace("{id}", "${it.id}")
                     navController.navigate(route)
                 },
