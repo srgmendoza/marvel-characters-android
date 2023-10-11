@@ -15,6 +15,10 @@ class CharacterListViewModel(
     private val characterUseCase: GetPagedCharactersListUseCase
 ) : BaseViewModel<CharacterListContract.Event, CharacterListContract.State, CharacterListContract.Effect>() {
 
+    init {
+        setEvent(CharacterListContract.Event.OnLoadRequested)
+    }
+
     override fun createInitialState(): CharacterListContract.State {
         return CharacterListContract.State(CharacterListContract.CharacterListState.Idle)
     }

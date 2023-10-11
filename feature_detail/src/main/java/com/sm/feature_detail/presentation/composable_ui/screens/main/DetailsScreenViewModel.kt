@@ -3,6 +3,7 @@ package com.sm.feature_detail.presentation.composable_ui.screens.main
 import androidx.lifecycle.viewModelScope
 import com.sm.base_core.BaseViewModel
 import com.sm.feature_detail.domain.usecases.GetCharacterDetailByIdUseCase
+import com.sm.feature_detail.presentation.mappers.PresentationMapper
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
@@ -24,12 +25,11 @@ class DetailsScreenViewModel(private val useCase: GetCharacterDetailByIdUseCase)
 
     private fun getCharacterById(id: String) {
         viewModelScope.launch {
-            delay(3000)
             val result = useCase.execute(id)
             setState {
                 if (result != null) {
                     DetailsScreenContracts.State.Success(
-                        result
+                        PresentationMapper().mapTo(result)
                     )
                 } else {
                     DetailsScreenContracts.State.Idle

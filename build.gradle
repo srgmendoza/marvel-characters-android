@@ -16,7 +16,7 @@ buildscript {
         kotlin_version = '1.9.0'
         coroutines_version = '1.6.4'
 
-        gradle_version = '8.0.2'
+        gradle_version = '8.1.1'
         koin_version = '3.3.2'
         rx_android_version = '2.1.1'
         rx_kotlin_version = '2.4.0'

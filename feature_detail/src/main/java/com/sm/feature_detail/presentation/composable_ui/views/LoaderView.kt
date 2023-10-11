@@ -17,8 +17,8 @@ import androidx.compose.ui.unit.dp
 @Preview
 fun LoaderView() {
     Surface(
-        modifier = Modifier.fillMaxSize(),
-        color = Color.DarkGray) {
+        modifier = Modifier.width(64.dp),
+        color = Color.Transparent) {
         CircularProgressIndicator(
             modifier = androidx.compose.ui.Modifier
                 .width(64.dp)

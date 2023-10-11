@@ -4,6 +4,7 @@ import com.sm.base_core.user_intents.UiEffect
 import com.sm.base_core.user_intents.UiEvent
 import com.sm.base_core.user_intents.UiState
 import com.sm.feature_detail.domain.models.CharacterDomain
+import com.sm.feature_detail.presentation.models.CharacterDetail
 
 class DetailsScreenContracts {
 
@@ -14,7 +15,7 @@ class DetailsScreenContracts {
     sealed interface State: UiState {
         data object Idle: State
         data object Loading: State
-        class Success(val character: CharacterDomain): State
+        class Success(val character: CharacterDetail): State
     }
 
     sealed interface Effect: UiEffect {
