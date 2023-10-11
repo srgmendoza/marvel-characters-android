@@ -1,12 +1,13 @@
 package com.sm.feature_detail.presentation.composable_ui.screens.main
 
-import androidx.compose.material.Text
+import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.navigation.NavHostController
 import com.sm.core_navigation.getArgumentByKey
-import com.sm.feature_detail.presentation.composable_ui.views.LoaderView
+import com.sm.feature_detail.presentation.composable_ui.views.DetailsView
+import com.sm.feature_detail.presentation.composable_ui.views.ShimmerView
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
@@ -25,10 +26,12 @@ fun MainDetailsScreen(navController: NavHostController,
 
         }
         is DetailsScreenContracts.State.Loading -> {
-            LoaderView()
+            ShimmerView()
         }
         is DetailsScreenContracts.State.Success -> {
-            Text(text = "Welcome to DetailsUi for character with id: ${state.character.id} and name ${state.character.name}")
+            DetailsView(item = state.character) {
+                Log.d("DetailsView", "SeeMore from : $it")
+            }
         }
     }
 

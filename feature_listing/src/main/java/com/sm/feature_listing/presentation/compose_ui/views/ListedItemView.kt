@@ -12,10 +12,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
+import com.sm.feature_listing.R
 import com.sm.feature_listing.presentation.models.ListedCharacter
 
 @OptIn(ExperimentalMaterialApi::class)
@@ -31,11 +33,12 @@ fun ListedItemView(item: ListedCharacter, onClick: (ListedCharacter) -> Unit) {
         Column {
             AsyncImage(
                 model = item.imageUrl,
+                placeholder = painterResource(id = R.drawable.marvel_placeholder),
                 contentDescription = "${item.name} image",
                 modifier = Modifier
                     .fillMaxWidth()
                     .aspectRatio(1f)
-                    .background(Color.Black),
+                    .background(Color.White),
                 contentScale = ContentScale.Fit
             )
             Text(text = item.id.toString())

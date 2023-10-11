@@ -4,6 +4,8 @@ import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.remember
 import androidx.navigation.NavHostController
 import com.sm.feature_detail_api.DetailsFeatureApi
 import com.sm.feature_listing.navigation.ListingFeatInternalNavImpl
@@ -25,19 +27,12 @@ fun MainListingScreen(
         DetailsFeatureApi::class.java
     )
 
-    LaunchedEffect(Unit) {
-        viewModel.setEvent(CharacterListContract.Event.OnLoadRequested)
-    }
-
-    val state = viewModel.uiState.collectAsState().value.state
-    val effect = viewModel.effect.collectAsState(CharacterListContract.Effect.NA).value
-
-    when (state) {
+    when (val state = viewModel.uiState.collectAsState().value.state) {
         CharacterListContract.CharacterListState.Idle -> {
 
         }
 
-        is CharacterListContract.CharacterListState.Loading -> {
+        CharacterListContract.CharacterListState.Loading -> {
             LoaderView()
         }
 
@@ -52,16 +47,6 @@ fun MainListingScreen(
                     navController.navigate(ListingFeatInternalNavImpl.errorScreenRoute())
                 }
             )
-        }
-    }
-
-    when (effect) {
-        is CharacterListContract.Effect.Error -> {
-            navController.navigate(ListingFeatInternalNavImpl.errorScreenRoute())
-        }
-
-        else -> {
-            //Nothing to do
         }
     }
 }
