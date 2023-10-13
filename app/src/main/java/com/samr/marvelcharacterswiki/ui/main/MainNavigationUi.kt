@@ -6,6 +6,7 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import com.sm.core_navigation.CoreNavigation
+import com.sm.core_navigation.models.NavigationConfig
 import com.sm.feature_detail_api.DetailsFeatureApi
 import com.sm.feature_listing_api.ListingFeatureApi
 import com.sm.feature_search_api.SearchFeatureApi
@@ -14,33 +15,18 @@ import org.koin.java.KoinJavaComponent
 @Composable
 fun MainNavigationUi(
     navController: NavHostController,
+    navConfig:  NavigationConfig,
     modifier: Modifier = Modifier
 ) {
 
-    val listingFeatNavigation: ListingFeatureApi by KoinJavaComponent.inject(
-        ListingFeatureApi::class.java
-    )
-    val searchFeatNavigation: SearchFeatureApi by KoinJavaComponent.inject(
-        SearchFeatureApi::class.java
-    )
-    val detailsFeatNavigation: DetailsFeatureApi by KoinJavaComponent.inject(
-        DetailsFeatureApi::class.java
-    )
-
-    val destinations = listOf(
-        listingFeatNavigation,
-        searchFeatNavigation,
-        detailsFeatNavigation
-    )
-
     NavHost(
         navController = navController,
-        startDestination = listingFeatNavigation.listingRoute(),
+        startDestination = navConfig.startDestinationRoute,
         modifier = modifier
     ) {
-        destinations.forEach {destination ->
+        navConfig.destinations.forEach {destination ->
             register(
-                featureNavigation = destination,
+                featureNavigation = destination.second,
                 navController = navController,
                 modifier = modifier
             )

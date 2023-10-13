@@ -4,4 +4,5 @@ import com.sm.core_navigation.CoreNavigation
 
 interface SearchFeatureApi: CoreNavigation {
     fun searchRoute(): String
+    override fun getRoute() = searchRoute()
 }

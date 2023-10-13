@@ -19,7 +19,7 @@ class DetailFeatureImpl: DetailsFeatureApi {
         navController: NavHostController,
         modifier: Modifier
     ) {
-        navGraphBuilder.composable(route) {
+        navGraphBuilder.composable(route = route) {
             MainDetailsScreen(navController = navController)
         }
     }

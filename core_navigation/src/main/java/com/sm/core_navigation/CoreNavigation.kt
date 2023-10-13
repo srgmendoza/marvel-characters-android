@@ -10,4 +10,7 @@ interface CoreNavigation {
         navController: NavHostController,
         modifier: Modifier = Modifier
     )
+
+    fun getRoute(): String
+
 }

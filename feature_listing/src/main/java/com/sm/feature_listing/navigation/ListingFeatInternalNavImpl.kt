@@ -23,4 +23,7 @@ internal object ListingFeatInternalNavImpl: CoreNavigation {
             ErrorScreen(navController)
         }
     }
+
+    //TODO: Check this, not sure at all
+    override fun getRoute() = errorScreenRoute()
 }
