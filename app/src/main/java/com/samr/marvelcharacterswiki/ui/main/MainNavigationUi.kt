@@ -24,9 +24,9 @@ fun MainNavigationUi(
         startDestination = navConfig.startDestinationRoute,
         modifier = modifier
     ) {
-        navConfig.destinations.forEach {destination ->
+        navConfig.featuresConfig.forEach {destination ->
             register(
-                featureNavigation = destination.second,
+                featureNavigation = destination.navInstance,
                 navController = navController,
                 modifier = modifier
             )

@@ -25,5 +25,5 @@ internal object ListingFeatInternalNavImpl: CoreNavigation {
     }
 
     //TODO: Check this, not sure at all
-    override fun getRoute() = errorScreenRoute()
+    override fun getFeatureMainRoute() = errorScreenRoute()
 }

@@ -3,7 +3,6 @@ package com.samr.marvelcharacterswiki.ui.main
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
-import androidx.compose.material3.windowsizeclass.WindowSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.collectAsState
@@ -14,21 +13,18 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.samr.marvelcharacterswiki.ui.theme.ThemeStore
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.samr.marvelcharacterswiki.ui.compose_views.AppBar
 import com.samr.marvelcharacterswiki.ui.compose_views.BottomBar
 import com.samr.marvelcharacterswiki.ui.models.BottomTabs
 import com.samr.marvelcharacterswiki.ui.theme.AppTheme
-import com.sm.core_navigation.CoreNavigation
+import com.samr.marvelcharacterswiki.ui.theme.ThemeStore
+import com.sm.core_navigation.models.FeatureNavConfig
 import com.sm.core_navigation.models.NavigationConfig
 import com.sm.feature_detail_api.DetailsFeatureApi
 import com.sm.feature_listing_api.ListingFeatureApi
 import com.sm.feature_search_api.SearchFeatureApi
 import org.koin.java.KoinJavaComponent
-
-private const val SHOW_APP_BAR = true
-private const val NO_SHOW_APP_BAR = false
 
 @Composable
 fun MainUi(themeStore: ThemeStore) {
@@ -45,11 +41,7 @@ fun MainUi(themeStore: ThemeStore) {
 
     val navBackStackEntry by navController.currentBackStackEntryAsState()
 
-    //Find destination in navConfig to know if should show app bar
-    val selectedNav = navConfig.destinations.firstOrNull() { d ->
-        navBackStackEntry?.destination?.route?.contains(d.second.getRoute()) ?: false
-    }
-    appBarState.value = selectedNav?.first ?: false
+    appBarState.value = navBackStackEntry?.arguments?.getString("showAppBar") == "true"
 
     AppTheme(themeId = theme) {
         val statusBarColor = MaterialTheme.colors.primaryVariant
@@ -80,6 +72,8 @@ fun MainUi(themeStore: ThemeStore) {
     }
 }
 
+/**
+ * IMPORTANT. Add here all the features navigation apis possibilities*/
 private fun getNavConfig(): NavigationConfig {
     val listingFeatNavigation: ListingFeatureApi by KoinJavaComponent.inject(
         ListingFeatureApi::class.java
@@ -92,13 +86,19 @@ private fun getNavConfig(): NavigationConfig {
     )
 
     val destinations = listOf(
-        NO_SHOW_APP_BAR to listingFeatNavigation,
-        SHOW_APP_BAR to searchFeatNavigation,
-        SHOW_APP_BAR to detailsFeatNavigation
+        listingFeatNavigation,
+        searchFeatNavigation,
+        detailsFeatNavigation
     )
 
-    return NavigationConfig(
+    val config = NavigationConfig(
         startDestinationRoute = listingFeatNavigation.listingRoute(),
-        destinations = destinations
+        featuresConfig = destinations.map {
+            FeatureNavConfig(
+                navInstance = it
+            )
+        }
     )
+
+    return config
 }
