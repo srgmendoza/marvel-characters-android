@@ -1,11 +1,7 @@
 package com.sm.feature_listing.presentation.compose_ui.screens
 
-import android.util.Log
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.derivedStateOf
-import androidx.compose.runtime.remember
 import androidx.navigation.NavHostController
 import com.sm.feature_detail_api.DetailsFeatureApi
 import com.sm.feature_listing.navigation.ListingFeatInternalNavImpl
@@ -40,7 +36,9 @@ fun MainListingScreen(
             ListView(
                 characters = state.listedCharacters,
                 onClick = {
-                    val route = detailsFeatNavigation.detailsRoute().replace("{id}", "${it.id}")
+                    val route = detailsFeatNavigation.detailsRootRoute()
+                        .replace("{showAppBar}", "true")
+                        .replace("{id}", "${it.id}")
                     navController.navigate(route)
                 },
                 onError = {

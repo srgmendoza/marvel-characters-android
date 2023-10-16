@@ -3,6 +3,7 @@ package com.sm.feature_detail_api
 import com.sm.core_navigation.CoreNavigation
 
 interface DetailsFeatureApi: CoreNavigation {
-    fun detailsRoute(): String
-    override fun getRoute() = detailsRoute()
+    fun detailsRootRoute(): String
+    override fun getFeatureMainRoute() = detailsRootRoute()
+
 }

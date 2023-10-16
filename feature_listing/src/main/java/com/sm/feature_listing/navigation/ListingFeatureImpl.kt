@@ -25,7 +25,7 @@ class ListingFeatureImpl: ListingFeatureApi {
             MainListingScreen(navController)
         }
 
-        //Internal navigation
+        //Nested graph for Internal feature navigation
         ListingFeatInternalNavImpl.registerGraph(
             navGraphBuilder = navGraphBuilder,
             navController = navController,

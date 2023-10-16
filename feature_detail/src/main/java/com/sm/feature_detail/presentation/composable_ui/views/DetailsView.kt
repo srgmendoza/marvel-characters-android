@@ -31,7 +31,11 @@ import com.example.core_utils.openTab
 import com.sm.feature_detail.presentation.models.CharacterDetail
 
 @Composable
-fun DetailsView(item: CharacterDetail, onSeeMoreClick: (String) -> Unit) {
+fun DetailsView(
+    item: CharacterDetail,
+    onSeeMoreClick: (String) -> Unit,
+    onGotoTestClick: () -> Unit
+) {
     Column {
         SubcomposeAsyncImage(
             model = item.imageUrl,
@@ -58,6 +62,56 @@ fun DetailsView(item: CharacterDetail, onSeeMoreClick: (String) -> Unit) {
         )
 
         SeeMoreButton(item.moreContentUrl, onSeeMoreClick)
+
+        Spacer(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(24.dp)
+        )
+
+        GotoTestScreenButton(onGotoTestClick)
+
+        Spacer(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(24.dp)
+        )
+
+        GotoTestScreenButton(onGotoTestClick)
+
+        Spacer(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(24.dp)
+        )
+
+        GotoTestScreenButton(onGotoTestClick)
+
+        Spacer(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(24.dp)
+        )
+
+        GotoTestScreenButton(onGotoTestClick)
+
+
+        Spacer(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(24.dp)
+        )
+
+        GotoTestScreenButton(onGotoTestClick)
+
+
+        Spacer(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(24.dp)
+        )
+
+        GotoTestScreenButton(onGotoTestClick)
     }
 
 }
@@ -115,5 +169,14 @@ fun SeeMoreButton(moreContentUrl: String = "", onSeeMoreClick: (String) -> Unit 
             Text("See More")
         }
     }
+}
 
+@Composable
+@Preview
+fun GotoTestScreenButton(onClick: () -> Unit = {}) {
+    Box(contentAlignment = Alignment.Center, modifier = Modifier.fillMaxWidth()) {
+        Button(onClick = onClick) {
+            Text("Goto Test Screen")
+        }
+    }
 }
