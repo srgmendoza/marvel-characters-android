@@ -21,6 +21,4 @@ internal object DetailsFeatInternalNavImpl: CoreNavigation {
             TestScreen()
         }
     }
-
-    override fun getFeatureMainRoute() = testScreenRoute()
 }

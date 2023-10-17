@@ -11,6 +11,4 @@ interface CoreNavigation {
         modifier: Modifier = Modifier
     )
 
-    fun getFeatureMainRoute(): String
-
 }

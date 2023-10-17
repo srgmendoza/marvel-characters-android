@@ -1,5 +1,7 @@
 package com.samr.marvelcharacterswiki.ui.main
 
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
@@ -11,11 +13,12 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
-import com.samr.marvelcharacterswiki.ui.compose_views.AppBar
-import com.samr.marvelcharacterswiki.ui.compose_views.BottomBar
+import com.samr.marvelcharacterswiki.ui.composables.AppBar
+import com.samr.marvelcharacterswiki.ui.composables.BottomBar
 import com.samr.marvelcharacterswiki.ui.models.BottomTabs
 import com.samr.marvelcharacterswiki.ui.theme.AppTheme
 import com.samr.marvelcharacterswiki.ui.theme.ThemeStore
@@ -43,6 +46,7 @@ fun MainUi(themeStore: ThemeStore) {
 
     appBarState.value = navBackStackEntry?.arguments?.getString("showAppBar") == "true"
 
+
     AppTheme(themeId = theme) {
         val statusBarColor = MaterialTheme.colors.primaryVariant
         val tabs = remember { BottomTabs.values() }
@@ -56,7 +60,10 @@ fun MainUi(themeStore: ThemeStore) {
 
         Scaffold(
             topBar = {
-                AppBar(appBarState) {
+                AppBar(
+                    state = appBarState,
+                    modifier = Modifier
+                        .fillMaxWidth()) {
                     navController.popBackStack()
                 }
             },
