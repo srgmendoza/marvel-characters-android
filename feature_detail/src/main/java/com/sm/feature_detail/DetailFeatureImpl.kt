@@ -1,5 +1,6 @@
 package com.sm.feature_detail
 
+import androidx.compose.foundation.ScrollState
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
@@ -32,4 +33,5 @@ class DetailFeatureImpl: DetailsFeatureApi {
             modifier = modifier
         )
     }
+
 }
