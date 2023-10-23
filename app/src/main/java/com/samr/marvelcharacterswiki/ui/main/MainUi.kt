@@ -17,6 +17,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
+import com.samr.marvelcharacterswiki.ui.composables.AiFab
 import com.samr.marvelcharacterswiki.ui.composables.AppBar
 import com.samr.marvelcharacterswiki.ui.composables.BottomBar
 import com.samr.marvelcharacterswiki.ui.models.BottomTabs
@@ -24,6 +25,8 @@ import com.samr.marvelcharacterswiki.ui.theme.AppTheme
 import com.samr.marvelcharacterswiki.ui.theme.ThemeStore
 import com.sm.core_navigation.models.FeatureNavConfig
 import com.sm.core_navigation.models.NavigationConfig
+import com.sm.feature_ai.ui.navigation.AiFeatureImpl
+import com.sm.feature_ai_api.AiFeatureApi
 import com.sm.feature_detail_api.DetailsFeatureApi
 import com.sm.feature_listing_api.ListingFeatureApi
 import com.sm.feature_search_api.SearchFeatureApi
@@ -67,7 +70,8 @@ fun MainUi(themeStore: ThemeStore) {
                     navController.popBackStack()
                 }
             },
-            bottomBar = { BottomBar(navController = navController, tabs) }
+            bottomBar = { BottomBar(navController = navController, tabs) },
+            floatingActionButton = { AiFab(navController = navController)}
         ) { innerPadding ->
             MainNavigationUi(
                 navController = navController,
@@ -91,11 +95,15 @@ private fun getNavConfig(): NavigationConfig {
     val detailsFeatNavigation: DetailsFeatureApi by KoinJavaComponent.inject(
         DetailsFeatureApi::class.java
     )
+    val aiFeatNavigation: AiFeatureApi by KoinJavaComponent.inject(
+        AiFeatureApi::class.java
+    )
 
     val destinations = listOf(
         listingFeatNavigation,
         searchFeatNavigation,
-        detailsFeatNavigation
+        detailsFeatNavigation,
+        aiFeatNavigation
     )
 
     val config = NavigationConfig(

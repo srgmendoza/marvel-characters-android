@@ -97,6 +97,7 @@ dependencies {
     implementation project(path: ':feature_listing')
     implementation project(path: ':feature_search')
     implementation project(path: ':feature_detail')
+    implementation project(path: ':feature_ai')
 
 
 
